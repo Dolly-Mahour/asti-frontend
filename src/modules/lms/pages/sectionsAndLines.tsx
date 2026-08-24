@@ -60,6 +60,7 @@ export default function SectionsAndLines() {
 
   const [showDeleteLineModal, setShowDeleteLineModal] = useState(false);
   const [lineToDelete, setLineToDelete] = useState<Line | null>(null);
+  const [expandedSectionId, setExpandedSectionId] = useState(null);
 
   // Fetch data
   const fetchSectionsData = async () => {
@@ -287,164 +288,270 @@ export default function SectionsAndLines() {
                   </td>
                 </tr>
               ) : (
-                filteredSections.map((sec) => (
-                  <tr key={sec.id}>
-                    <td className="px-3">
-                      <span className="badge-dept-code">#{sec.id}</span>
-                    </td>
-                    <td className="px-3 fw-semibold text-dark">{sec.name}</td>
-                    <td className="px-3 text-end">
-                      <div className="d-inline-flex gap-2">
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-outline-secondary rounded-circle btn-action-circle"
-                          onClick={() => {
-                            setSelectedSection(sec);
-                            setEditSectionNameInput(sec.name);
-                            setShowEditSectionModal(true);
-                          }}
-                          title="Edit Section"
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-sm rounded-circle btn-action-delete"
-                          onClick={() => {
-                            setSectionToDelete(sec);
-                            setShowDeleteSectionModal(true);
-                          }}
-                          title="Delete Section"
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="3 6 5 6 21 6" />
-                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                filteredSections.map((sec) => {
+                  const isExpanded = expandedSectionId === sec.id;
 
-      {/* SECTION 2: LINE MANAGEMENT */}
-      <div className="border rounded-3 p-3 bg-light">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h5 className="fw-bold mb-0 text-dark">Line Management</h5>
-          <button
-            type="button"
-            className="btn btn-asti-gradient px-3 py-2 fw-semibold rounded-pill btn-sm"
-            onClick={() => {
-              setLineNameInput("");
-              if (sections.length > 0) setSelectedSectionForLine(sections[0].id);
-              setShowAddLineModal(true);
-            }}
-          >
-            + Add Line
-          </button>
-        </div>
+                  const sectionLines = lines.filter(
+                    (line) => Number(line.sectionId) === Number(sec.id)
+                  );
 
-        {/* Line Search */}
-        <div className="d-flex align-items-center gap-3 mb-3 flex-wrap">
-          <input
-            type="text"
-            className="form-control bg-white filter-input-text w-auto"
-            style={{ minWidth: "250px" }}
-            placeholder="Search lines..."
-            value={lineSearch}
-            onChange={(e) => setLineSearch(e.target.value)}
-          />
-          <div className="ms-auto text-muted small">
-            Showing <strong>{filteredLines.length}</strong> of {lines.length} lines
-          </div>
-        </div>
+                  return (
+                    <React.Fragment key={sec.id}>
 
-        {/* Lines Table */}
-        <div className="table-responsive bg-white rounded border">
-          <table className="table table-hover align-middle mb-0 dept-table">
-            <thead className="table-light">
-              <tr className="dept-table-header">
-                <th className="py-3 px-3">ID</th>
-                <th className="py-3 px-3">Line Name</th>
-                <th className="py-3 px-3 text-end">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredLines.length === 0 ? (
-                <tr>
-                  <td colSpan={3} className="text-center py-4 text-muted">
-                    No lines found.
-                  </td>
-                </tr>
-              ) : (
-                filteredLines.map((line) => (
-                  <tr key={line.id}>
-                    <td className="px-3">
-                      <span className="badge-dept-code">#{line.id}</span>
-                    </td>
-                    <td className="px-3 fw-semibold text-dark">{line.name}</td>
-                    <td className="px-3 text-end">
-                      <div className="d-inline-flex gap-2 align-items-center">
-                        <button
-                          className="btn btn-sm rounded-pill btn-subdept-nav"
-                          onClick={() =>
-                            navigate("/lms/departments/machines", {
-                              state: {
-                                departmentId,
-                                departmentName,
-                                subDepartmentId,
-                                subDepartmentName,
-                                sectionId: line.sectionId || (sections[0]?.id || 1),
-                                lineId: line.id,
-                                lineName: line.name,
-                              },
-                            })
-                          }
-                        >
-                          Machines →
-                        </button>
+                      {/* SECTION ROW */}
+                      <tr>
+                        <td className="px-3">
+                          <span className="badge-dept-code">
+                            #{sec.id}
+                          </span>
+                        </td>
 
-                        <button
-                          type="button"
-                          className="btn btn-sm btn-outline-secondary rounded-circle btn-action-circle"
-                          onClick={() => {
-                            setSelectedLine(line);
-                            setEditLineNameInput(line.name);
-                            setShowEditLineModal(true);
-                          }}
-                          title="Edit Line"
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                          </svg>
-                        </button>
+                        <td className="px-3 fw-semibold text-dark">
+                          {sec.name}
+                        </td>
 
-                        <button
-                          type="button"
-                          className="btn btn-sm rounded-circle btn-action-delete"
-                          onClick={() => {
-                            setLineToDelete(line);
-                            setShowDeleteLineModal(true);
-                          }}
-                          title="Delete Line"
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="3 6 5 6 21 6" />
-                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                          </svg>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                        <td className="px-3 text-end">
+                          <div className="d-inline-flex gap-2">
+
+                            {/* ADD LINE / EXPAND */}
+                            <button
+                              type="button"
+                              className="btn btn-sm rounded-pill btn-subdept-nav"
+                              onClick={() => {
+                                setExpandedSectionId(
+                                  isExpanded ? null : sec.id
+                                );
+
+                                // Important:
+                                // New line belongs to this section
+                                setSelectedSectionForLine(sec.id);
+                              }}
+                            >
+                              {isExpanded ? "Hide Lines" : "Add Line"}
+                            </button>
+
+                            {/* EDIT SECTION */}
+                            <button
+                              type="button"
+                              className="btn btn-sm btn-outline-secondary rounded-circle btn-action-circle"
+                              onClick={() => {
+                                setSelectedSection(sec);
+                                setEditSectionNameInput(sec.name);
+                                setShowEditSectionModal(true);
+                              }}
+                              title="Edit Section"
+                            >
+                              <svg
+                                width="13"
+                                height="13"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              >
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                              </svg>
+                            </button>
+
+                            {/* DELETE SECTION */}
+                            <button
+                              type="button"
+                              className="btn btn-sm rounded-circle btn-action-delete"
+                              onClick={() => {
+                                setSectionToDelete(sec);
+                                setShowDeleteSectionModal(true);
+                              }}
+                              title="Delete Section"
+                            >
+                              <svg
+                                width="13"
+                                height="13"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              >
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                              </svg>
+                            </button>
+
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* EXPANDED LINE ROW */}
+                      {isExpanded && (
+                        <tr>
+                          <td colSpan={3} className="p-0">
+                            <div className="p-3 bg-light border-top border-bottom">
+
+                              {/* LINE HEADER */}
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+
+                                <div>
+                                  <h6 className="fw-bold mb-1">
+                                    Lines — {sec.name}
+                                  </h6>
+
+                                  <small className="text-muted">
+                                    {sectionLines.length} line
+                                    {sectionLines.length !== 1 ? "s" : ""}
+                                  </small>
+                                </div>
+
+                                <button
+                                  type="button"
+                                  className="btn btn-sm btn-asti-gradient rounded-pill"
+                                  onClick={() => {
+                                    setLineNameInput("");
+                                    setSelectedSectionForLine(sec.id);
+                                    setShowAddLineModal(true);
+                                  }}
+                                >
+                                  + Add Line
+                                </button>
+
+                              </div>
+
+                              {/* LINE TABLE */}
+                              <div className="table-responsive bg-white rounded border">
+                                <table className="table table-hover align-middle mb-0 dept-table">
+
+                                  <thead className="table-light">
+                                    <tr className="dept-table-header">
+                                      <th className="py-3 px-3">
+                                        ID
+                                      </th>
+
+                                      <th className="py-3 px-3">
+                                        Line Name
+                                      </th>
+
+                                      <th className="py-3 px-3 text-end">
+                                        Actions
+                                      </th>
+                                    </tr>
+                                  </thead>
+
+                                  <tbody>
+                                    {sectionLines.length === 0 ? (
+                                      <tr>
+                                        <td
+                                          colSpan={3}
+                                          className="text-center py-4 text-muted"
+                                        >
+                                          No lines found for this section.
+                                        </td>
+                                      </tr>
+                                    ) : (
+                                      sectionLines.map((line) => (
+                                        <tr key={line.id}>
+
+                                          <td className="px-3">
+                                            <span className="badge-dept-code">
+                                              #{line.id}
+                                            </span>
+                                          </td>
+
+                                          <td className="px-3 fw-semibold text-dark">
+                                            {line.name}
+                                          </td>
+
+                                          <td className="px-3 text-end">
+                                            <div className="d-inline-flex gap-2 align-items-center">
+
+                                              {/* MACHINES */}
+                                              <button
+                                                className="btn btn-sm rounded-pill btn-subdept-nav"
+                                                onClick={() =>
+                                                  navigate(
+                                                    "/lms/departments/machines",
+                                                    {
+                                                      state: {
+                                                        departmentId,
+                                                        departmentName,
+                                                        subDepartmentId,
+                                                        subDepartmentName,
+                                                        sectionId: sec.id,
+                                                        sectionName: sec.name,
+                                                        lineId: line.id,
+                                                        lineName: line.name,
+                                                      },
+                                                    }
+                                                  )
+                                                }
+                                              >
+                                                Machines →
+                                              </button>
+
+                                              {/* EDIT LINE */}
+                                              <button
+                                                type="button"
+                                                className="btn btn-sm btn-outline-secondary rounded-circle btn-action-circle"
+                                                onClick={() => {
+                                                  setSelectedLine(line);
+                                                  setEditLineNameInput(line.name);
+                                                  setShowEditLineModal(true);
+                                                }}
+                                                title="Edit Line"
+                                              >
+                                                <svg
+                                                  width="13"
+                                                  height="13"
+                                                  viewBox="0 0 24 24"
+                                                  fill="none"
+                                                  stroke="currentColor"
+                                                  strokeWidth="2"
+                                                >
+                                                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1-9.5-9.5z" />
+                                                </svg>
+                                              </button>
+
+                                              {/* DELETE LINE */}
+                                              <button
+                                                type="button"
+                                                className="btn btn-sm rounded-circle btn-action-delete"
+                                                onClick={() => {
+                                                  setLineToDelete(line);
+                                                  setShowDeleteLineModal(true);
+                                                }}
+                                                title="Delete Line"
+                                              >
+                                                <svg
+                                                  width="13"
+                                                  height="13"
+                                                  viewBox="0 0 24 24"
+                                                  fill="none"
+                                                  stroke="currentColor"
+                                                  strokeWidth="2"
+                                                >
+                                                  <polyline points="3 6 5 6 21 6" />
+                                                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                                </svg>
+                                              </button>
+
+                                            </div>
+                                          </td>
+
+                                        </tr>
+                                      ))
+                                    )}
+                                  </tbody>
+
+                                </table>
+                              </div>
+
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+
+                    </React.Fragment>
+                  );
+                })
               )}
             </tbody>
           </table>
@@ -565,22 +672,6 @@ export default function SectionsAndLines() {
               </div>
               <form onSubmit={handleAddLine}>
                 <div className="modal-body py-3">
-                  {sections.length > 0 && (
-                    <div className="mb-3">
-                      <label className="form-label fw-semibold small text-muted">Select Section</label>
-                      <select
-                        className="form-select"
-                        value={selectedSectionForLine}
-                        onChange={(e) => setSelectedSectionForLine(e.target.value)}
-                      >
-                        {sections.map((sec) => (
-                          <option key={sec.id} value={sec.id}>
-                            {sec.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
                   <div className="mb-2">
                     <label className="form-label fw-semibold small text-muted">
                       Line Name <span className="text-danger">*</span>
