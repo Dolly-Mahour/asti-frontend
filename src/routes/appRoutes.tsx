@@ -4,6 +4,7 @@ import LoginPage from "../shared/pages/loginPage";
 import AdminPortal from "../shared/pages/adminPortal";
 import LMSRoutes from "./lmsRoutes";
 import ProtectedRoute from "../shared/services/protectedRoutes";
+
 function AppRoutes() {
   return (
     <>

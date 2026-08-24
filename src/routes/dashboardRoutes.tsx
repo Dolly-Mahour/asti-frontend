@@ -6,6 +6,7 @@ import Requirements from "../modules/dashboard/pages/requirements";
 import CTQMonitoring from "../modules/dashboard/pages/ctqMonitoring";
 import ReportSystem from "../modules/dashboard/pages/reportSystem";
 import ProtectedRoute from "../shared/services/protectedRoutes";
+
 function DashboardRoutes() {
   return (
     <>
