@@ -554,7 +554,6 @@ export default function SectionsAndLines() {
                 })
               )}
             </tbody>
-
           </table>
         </div>
       </div>
@@ -673,7 +672,6 @@ export default function SectionsAndLines() {
               </div>
               <form onSubmit={handleAddLine}>
                 <div className="modal-body py-3">
-
                   <div className="mb-2">
                     <label className="form-label fw-semibold small text-muted">
                       Line Name <span className="text-danger">*</span>
