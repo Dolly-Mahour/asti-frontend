@@ -27,6 +27,17 @@ function Requirement() {
   const [selectedMonth, setSelectedMonth] =
     useState<MonthKey | "">("");
 
+  const [selectedFilters, setSelectedFilters] =
+    useState<{ [key: string]: string }>({});
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
+  const handleClearFilters = () => {
+    setSelectedFilters({});
+    setFromDate("");
+    setToDate("");
+  };
+
   const [formData, setFormData] =
     useState<RequirementFormData>({
       id: null,
@@ -341,9 +352,9 @@ function Requirement() {
         records.map((record) =>
           record.id === formData.id
             ? {
-                ...updatedFormData,
-                id: formData.id,
-              }
+              ...updatedFormData,
+              id: formData.id,
+            }
             : record
         );
 
@@ -419,34 +430,7 @@ function Requirement() {
 
   return (
     <div className="requirement-page">
-      {/* Breadcrumb */}
-      <div className="darkgrey-bg mb-4 px-4 w-100 h-50px rounded-4 d-flex justify-content-between align-items-center">
-        <div className="d-flex align-items-center jutify-content-center">
-          <Link
-            to="/portal"
-            className="text-decoration-none text-black d-flex align-items-center"
-          >
-            <svg
-              className="me-2"
-              aria-hidden="true"
-              width="16px"
-              height="16px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M16.7071 3.29289C17.0976 3.68342 17.0976 4.31658 16.7071 4.70711L9.41421 12L16.7071 19.2929C17.0976 19.6834 17.0976 20.3166 16.7071 20.7071C16.3166 21.0976 15.6834 21.0976 15.2929 20.7071L7.29289 12.7071C6.90237 12.3166 6.90237 11.6834 7.29289 11.2929L15.2929 3.29289C15.6834 2.90237 16.3166 2.90237 16.7071 3.29289Z"
-                fill="#000000"
-              ></path>
-            </svg>
-            Menu
-          </Link>
-          <h5 className="mb-0 ms-4">Requirements</h5>
-        </div>
-      </div>
+
 
       {/* ATTENDANCE FILTERS-------------------------- */}
       <div className="Attendance Filters border shadow rounded-4 p-4 mb-4">
@@ -456,155 +440,73 @@ function Requirement() {
           </div>
         </div>
         {/* FILTERS DIV--------------------------------------------- */}
-        <div className="d-flex align-item-center justify-content-start flex-wrap p-2 mt-3">
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Units
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Departments
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Sections
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Lines
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Shifts
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="d-flex align-items-center me-2 mb-2">
-            <p className="me-1 mb-0">From:</p>
-            <input
-              type="date"
-              className="h-100 scale-transition p-2 text-black bordere-0 outline-0 pink-border rounded-pill pink-text my-fade-pink"
-            />
-          </div>
-          <div className="d-flex align-items-center me-2 mb-2">
-            <p className="me-1 mb-0">To:</p>
-            <input
-              type="date"
-              className="h-100 scale-transition p-2 text-black bordere-0 outline-0 pink-border rounded-pill pink-text my-fade-pink"
-            />
+        <div className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3" style={{ background: "#fafbff" }}>
+          <div className="d-flex align-items-center flex-wrap gap-2">
+            {/* Filter label */}
+            <div className="d-flex align-items-center me-1">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#e22b6e"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+              </svg>
+              <span className="ms-1 fw-semibold" style={{ fontSize: "0.82rem", color: "#3d3d3d" }}>
+                Filters
+              </span>
+            </div>
+
+            {/* Select filters */}
+            {["Units", "Departments", "Sections", "Lines", "Shifts"].map((label) => (
+              <select
+                key={label}
+                className="ctq-filter-select me-1"
+                value={selectedFilters[label] || ""}
+                onChange={(e) =>
+                  setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
+                }
+              >
+                <option value="">{label}</option>
+                <option value="Option 1">Option 1</option>
+                <option value="Option 2">Option 2</option>
+                <option value="Option 3">Option 3</option>
+              </select>
+            ))}
+
+            {/* Date range filters */}
+            <div className="d-flex align-items-center ms-auto gap-2">
+              <div className="ctq-filter-date-group">
+                <label style={{ fontSize: "0.72rem", color: "#888", fontWeight: 600, letterSpacing: "0.03em" }}>
+                  FROM
+                </label>
+                <input type="date" className="ctq-filter-date-input" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+              </div>
+              <div className="ctq-filter-date-group">
+                <label style={{ fontSize: "0.72rem", color: "#888", fontWeight: 600, letterSpacing: "0.03em" }}>
+                  TO
+                </label>
+                <input type="date" className="ctq-filter-date-input" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+              </div>
+
+              {/* Clear button */}
+              <button
+                type="button"
+                className="ctq-filter-clear-btn ms-1"
+                onClick={handleClearFilters}
+                title="Clear all filters"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+                Clear
+              </button>
+            </div>
           </div>
         </div>
       </div>

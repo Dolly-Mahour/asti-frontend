@@ -1,0 +1,308 @@
+/* ==========================================================================
+   Dashboard CTQ Filter Bar & Unified Filter Styles — ASTI India
+   ========================================================================== */
+
+/* ─── Filter Container ────────────────────────────────────────── */
+.ctq-filter-bar,
+.filter-bar-container {
+  background: #fafbff !important;
+  border: 1px solid #eaecf5 !important;
+  border-radius: 1rem !important; /* rounded-4 */
+  box-shadow: 0 4px 18px rgba(62, 109, 181, 0.04) !important;
+  padding: 0.9rem 1.15rem !important;
+  transition: all 0.2s ease;
+}
+
+.ctq-filter-bar:hover,
+.filter-bar-container:hover {
+  border-color: #dbe0f0 !important;
+  box-shadow: 0 6px 22px rgba(62, 109, 181, 0.07) !important;
+}
+
+/* ─── Filter Label ────────────────────────────────────────────── */
+.ctq-filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3d3d3d;
+  margin-right: 0.25rem;
+  user-select: none;
+}
+
+.ctq-filter-label svg {
+  color: #e22b6e;
+  flex-shrink: 0;
+}
+
+/* ─── Filter Dropdown Buttons (Pill) ──────────────────────────── */
+.ctq-filter-dropdown-btn,
+.ctq-filter-select-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #d5d8e8;
+  background: #ffffff;
+  color: #3d3d3d;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.ctq-filter-dropdown-btn:hover,
+.ctq-filter-select-btn:hover {
+  border-color: #e22b6e;
+  background: #fef1f6;
+  color: #e22b6e;
+  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.12);
+}
+
+.ctq-filter-dropdown-btn svg,
+.ctq-filter-select-btn svg {
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #aab0c6;
+  flex-shrink: 0;
+}
+
+.ctq-filter-dropdown-btn:hover svg,
+.ctq-filter-select-btn:hover svg {
+  color: #e22b6e;
+}
+
+/* When Bootstrap opens the dropdown */
+.dropdown.show .ctq-filter-dropdown-btn,
+.dropdown.show .ctq-filter-select-btn,
+.ctq-filter-dropdown-btn.active {
+  border-color: #e22b6e;
+  background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
+  color: #ffffff;
+  box-shadow: 0 3px 12px rgba(226, 43, 110, 0.22);
+}
+
+.dropdown.show .ctq-filter-dropdown-btn svg,
+.dropdown.show .ctq-filter-select-btn svg,
+.ctq-filter-dropdown-btn.active svg {
+  color: #ffffff;
+  transform: rotate(180deg);
+}
+
+/* ─── Native Select Inputs Styled as Dashboard Pills ───────────── */
+.ctq-filter-select,
+.filter-select-status,
+.filter-select {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 30px 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #d5d8e8;
+  background: #ffffff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aab0c6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2.2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") no-repeat right 12px center/10px;
+  color: #3d3d3d;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  line-height: 1.4;
+  outline: none;
+}
+
+.ctq-filter-select:hover,
+.filter-select-status:hover,
+.filter-select:hover {
+  border-color: #e22b6e;
+  background-color: #fef1f6;
+  color: #e22b6e;
+  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.12);
+}
+
+.ctq-filter-select:focus,
+.filter-select-status:focus,
+.filter-select:focus {
+  border-color: #e22b6e;
+  box-shadow: 0 0 0 3px rgba(226, 43, 110, 0.12);
+  background-color: #ffffff;
+}
+
+/* ─── Search Input in Filter Bar ──────────────────────────────── */
+.ctq-filter-search-group,
+.filter-search-group {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 280px;
+}
+
+.ctq-filter-search-input,
+.filter-search-group .form-control {
+  padding: 6px 14px 6px 36px !important;
+  border-radius: 20px !important;
+  border: 1.5px solid #d5d8e8 !important;
+  background: #ffffff !important;
+  font-size: 0.82rem !important;
+  color: #3d3d3d !important;
+  outline: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease !important;
+  min-width: 220px;
+  line-height: 1.4;
+}
+
+.ctq-filter-search-input:focus,
+.filter-search-group .form-control:focus {
+  border-color: #e22b6e !important;
+  box-shadow: 0 0 0 3px rgba(226, 43, 110, 0.12) !important;
+  background: #ffffff !important;
+}
+
+.ctq-filter-search-icon,
+.filter-search-group .input-group-text {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aab0c6;
+  pointer-events: none;
+  z-index: 5;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* ─── Dropdown Menu (Smooth Animation & Styling) ──────────────── */
+.ctq-filter-dropdown-menu {
+  border: 1px solid #eaecf5;
+  border-radius: 14px;
+  padding: 8px 6px;
+  margin-top: 8px !important;
+  min-width: 170px;
+  box-shadow: 0 12px 30px -4px rgba(22, 34, 51, 0.12), 0 4px 12px -2px rgba(22, 34, 51, 0.06);
+  background: #ffffff;
+  transform-origin: top center;
+  animation: ctqSmoothDrop 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ctqSmoothDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ctq-filter-dropdown-item {
+  font-size: 0.82rem;
+  padding: 7px 16px;
+  color: #3d3d3d;
+  border-radius: 6px;
+  margin: 2px 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ctq-filter-dropdown-item:hover {
+  background: linear-gradient(130deg, rgba(226, 43, 110, 0.08), rgba(62, 109, 181, 0.08));
+  color: #e22b6e;
+}
+
+/* ─── Date Range Inputs ───────────────────────────────────────── */
+.ctq-filter-date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ctq-filter-date-group label {
+  font-size: 0.72rem;
+  color: #888;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.ctq-filter-date-input {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid #d5d8e8;
+  background: #ffffff;
+  font-size: 0.8rem;
+  color: #3d3d3d;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 140px;
+}
+
+.ctq-filter-date-input:focus {
+  border-color: #e22b6e;
+  box-shadow: 0 0 0 3px rgba(226, 43, 110, 0.1);
+}
+
+.ctq-filter-date-input:hover {
+  border-color: #b0b4c8;
+}
+
+/* ─── Meta Labels (e.g., ROLE:, DEPT:, STATUS:) ───────────────── */
+.ctq-filter-badge-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-right: 0.35rem;
+  user-select: none;
+}
+
+/* ─── Clear Filter Button ─────────────────────────────────────── */
+.ctq-filter-clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #ffffff;
+  border: 1.5px solid #fecdd3;
+  color: #e22b6e;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 5px 14px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.ctq-filter-clear-btn:hover {
+  color: #ffffff;
+  background: #e22b6e;
+  border-color: #e22b6e;
+  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.25);
+  transform: translateY(-1px);
+}
+
+.ctq-filter-clear-btn:active {
+  transform: translateY(0);
+}
+
+/* ─── Filter Count Info ───────────────────────────────────────── */
+.ctq-filter-count-info,
+.filter-count-info {
+  font-size: 0.83rem;
+  color: #64748b;
+}
+
+.ctq-filter-count-info strong,
+.filter-count-info strong {
+  color: #1e293b;
+}

@@ -3,54 +3,72 @@ body {
   overflow-x: hidden;
 }
 
-.bg-pink{
+.bg-pink {
   background: #e22b6e;
 }
-.blue-bg{
+
+.blue-bg {
   background: #3e6db5 !important;
 }
-.blue-text{
+
+.blue-text {
   color: #3e6db5;
 }
-.pink-text{
+
+.pink-text {
   color: #e22b6e;
 }
-.pink-text:hover{
+
+.pink-text:hover {
   color: #e22b6e !important;
 }
-.center-elements{
+
+.fade-white {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.center-elements {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.my-fade-blue{
+
+.my-fade-blue {
   background: #e7f3fd !important;
 }
-.my-fade-yellow{
+
+.my-fade-yellow {
   background: #fdf2e6 !important;
 }
-.my-fade-purple{
+
+.my-fade-purple {
   background: #f0edfc !important;
 }
-.my-fade-pink{
+
+.my-fade-pink {
   background: #fee8f1 !important;
 }
-.gradient-bg{
+
+.gradient-bg {
   background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
 }
 
-.grey-bg{
+.grey-bg {
   background: #f8f7fc !important;
 }
-.darkgrey-bg{
+
+.darkgrey-bg {
   background: #f1effd !important;
 }
-.pink-border{
+
+.pink-border {
   border: 1px solid #e22b6e;
 }
-.blue-border{
+
+.blue-border {
   border: 1px solid #3e6db5;
 }
+
 .scale-transition {
   transition: transform 0.2s ease;
 }
@@ -58,39 +76,56 @@ body {
 .scale-transition:hover {
   transform: scale(1.05);
 }
+
 .scale-transition-sm {
   transition: transform 0.2s ease;
 }
+
 .scale-transition-sm:hover {
   transform: scale(1.01);
 }
-.w-400px{
+
+.w-400px {
   width: 400px;
 }
-.h-70px{
+
+.h-70px {
   height: 70px;
 }
-.h-40px{
+
+.h-40px {
   height: 40px;
 }
-.h-50px{
+
+.h-50px {
   height: 50px;
 }
-.h-30px{
+
+.h-30px {
   height: 30px;
 }
-.h-60px{
+
+.h-60px {
   height: 60px;
 }
-p{
+
+p {
   margin-bottom: 0 !important;
 }
-h1, h2,h3,h4,h5,h6{
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-bottom: 0 !important;
 }
-.w-19{
+
+.w-19 {
   width: 19%;
 }
+
 .hide-scrollbar {
   overflow-x: auto;
   overflow-y: visible;
@@ -135,4 +170,122 @@ h1, h2,h3,h4,h5,h6{
 /* Scrollbar corner */
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/* ─── CTQ Professional Filter Bar ──────────────────────────────── */
+.ctq-filter-bar {
+  border: 1px solid #eaecf5 !important;
+}
+
+.ctq-filter-select-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid #d5d8e8;
+  background: #fff;
+  color: #3d3d3d;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.ctq-filter-select-btn:hover {
+  border-color: #e22b6e;
+  background: #fef1f6;
+  color: #e22b6e;
+  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.12);
+}
+
+.ctq-filter-select-btn svg {
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: #aab0c6;
+  flex-shrink: 0;
+}
+
+.ctq-filter-select-btn:hover svg {
+  color: #e22b6e;
+}
+
+/* When Bootstrap opens the dropdown */
+.dropdown.show .ctq-filter-dropdown-btn {
+  border-color: #e22b6e;
+  background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(226, 43, 110, 0.22);
+}
+
+.dropdown.show .ctq-filter-dropdown-btn svg {
+  color: #fff;
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu styling with ultra-smooth opening */
+.ctq-filter-dropdown-menu {
+  border: 1px solid #eaecf5;
+  border-radius: 14px;
+  padding: 8px 6px;
+  margin-top: 8px !important;
+  min-width: 170px;
+  box-shadow: 0 12px 30px -4px rgba(22, 34, 51, 0.12), 0 4px 12px -2px rgba(22, 34, 51, 0.06);
+  background: #ffffff;
+  transform-origin: top center;
+  animation: ctqSmoothDrop 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ctqSmoothDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ctq-filter-dropdown-item {
+  font-size: 0.82rem;
+  padding: 7px 16px;
+  color: #3d3d3d;
+  border-radius: 6px;
+  margin: 2px 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ctq-filter-dropdown-item:hover {
+  background: linear-gradient(130deg, rgba(226,43,110,0.08), rgba(62,109,181,0.08));
+  color: #e22b6e;
+}
+
+/* Date inputs */
+.ctq-filter-date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ctq-filter-date-input {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid #d5d8e8;
+  background: #fff;
+  font-size: 0.8rem;
+  color: #3d3d3d;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 140px;
+}
+
+.ctq-filter-date-input:focus {
+  border-color: #e22b6e;
+  box-shadow: 0 0 0 3px rgba(226, 43, 110, 0.1);
+}
+
+.ctq-filter-date-input:hover {
+  border-color: #b0b4c8;
 }

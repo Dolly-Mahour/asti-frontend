@@ -1,0 +1,717 @@
+/* ==========================================================================
+   Report System Styles — ASTI India Theme
+   ========================================================================== */
+
+:root {
+  --asti-pink: #e22b6e;
+  --asti-pink-light: rgba(226, 43, 110, 0.08);
+  --asti-pink-glow: rgba(226, 43, 110, 0.25);
+  --asti-blue: #3e6db5;
+  --asti-blue-light: rgba(62, 109, 181, 0.08);
+  --asti-blue-glow: rgba(62, 109, 181, 0.25);
+  --asti-purple: #8b3fc9;
+  --asti-purple-light: rgba(139, 63, 201, 0.08);
+  --asti-gradient: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
+  --asti-card-border: #e9edf5;
+  --asti-text-main: #1e293b;
+  --asti-text-muted: #64748b;
+  --asti-bg-light: #f8fafc;
+}
+
+.report-system-container {
+  padding: 1.5rem 1.75rem 3rem 1.75rem;
+  background-color: #f7f9fd;
+  min-height: calc(100vh - 65px);
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Inter", sans-serif;
+  color: var(--asti-text-main);
+}
+
+/* ─── Top Header Card ─────────────────────────────────────────── */
+.report-header-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid var(--asti-card-border);
+  box-shadow: 0 4px 20px rgba(62, 109, 181, 0.06);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.report-header-card:hover {
+  box-shadow: 0 6px 24px rgba(62, 109, 181, 0.09);
+}
+
+.report-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.report-header-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(62, 109, 181, 0.12) 0%, rgba(226, 43, 110, 0.12) 100%);
+  color: var(--asti-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(62, 109, 181, 0.18);
+}
+
+.report-header-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.report-header-subtitle {
+  font-size: 0.92rem;
+  color: #64748b;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+.excel-highlight {
+  color: #107c41;
+  font-weight: 700;
+  background: rgba(16, 124, 65, 0.09);
+  padding: 1px 7px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.btn-trigger-manual {
+  background: var(--asti-gradient);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 4px 14px rgba(62, 109, 181, 0.3);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-trigger-manual:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(226, 43, 110, 0.35);
+  color: #ffffff;
+}
+
+.btn-trigger-manual:active {
+  transform: translateY(0);
+}
+
+/* ─── Cards Base ──────────────────────────────────────────────── */
+.report-panel-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid var(--asti-card-border);
+  box-shadow: 0 4px 20px rgba(62, 109, 181, 0.06);
+  padding: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.report-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.report-panel-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.2rem;
+}
+
+.report-panel-subtitle {
+  font-size: 0.83rem;
+  color: #64748b;
+  margin-bottom: 0;
+}
+
+.panel-header-icon {
+  color: var(--asti-blue);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--asti-blue-light);
+  border-radius: 50%;
+}
+
+.badge-new {
+  background: rgba(62, 109, 181, 0.12);
+  color: var(--asti-blue);
+  font-weight: 600;
+  font-size: 0.72rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+.badge-total-count {
+  background: #f1f5f9;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ─── Section Labels ──────────────────────────────────────────── */
+.field-meta-label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 0.45rem;
+}
+
+/* ─── Automatic Send Time Section ─────────────────────────────── */
+.send-time-item {
+  margin-bottom: 1.25rem;
+}
+
+.time-input-group {
+  position: relative;
+  margin-bottom: 0.6rem;
+}
+
+.time-input-field {
+  width: 100%;
+  height: 44px;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fbfcfe;
+  color: #1e293b;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.time-input-field:focus {
+  outline: none;
+  border-color: var(--asti-blue);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(62, 109, 181, 0.12);
+}
+
+.time-input-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.btn-save-time {
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #ffffff;
+  border: none;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.btn-save-daily {
+  background: #1d6fee;
+}
+
+.btn-save-daily:hover {
+  background: #1558c4;
+  box-shadow: 0 4px 12px rgba(29, 111, 238, 0.3);
+}
+
+.btn-save-management {
+  background: #0ea354;
+}
+
+.btn-save-management:hover {
+  background: #0a8443;
+  box-shadow: 0 4px 12px rgba(14, 163, 84, 0.3);
+}
+
+.btn-save-monthly {
+  background: #8b28d9;
+}
+
+.btn-save-monthly:hover {
+  background: #731db8;
+  box-shadow: 0 4px 12px rgba(139, 40, 217, 0.3);
+}
+
+.send-time-footer-note {
+  font-size: 0.77rem;
+  color: #94a3b8;
+  line-height: 1.45;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #e2e8f0;
+}
+
+/* ─── Add Recipient Section ───────────────────────────────────── */
+.recipient-input-wrapper {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.recipient-email-input {
+  width: 100%;
+  height: 46px;
+  padding: 0.5rem 1rem 0.5rem 2.6rem;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fbfcfe;
+  font-size: 0.92rem;
+  transition: all 0.2s ease;
+  color: #1e293b;
+}
+
+.recipient-email-input:focus {
+  outline: none;
+  border-color: var(--asti-blue);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(62, 109, 181, 0.12);
+}
+
+.input-leading-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+/* Frequency Selectors */
+.frequency-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.frequency-card {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.frequency-card:hover {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+}
+
+.frequency-card.active {
+  background: rgba(62, 109, 181, 0.06);
+  border-color: var(--asti-blue);
+  box-shadow: 0 0 0 1px var(--asti-blue);
+}
+
+.frequency-icon-bubble {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.45rem;
+  color: #64748b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.frequency-card.active .frequency-icon-bubble {
+  color: var(--asti-blue);
+  background: #ffffff;
+}
+
+.frequency-card-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.15rem;
+  line-height: 1.2;
+}
+
+.frequency-card-subtitle {
+  font-size: 0.7rem;
+  color: #64748b;
+  line-height: 1.2;
+}
+
+/* Included Reports Preview Card */
+.included-report-card {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.included-report-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.included-doc-icon-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(62, 109, 181, 0.1);
+  color: var(--asti-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.included-report-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.1rem;
+}
+
+.included-report-format {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.included-check-icon {
+  color: #1d6fee;
+  width: 22px;
+  height: 22px;
+}
+
+.btn-add-to-list {
+  width: 100%;
+  height: 44px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.btn-add-to-list:hover {
+  background: #1e293b;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+/* ─── Active Recipients Section ───────────────────────────────── */
+.recipients-controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.recipients-search-input {
+  flex: 1;
+  height: 40px;
+  padding: 0.4rem 1rem 0.4rem 2.4rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+}
+
+.recipients-search-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: var(--asti-blue);
+  box-shadow: 0 0 0 3px rgba(62, 109, 181, 0.1);
+}
+
+.recipients-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 740px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.recipients-list-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.recipients-list-wrapper::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
+}
+
+.recipient-row-card {
+  background: #ffffff;
+  border: 1px solid #edf2f7;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.recipient-row-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(62, 109, 181, 0.07);
+  transform: translateY(-1px);
+}
+
+.recipient-row-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.recipient-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.recipient-info {
+  min-width: 0;
+}
+
+.recipient-email {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.35rem;
+  word-break: break-word;
+}
+
+.recipient-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.rec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.22rem 0.65rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.badge-manpower {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.badge-management {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.badge-monthly {
+  background: #f3e8ff;
+  color: #7e22ce;
+  border: 1px solid #e9d5ff;
+}
+
+.badge-combined {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.recipient-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.recipient-row-card:hover .recipient-actions {
+  opacity: 1;
+}
+
+.btn-remove-recipient {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-remove-recipient:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+/* ─── Toast Notifications ─────────────────────────────────────── */
+.report-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1050;
+  min-width: 300px;
+  max-width: 420px;
+  background: #0f172a;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  animation: slideInToast 0.3s ease;
+}
+
+.report-toast.toast-success {
+  border-left: 4px solid #10b981;
+}
+
+.report-toast.toast-info {
+  border-left: 4px solid #3e6db5;
+}
+
+@keyframes slideInToast {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ─── Modal Styles ────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.report-modal-content {
+  background: #ffffff;
+  border-radius: 20px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: scaleInModal 0.25s ease;
+}
+
+@keyframes scaleInModal {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.report-modal-header {
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(62, 109, 181, 0.05) 0%, rgba(226, 43, 110, 0.05) 100%);
+  border-bottom: 1px solid #edf2f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.report-modal-body {
+  padding: 1.5rem;
+}
+
+.report-modal-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid #edf2f7;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  background: #fafbfe;
+}

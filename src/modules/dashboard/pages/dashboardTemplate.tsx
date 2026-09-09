@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../../../shared/components/navbar";
+import BreadcrumbTopbar from "../../../shared/components/breadcrumbTopbar";
 import DashboardSidebar from "../components/dashboardSidebar";
 import { useState } from "react";
 function DashboardTemplate(){
@@ -8,9 +8,7 @@ function DashboardTemplate(){
     return (
         <>
         <div className="container-fluid main-dashboard-container p-0">
-        <Navbar />
-
-        <div className="dashboard-body">
+        <div className="dashboard-body no-navbar">
           <DashboardSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
           <div
@@ -18,6 +16,7 @@ function DashboardTemplate(){
               collapsed ? "content-collapsed" : "content-expanded"
             }`}
           >
+            <BreadcrumbTopbar />
             <Outlet />
           </div>
         </div>

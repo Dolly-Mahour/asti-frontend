@@ -193,25 +193,62 @@ export default function Machines() {
         ))}
       </div>
 
-      {/* Search */}
-      <div className="d-flex align-items-center gap-3 mb-4 flex-wrap filter-bar-container">
-        <div className="input-group filter-search-group">
-          <span className="input-group-text bg-white border-end-0">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#999" strokeWidth="2">
+      {/* Search & Filter Bar */}
+      <div className="ctq-filter-bar border rounded-4 shadow-sm p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div className="d-flex align-items-center flex-wrap gap-2">
+          {/* Filter label */}
+          <div className="d-flex align-items-center me-1">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#e22b6e"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+            <span className="ms-1 fw-semibold" style={{ fontSize: "0.82rem", color: "#3d3d3d" }}>
+              Filters
+            </span>
+          </div>
+
+          <div className="ctq-filter-search-group">
+            <svg
+              className="ctq-filter-search-icon"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-          </span>
-          <input
-            type="text"
-            className="form-control bg-white border-start-0 ps-0 filter-input-text"
-            placeholder="Search machines..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+            <input
+              type="text"
+              className="ctq-filter-search-input"
+              placeholder="Search machines..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
+
+          {search && (
+            <button
+              type="button"
+              className="ctq-filter-clear-btn"
+              onClick={() => setSearch("")}
+            >
+              Clear
+            </button>
+          )}
         </div>
 
-        <div className="ms-auto text-muted filter-count-info">
+        <div className="ctq-filter-count-info ms-auto">
           Showing <strong>{filteredMachines.length}</strong> of {machines.length}
         </div>
       </div>
