@@ -10,6 +10,7 @@ export default function Departments() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
   const [lines, setLines] = useState<Line[]>([]);
+  const [search, setSearch] = useState("");
 
   // Add Modal State
   const [showAddModal, setShowAddModal] = useState(false);
@@ -207,15 +208,13 @@ export default function Departments() {
             />
           </div>
 
-          {search && (
-            <button
+          <button
               type="button"
               className="ctq-filter-clear-btn"
               onClick={() => setSearch("")}
             >
               Clear
             </button>
-          )}
         </div>
 
         <div className="ctq-filter-count-info ms-auto">
