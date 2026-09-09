@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import profileSvg1 from "../../../assets/purple-profile.png";
@@ -33,7 +33,17 @@ ChartJS.register(
   Legend,
 );
 function CTQMonitoring() {
-  const data: ChartData<"bar">  = {
+  const [selectedFilters, setSelectedFilters] = useState<{ [key: string]: string }>({});
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
+  const handleClearFilters = () => {
+    setSelectedFilters({});
+    setFromDate("");
+    setToDate("");
+  };
+
+  const data: ChartData<"bar"> = {
     labels: [
       "26 Jul",
       "27 Jul",
@@ -80,25 +90,13 @@ function CTQMonitoring() {
     ],
   };
 
-  const options: ChartOptions<"bar">  = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
 
     plugins: {
       legend: {
-        position: "bottom",
-        labels: {
-          usePointStyle: true,
-          pointStyle: "rectRounded", // rounded square
-          boxWidth: 12,
-          boxHeight: 12,
-          padding: 20,
-          color: "#000",
-          font: {
-            size: 14,
-            weight: 600,
-          },
-        },
+        display: false,
       },
     },
 
@@ -128,7 +126,7 @@ function CTQMonitoring() {
     },
   };
 
-  const employeeAttrition: ChartData<"bar">  = {
+  const dailyAbsenteeismData: ChartData<"bar"> = {
     labels: [
       "26 Jul",
       "27 Jul",
@@ -143,16 +141,17 @@ function CTQMonitoring() {
     ],
     datasets: [
       {
-        label: "Attendance",
-        data: [65, 72, 80, 68, 90, 75, 82, 32, 70, 48, 30],
-        backgroundColor: "#fbb05b",
-        borderRadius: 8,
-        barThickness: 30,
+        label: "Daily Absenteeism",
+        data: [15, 18, 12, 20, 16, 8, 14, 22, 17, 10],
+        backgroundColor: "#e22b6e",
+        hoverBackgroundColor: "#c81e5b",
+        borderRadius: 6,
+        barThickness: 22,
       },
     ],
   };
 
-  const employeeAttritionOptions: ChartOptions<"bar">  = {
+  const dailyAbsenteeismOptions: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -170,60 +169,47 @@ function CTQMonitoring() {
       y: {
         beginAtZero: true,
         ticks: {
-          stepSize: 10,
+          stepSize: 5,
         },
         grid: {
           color: "#e5e5e5",
-          // borderDash: [5, 5],
         },
       },
     },
   };
-  const emoloyeeAttritionData: ChartData<"line"> = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"],
+
+  const dailyAttritionData: ChartData<"bar"> = {
+    labels: [
+      "26 Jul",
+      "27 Jul",
+      "28 Jul",
+      "29 Jul",
+      "30 Jul",
+      "31 Jul",
+      "1 Aug",
+      "2 Aug",
+      "3 Aug",
+      "4 Aug",
+    ],
     datasets: [
       {
-        label: "New Hires",
-        data: [18, 24, 20, 28, 32, 30, 35, 38],
-        borderColor: "#3b82f6",
-        backgroundColor: "#3b82f6",
-        tension: 0.4,
-        fill: false,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-      },
-      {
-        label: "Resignations",
-        data: [6, 8, 5, 9, 7, 10, 8, 9],
-        borderColor: "#ef4444",
-        backgroundColor: "#ef4444",
-        tension: 0.4,
-        fill: false,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-      },
-      {
-        label: "Net Employee Count",
-        data: [150, 166, 181, 200, 225, 245, 272, 301],
-        borderColor: "#10b981",
-        backgroundColor: "#10b981",
-        tension: 0.4,
-        fill: false,
-        pointRadius: 4,
-        pointHoverRadius: 6,
+        label: "Daily Attrition",
+        data: [2, 4, 1, 3, 5, 1, 2, 4, 3, 1],
+        backgroundColor: "#3e6db5",
+        hoverBackgroundColor: "#2f5793",
+        borderRadius: 6,
+        barThickness: 22,
       },
     ],
   };
 
-  const employeAttritionAploar: ChartOptions<"line">  = {
+  const dailyAttritionOptions: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
+        display: true,
         position: "bottom",
-      },
-      title: {
-        display: false,
       },
     },
     scales: {
@@ -235,21 +221,24 @@ function CTQMonitoring() {
       y: {
         beginAtZero: true,
         ticks: {
-          stepSize: 50,
+          stepSize: 2,
+        },
+        grid: {
+          color: "#e5e5e5",
         },
       },
     },
   };
-  const genderDistributionData: ChartData<"doughnut">  = {
-    labels: ["Male", "Female", "Other"],
+
+  const genderDistributionData: ChartData<"doughnut"> = {
+    labels: ["Male", "Female"],
     datasets: [
       {
         label: "Employees",
-        data: [620, 340, 40],
+        data: [780, 470],
         backgroundColor: [
-          "#466ad5", // Male
-          "#ec2471", // Female
-          "#8b5cf6", // Other
+          "#3e6db5", // Male (ASTI Blue)
+          "#e22b6e", // Female (ASTI Pink)
         ],
         borderColor: "#ffffff",
         borderWidth: 3,
@@ -258,7 +247,7 @@ function CTQMonitoring() {
     ],
   };
 
-  const genderDistributionOptions: ChartOptions<"doughnut">= {
+  const genderDistributionOptions: ChartOptions<"doughnut"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -277,34 +266,8 @@ function CTQMonitoring() {
   return (
     <>
       <div className="h-auto shadow border p-4">
-        <div className="darkgrey-bg px-4 w-100 h-50px rounded-4 d-flex justify-content-between align-items-center">
-          <div className="d-flex align-items-center jutify-content-center">
-            <Link
-              to="/portal"
-              className="text-decoration-none text-black d-flex align-items-center"
-            >
-              <svg
-                className="me-2"
-                aria-hidden="true"
-                width="16px"
-                height="16px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M16.7071 3.29289C17.0976 3.68342 17.0976 4.31658 16.7071 4.70711L9.41421 12L16.7071 19.2929C17.0976 19.6834 17.0976 20.3166 16.7071 20.7071C16.3166 21.0976 15.6834 21.0976 15.2929 20.7071L7.29289 12.7071C6.90237 12.3166 6.90237 11.6834 7.29289 11.2929L15.2929 3.29289C15.6834 2.90237 16.3166 2.90237 16.7071 3.29289Z"
-                  fill="#000000"
-                ></path>
-              </svg>
-              Menu
-            </Link>
-            <h5 className="mb-0 ms-4">Dashboard</h5>
-          </div>
-        </div>
-        {/* FOUR COMPONENTS AT DASHBOARD ----------------------  */}
+
+        {/* FOUR KPI CARDS ----------------------  */}
         <div className="row g-0 g-0 my-4">
           <div className="col-lg-3 col-md-6 col-sm-12 p-2">
             <div className="row g-0 p-3  border shadow scale-transition rounded-4">
@@ -315,10 +278,9 @@ function CTQMonitoring() {
                   alt=""
                 />
               </div>
-              <div className="col d-flex flex-column justify-content-between align-items-start">
-                <p className="text-secondary">heading</p>
-                <p className="fw-semibold fs-5">description</p>
-                <p>%5---</p>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{fontSize: '0.85rem'}}>Total Manpower</p>
+                <p className="fw-semibold fs-5">1,250</p>
               </div>
             </div>
           </div>
@@ -331,10 +293,9 @@ function CTQMonitoring() {
                   alt=""
                 />
               </div>
-              <div className="col d-flex flex-column justify-content-between align-items-start">
-                <p className="text-secondary">heading</p>
-                <p className="fw-semibold fs-5">description</p>
-                <p>%5---</p>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{fontSize: '0.85rem'}}>Total Present</p>
+                <p className="fw-semibold fs-5" style={{color: '#2e7d32'}}>1,148</p>
               </div>
             </div>
           </div>
@@ -347,10 +308,9 @@ function CTQMonitoring() {
                   alt=""
                 />
               </div>
-              <div className="col d-flex flex-column justify-content-between align-items-start">
-                <p className="text-secondary">heading</p>
-                <p className="fw-semibold fs-5">description</p>
-                <p>%5---</p>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{fontSize: '0.85rem'}}>Total Absent</p>
+                <p className="fw-semibold fs-5" style={{color: '#c62828'}}>102</p>
               </div>
             </div>
           </div>
@@ -363,173 +323,72 @@ function CTQMonitoring() {
                   alt=""
                 />
               </div>
-              <div className="col d-flex flex-column justify-content-between align-items-start">
-                <p className="text-secondary">heading</p>
-                <p className="fw-semibold fs-5">description</p>
-                <p>%5---</p>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{fontSize: '0.85rem'}}>Attendance %</p>
+                <p className="fw-semibold fs-5" style={{color: '#e65100'}}>91.8%</p>
               </div>
             </div>
           </div>
         </div>
         {/* FILTERS DIV--------------------------------------------- */}
-        <div className="d-flex align-item-center justify-content-start flex-wrap p-2 mt-3">
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Units
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Departments
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Sections
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Lines
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="dropdown me-2 pink-border rounded-pill pink-text my-fade-pink scale-transition mb-2">
-            <button
-              className="btn rounded-pill border-0"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Shifts
-            </button>
-            <ul className="dropdown-menu">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="d-flex align-items-center me-2 mb-2">
-            <p className="me-1 mb-0">From:</p>
-            <input
-              type="date"
-              className="h-100 scale-transition p-2 text-black bordere-0 outline-0 pink-border rounded-pill pink-text my-fade-pink"
-            />
-          </div>
-          <div className="d-flex align-items-center me-2 mb-2">
-            <p className="me-1 mb-0">To:</p>
-            <input
-              type="date"
-              className="h-100 scale-transition p-2 text-black bordere-0 outline-0 pink-border rounded-pill pink-text my-fade-pink"
-            />
+        <div className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3" style={{background: '#fafbff'}}>
+          <div className="d-flex align-items-center flex-wrap gap-2">
+            {/* Filter label */}
+            <div className="d-flex align-items-center me-1">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e22b6e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+              </svg>
+              <span className="ms-1 fw-semibold" style={{fontSize: '0.82rem', color: '#3d3d3d'}}>Filters</span>
+            </div>
+
+            {/* Select filters */}
+            {["Units", "Departments", "Sections", "Lines", "Shifts"].map((label) => (
+              <select
+                key={label}
+                className="ctq-filter-select me-1"
+                value={selectedFilters[label] || ""}
+                onChange={(e) =>
+                  setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
+                }
+              >
+                <option value="">{label}</option>
+                <option value="Option 1">Option 1</option>
+                <option value="Option 2">Option 2</option>
+                <option value="Option 3">Option 3</option>
+              </select>
+            ))}
+
+            {/* Date range filters */}
+            <div className="d-flex align-items-center ms-auto gap-2">
+              <div className="ctq-filter-date-group">
+                <label style={{fontSize: '0.72rem', color: '#888', fontWeight: 600, letterSpacing: '0.03em'}}>FROM</label>
+                <input type="date" className="ctq-filter-date-input" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+              </div>
+              <div className="ctq-filter-date-group">
+                <label style={{fontSize: '0.72rem', color: '#888', fontWeight: 600, letterSpacing: '0.03em'}}>TO</label>
+                <input type="date" className="ctq-filter-date-input" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+              </div>
+
+              {/* Clear button */}
+              <button
+                type="button"
+                className="ctq-filter-clear-btn ms-1"
+                onClick={handleClearFilters}
+                title="Clear all filters"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+                Clear
+              </button>
+            </div>
           </div>
         </div>
         {/* TRIPPLE BAR GRAPH ------------------------------------- */}
-        <div
-          style={{ overflowX: "auto" }}
-          className="my-3 px-3 rounded-4 shadow scale-transition-sm border"
-        >
-          <div className="d-flex align-items-center justify-content-between ps-0 p-4">
-            <div className="d-flex align-items-center w-auto flex-shrink-0 me-5 p-2">
+        <div className="my-3 rounded-4 shadow scale-transition-sm border bg-white">
+          <div className="d-flex align-items-center justify-content-between p-4 pb-2">
+            <div className="d-flex align-items-center w-auto flex-shrink-0 p-1">
               <svg
                 className="me-3 my-fade-pink rounded-circle p-2"
                 width="45px"
@@ -550,68 +409,158 @@ function CTQMonitoring() {
             </div>
           </div>
           {/* CHART DIV--------------------------- */}
+          <div style={{ overflowX: "auto" }}>
+            <div
+              className="p-4 pt-2"
+              style={{
+                width: `${(data.labels?.length ?? 0) * 140}px`,
+                height: "400px",
+              }}
+            >
+              <Bar data={data} options={options} />
+            </div>
+          </div>
+          {/* FIXED BOTTOM INFORMATION (NOT HORIZONTALLY SCROLLABLE) */}
           <div
-            className="p-4"
+            className="d-flex align-items-center justify-content-center flex-wrap gap-4 py-3 px-4 border-top"
             style={{
-              width: `${(data.labels?.length ?? 0) * 140}px`,
-              height: "400px",
+              background: "#fafbff",
+              borderBottomLeftRadius: "1rem",
+              borderBottomRightRadius: "1rem",
             }}
           >
-            <Bar data={data} options={options} />
+            <div className="d-flex align-items-center">
+              <span
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 3,
+                  backgroundColor: "#466ad5",
+                  display: "inline-block",
+                  marginRight: 8,
+                }}
+              ></span>
+              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#3d3d3d" }}>
+                Required
+              </span>
+            </div>
+            <div className="d-flex align-items-center">
+              <span
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 3,
+                  backgroundColor: "#ec2471",
+                  display: "inline-block",
+                  marginRight: 8,
+                }}
+              ></span>
+              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#3d3d3d" }}>
+                Actual Present/Holiday
+              </span>
+            </div>
+            <div className="d-flex align-items-center">
+              <span
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 3,
+                  backgroundColor: "#6740d5",
+                  display: "inline-block",
+                  marginRight: 8,
+                }}
+              ></span>
+              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#3d3d3d" }}>
+                Current Headcount
+              </span>
+            </div>
           </div>
         </div>
-        {/* EMPLOYEE ATTRITION AND EMPLOYEE ABSENCE----------------------------------------- */}
+        {/* DAILY ABSENTEEISM AND DAILY ATTRITION ----------------------------------------- */}
         <div className="row g-0 my-4 g-3">
-          {/* Employee Absence chart-------- */}
+          {/* Daily Absenteeism chart-------- */}
           <div className="col-lg-6 col-12 pe-2">
             <div className="p-4 rounded-4 border shadow scale-transition-sm">
               {/* HEADINGSS----------------- */}
-              <div>
-                <p className="fw-bold">Employee absense</p>
-                <p className="text-secondary">
-                  Daily absences in selected month
-                </p>
-              </div>
-
-              {/* BAR GRAPH OF THE EMPLOYEE ACSENSE */}
-              <div style={{ overflowX: "auto" }}>
-                <div
-                  className="p-4"
-                  style={{
-                    width: "auto",
-                    height: "300px",
-                  }}
+              <div className="d-flex align-items-center mb-1">
+                <svg
+                  className="me-2 my-fade-pink rounded-circle p-2 flex-shrink-0"
+                  width="38px"
+                  height="38px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#e22b6e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
-                  <Bar
-                    data={employeeAttrition}
-                    options={employeeAttritionOptions}
-                  />
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <line x1="17" y1="8" x2="22" y2="13" />
+                  <line x1="22" y1="8" x2="17" y2="13" />
+                </svg>
+                <div>
+                  <p className="fw-bold">Daily Absenteeism</p>
+                  <p className="text-secondary" style={{fontSize: "0.85rem"}}>
+                    Daily absences in selected month
+                  </p>
                 </div>
               </div>
-            </div>
-          </div>
-          {/* Employee Attrition chart-------- */}
-          <div className="col-lg-6 col-12 ps-2">
-            <div className="p-4 border shadow rounded-4 scale-transition-sm">
-              {/* HEADINGSS----------------- */}
-              <div>
-                <p className="fw-bold">Employee Attrition</p>
-                <p className="text-secondary">
-                  New hires, resignations and attrition trend
-                </p>
-              </div>
 
-              {/* GRAPH OF THE EMPLLOYEE ATTRITION */}
+              {/* SINGLE BAR GRAPH OF DAILY ABSENTEEISM */}
               <div
                 className="p-4"
                 style={{
-                  width: `auto`,
+                  width: "100%",
                   height: "300px",
                 }}
               >
-                <Line
-                  data={emoloyeeAttritionData}
-                  options={employeAttritionAploar}
+                <Bar
+                  data={dailyAbsenteeismData}
+                  options={dailyAbsenteeismOptions}
+                />
+              </div>
+            </div>
+          </div>
+          {/* Daily Attrition chart-------- */}
+          <div className="col-lg-6 col-12 ps-2">
+            <div className="p-4 border shadow rounded-4 scale-transition-sm">
+              {/* HEADINGSS----------------- */}
+              <div className="d-flex align-items-center mb-1">
+                <svg
+                  className="me-2 my-fade-blue rounded-circle p-2 flex-shrink-0"
+                  width="38px"
+                  height="38px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#3e6db5"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <polyline points="16 11 18 13 22 9" />
+                </svg>
+                <div>
+                  <p className="fw-bold">Daily Attrition</p>
+                  <p className="text-secondary" style={{fontSize: "0.85rem"}}>
+                    Daily employee attrition trend
+                  </p>
+                </div>
+              </div>
+
+              {/* SINGLE BAR GRAPH OF DAILY ATTRITION */}
+              <div
+                className="p-4"
+                style={{
+                  width: "100%",
+                  height: "300px",
+                }}
+              >
+                <Bar
+                  data={dailyAttritionData}
+                  options={dailyAttritionOptions}
                 />
               </div>
             </div>
@@ -623,13 +572,30 @@ function CTQMonitoring() {
             {/* DOUGHNUT CHART----------------------- */}
             <div className="shadow border rounded-4 p-4 scale-transition-sm">
               {/* HEADINGSS----------------- */}
-              <div>
-                <p className="fw-bold">Employee absense</p>
-                <p className="text-secondary">
-                  Daily absences in selected month
-                </p>
+              <div className="d-flex align-items-center mb-1">
+                <svg
+                  className="me-2 my-fade-purple rounded-circle p-2 flex-shrink-0"
+                  width="38px"
+                  height="38px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#6740d5"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+                  <path d="M2 12h20" />
+                </svg>
+                <div>
+                  <p className="fw-bold">Gender Distribution</p>
+                  <p className="text-secondary" style={{fontSize: "0.85rem"}}>
+                    Workforce gender ratio
+                  </p>
+                </div>
               </div>
-              <div style={{ height: "300px" }} className="p-4">
+              <div style={{ height: "300px", width: "100%" }} className="p-4">
                 <Doughnut
                   data={genderDistributionData}
                   options={genderDistributionOptions}

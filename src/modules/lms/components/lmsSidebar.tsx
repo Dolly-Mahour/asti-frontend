@@ -1,6 +1,7 @@
 import React from "react";
 import "../../../styles/dashboardSidebar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import logo from "../../../assets/asti-india-logo.png";
 
 interface LMSSidebarProps {
   collapsed: boolean;
@@ -25,10 +26,19 @@ function LMSSidebar({ collapsed, setCollapsed }:LMSSidebarProps) {
             }`}
         >
           <div className="row g-3 m-0 w-100">
-            <div className="d-flex justify-content-center">
+            {/* Logo + collapse button row */}
+            <div className="sidebar-header-row d-flex align-items-center justify-content-between w-100 px-1">
+              {/* Logo — hidden when collapsed */}
+              {!collapsed && (
+                <img
+                  src={logo}
+                  alt="ASTI India"
+                  className="sidebar-logo"
+                />
+              )}
               <button
                 type="button"
-                className="btn btn-sm border-0 bg-transparent"
+                className={`btn btn-sm border-0 bg-transparent ${collapsed ? "mx-auto" : "ms-auto"}`}
                 onClick={() => setCollapsed((prev) => !prev)}
               >
                 <svg
@@ -48,6 +58,17 @@ function LMSSidebar({ collapsed, setCollapsed }:LMSSidebarProps) {
                 </svg>
               </button>
             </div>
+          {/* Portals Button */}
+          <Link
+            to="/admin-portals"
+            className={`portal-sidebar-btn h-40px w-100 rounded-3 d-flex align-items-center text-decoration-none navigation-hover ${collapsed ? "justify-content-center p-0" : "justify-content-start px-4"}`}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zm0 10h6v6h-6v-6zm-10 0h6v6H4v-6z" />
+            </svg>
+            {!collapsed && <span className="ms-2">Portals</span>}
+            {!collapsed && <span className="portal-sidebar-badge ms-auto">Switch</span>}
+          </Link>
 
             {links.map((link) => (
               <NavLink
@@ -59,10 +80,58 @@ function LMSSidebar({ collapsed, setCollapsed }:LMSSidebarProps) {
                   } ${isActive ? "active" : ""}`
                 }
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  {/* Generic icon */}
-                  <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm10 10h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4z" />
-                </svg>
+                {(() => {
+                  switch (link.name) {
+                    case 'Overview':
+                      return (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M3 3h18v18H3V3z" />
+                        </svg>
+                      );
+                    case 'User Management':
+                      return (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                      );
+                    case 'Employee Management':
+                      return (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5s-3 1.34-3 3 1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-1.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-1.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>
+                      );
+                    case 'Instructor':
+                      return (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2L2 7l10 5 10-5-10-5zm0 7.5L4.5 7 12 3.5 19.5 7 12 9.5zM4 9v11h5v-6h6v6h5V9l-8 4-8-4z" />
+                        </svg>
+                      );
+                    case 'Operator':
+                      return (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M19 13H5v-2h14v2z" />
+                        </svg>
+                      );
+                    case 'Course Management':
+                      return (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 3L2 9l10 6 10-6-10-6zm0 13L2 10v10l10 6 10-6V10l-10 6z" />
+                        </svg>
+                      );
+                    case 'Departments':
+                      return (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M3 13h8v8H3v-8zm10 0h8v8h-8v-8zm0-10h8v8h-8V3zm-10 0h8v8H3V3z" />
+                        </svg>
+                      );
+                    default:
+                      return (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm10 10h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zM17 3c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4zM7 13c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4z" />
+                        </svg>
+                      );
+                  }
+                })()}
                 {!collapsed && <span className="ms-2 text-nowrap" style={{ fontSize: '0.9rem' }}>{link.name}</span>}
               </NavLink>
             ))}

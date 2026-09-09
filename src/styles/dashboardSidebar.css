@@ -1,10 +1,10 @@
 
 .side-bar {
     position: fixed;
-    top: 70px;
+    top: 0;
     left: 0;
-    width: 260px;
-    height: calc(100vh - 70px);
+    width: 220px;
+    height: 100vh;
     overflow-y: auto;
     background: #fff;
 }
@@ -30,9 +30,66 @@
 }
 
 .sidebar-expanded {
-    width: 260px;
+    width: 220px;
 }
 
 .sidebar-collapsed {
     width: 60px;
+}
+
+/* ─── Sidebar Logo ─────────────────────────────────────────────── */
+.sidebar-logo {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    max-width: 140px;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar-header-row {
+    padding-top: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #f0f2f8;
+    margin-bottom: 2px;
+}
+
+/* ─── Portals Button in Sidebar ────────────────────────────────── */
+.portal-sidebar-btn {
+    height: 40px;
+    background: linear-gradient(130deg, rgba(226, 43, 110, 0.08) 0%, rgba(62, 109, 181, 0.08) 100%);
+    border: 1.5px dashed rgba(226, 43, 110, 0.4);
+    color: #e22b6e;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.portal-sidebar-btn:hover {
+    background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
+    border-color: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(226, 43, 110, 0.25);
+    transform: translateY(-1px);
+}
+
+.portal-sidebar-icon-box {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.portal-sidebar-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(226, 43, 110, 0.12);
+    color: #e22b6e;
+    transition: all 0.2s ease;
+}
+
+.portal-sidebar-btn:hover .portal-sidebar-badge {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
 }

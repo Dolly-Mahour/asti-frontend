@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../../../shared/components/navbar";
+import BreadcrumbTopbar from "../../../shared/components/breadcrumbTopbar";
 import LMSSidebar from "../components/lmsSidebar";
 import { useState } from "react";
 function LMSTemplate(){
@@ -8,9 +8,7 @@ function LMSTemplate(){
     return (
         <>
         <div className="container-fluid main-dashboard-container p-0">
-        <Navbar />
-
-        <div className="dashboard-body">
+        <div className="dashboard-body no-navbar">
           <LMSSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
           <div
@@ -18,6 +16,7 @@ function LMSTemplate(){
               collapsed ? "content-collapsed" : "content-expanded"
             }`}
           >
+            <BreadcrumbTopbar />
             <Outlet />
           </div>
         </div>

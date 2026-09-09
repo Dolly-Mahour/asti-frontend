@@ -1,12 +1,13 @@
 import React from "react";
 import "../../../styles/dashboardSidebar.css";
+import logo from "../../../assets/asti-india-logo.png";
 
 
 interface DashboardSidebarProps {
   collapsed: boolean;
   setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 function DashboardSidebar({
   collapsed,
   setCollapsed,
@@ -20,11 +21,19 @@ function DashboardSidebar({
         >
           {/* three navigations of the sidebar  */}
           <div className="row g-3 m-0 w-100">
-            {/* collape button for the side bar  */}
-            <div className="d-flex justify-content-center">
+          {/* Logo + collapse button row */}
+            <div className="sidebar-header-row d-flex align-items-center justify-content-between w-100 px-1">
+              {/* Logo — hidden when collapsed */}
+              {!collapsed && (
+                <img
+                  src={logo}
+                  alt="ASTI India"
+                  className="sidebar-logo"
+                />
+              )}
               <button
                 type="button"
-                className="btn btn-sm border-0 bg-transparent"
+                className={`btn btn-sm border-0 bg-transparent ${collapsed ? "mx-auto" : "ms-auto"}`}
                 onClick={() => setCollapsed((prev) => !prev)}
               >
                 <svg
@@ -65,6 +74,17 @@ function DashboardSidebar({
                 </svg>
               </button>
             </div>
+          {/* Portals Button */}
+          <Link
+            to="/admin-portals"
+            className={`portal-sidebar-btn h-40px w-100 rounded-3 d-flex align-items-center text-decoration-none navigation-hover ${collapsed ? "justify-content-center p-0" : "justify-content-start px-4"}`}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zm0 10h6v6h-6v-6zm-10 0h6v6H4v-6z" />
+            </svg>
+            {!collapsed && <span className="ms-2">Portals</span>}
+            {!collapsed && <span className="portal-sidebar-badge ms-auto">Switch</span>}
+          </Link>
             <NavLink
               to="/dashboard"
               end

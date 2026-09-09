@@ -1,0 +1,88 @@
+/* ─── Breadcrumb Topbar ───────────────────────────────────────── */
+.breadcrumb-topbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #eef0f4;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 48px;
+}
+
+/* ─── Portals Menu Button ─────────────────────────────────────── */
+.portal-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.25);
+  letter-spacing: 0.02em;
+}
+
+.portal-menu-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(226, 43, 110, 0.35);
+}
+
+/* ─── Main separator (after portals btn) ─────────────────────── */
+.breadcrumb-sep-main {
+  display: flex;
+  align-items: center;
+  color: #c0c4d0;
+  flex-shrink: 0;
+}
+
+/* ─── Breadcrumb Trail ────────────────────────────────────────── */
+.breadcrumb-trail {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.breadcrumb-sep {
+  display: flex;
+  align-items: center;
+  color: #c0c4d0;
+  margin: 0 1px;
+}
+
+.breadcrumb-item-link {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #5b6481;
+  text-decoration: none;
+  padding: 3px 7px;
+  border-radius: 6px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.breadcrumb-item-link:hover {
+  background: #f0f2f8;
+  color: #e22b6e;
+}
+
+.breadcrumb-item-active {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e2340;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: #f4f5fb;
+}

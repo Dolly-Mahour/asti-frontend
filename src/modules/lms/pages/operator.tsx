@@ -357,92 +357,98 @@ function Operator() {
       </div>
 
       {/* Filters */}
-      <div
-        className="d-flex align-items-center gap-3 mb-4 flex-wrap p-3 rounded-3"
-        style={{
-          background: "#f8f9fa",
-          border: "1px solid #e9ecef",
-        }}
-      >
-        <div className="input-group" style={{ maxWidth: 280 }}>
-          <span className="input-group-text bg-white border-end-0">
+      {/* Filter Bar */}
+      <div className="ctq-filter-bar border rounded-4 shadow-sm p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div className="d-flex align-items-center flex-wrap gap-2">
+          {/* Filter label */}
+          <div className="d-flex align-items-center me-1">
             <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#e22b6e"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+            <span className="ms-1 fw-semibold" style={{ fontSize: "0.82rem", color: "#3d3d3d" }}>
+              Filters
+            </span>
+          </div>
+
+          {/* Search */}
+          <div className="ctq-filter-search-group">
+            <svg
+              className="ctq-filter-search-icon"
               width="15"
               height="15"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#999"
+              stroke="currentColor"
               strokeWidth="2"
             >
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
             </svg>
-          </span>
+            <input
+              type="text"
+              className="ctq-filter-search-input"
+              placeholder="Search by name or operator ID..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
 
-          <input
-            type="text"
-            className="form-control border-start-0"
-            placeholder="Search by name or operator ID..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ fontSize: "0.88rem" }}
-          />
+          {/* Shift Filter */}
+          <div className="d-flex align-items-center">
+            <select
+              className="ctq-filter-select"
+              value={shiftFilter}
+              onChange={(e) => setShiftFilter(e.target.value as ShiftFilter)}
+            >
+              {shifts.map((shift) => (
+                <option key={shift} value={shift}>
+                  {shift}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Cert Filter */}
+          <div className="d-flex align-items-center">
+            <select
+              className="ctq-filter-select"
+              value={certFilter}
+              onChange={(e) => setCertFilter(e.target.value as CertFilter)}
+            >
+              {certs.map((cert) => (
+                <option key={cert} value={cert}>
+                  {cert}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {(shiftFilter !== "All Shifts" || certFilter !== "All" || search) && (
+            <button
+              type="button"
+              className="ctq-filter-clear-btn"
+              onClick={() => {
+                setShiftFilter("All Shifts");
+                setCertFilter("All");
+                setSearch("");
+              }}
+            >
+              Clear
+            </button>
+          )}
         </div>
 
-        <div className="d-flex align-items-center gap-2">
-          <span
-            style={{
-              fontSize: "0.8rem",
-              fontWeight: 600,
-              color: "#555",
-            }}
-          >
-            SHIFT:
-          </span>
-
-          <select
-            className="form-select form-select-sm"
-            style={{
-              width: 140,
-              fontSize: "0.85rem",
-            }}
-            value={shiftFilter}
-            onChange={(e) => setShiftFilter(e.target.value as ShiftFilter)}
-          >
-            {shifts.map((shift) => (
-              <option key={shift} value={shift}>
-                {shift}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="d-flex align-items-center gap-2">
-          <span
-            style={{
-              fontSize: "0.8rem",
-              fontWeight: 600,
-              color: "#555",
-            }}
-          >
-            CERT:
-          </span>
-
-          <select
-            className="form-select form-select-sm"
-            style={{
-              width: 150,
-              fontSize: "0.85rem",
-            }}
-            value={certFilter}
-            onChange={(e) => setCertFilter(e.target.value as CertFilter)}
-          >
-            {certs.map((cert) => (
-              <option key={cert} value={cert}>
-                {cert}
-              </option>
-            ))}
-          </select>
+        <div className="ctq-filter-count-info ms-auto">
+          Showing <strong>{filtered.length}</strong> of {operators.length} operators
         </div>
       </div>
 
