@@ -139,68 +139,52 @@ function Attendance() {
           </div>
 
           {/* FILTERS DIV--------------------------------------------- */}
-          <div className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3" style={{ background: "#fafbff" }}>
-            <div className="d-flex align-items-center flex-wrap gap-2">
-              {/* Filter label */}
-              <div className="d-flex align-items-center me-1">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#e22b6e"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                </svg>
-                <span className="ms-1 fw-semibold" style={{ fontSize: "0.82rem", color: "#3d3d3d" }}>
-                  Filters
-                </span>
-              </div>
-
-              {/* Select filters */}
-              {["Units", "Departments", "Sections", "Lines", "Shifts"].map((label) => (
-                <select
-                  key={label}
-                  className="ctq-filter-select me-1"
-                  value={selectedFilters[label] || ""}
-                  onChange={(e) =>
-                    setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
-                  }
-                >
-                  <option value="">{label}</option>
-                  <option value="Option 1">Option 1</option>
-                  <option value="Option 2">Option 2</option>
-                  <option value="Option 3">Option 3</option>
-                </select>
-              ))}
-
-              {/* Date range filters */}
-              <div className="d-flex align-items-center ms-auto gap-2">
-                <div className="ctq-filter-date-group">
-                  <label style={{ fontSize: "0.72rem", color: "#888", fontWeight: 600, letterSpacing: "0.03em" }}>
-                    FROM
-                  </label>
-                  <input
-                    type="date"
-                    className="ctq-filter-date-input"
-                    value={fromDate}
-                    onChange={(e) => setFromDate(e.target.value)}
-                  />
+          <div
+            className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3"
+            style={{ background: "#fafbff" }}
+          >
+            <div className="d-flex align-items-center flex-wrap gap-2 px-4">
+              <div className="w-100 d-flex justify-content-between align-items-center">
+                {/* Filter label */}
+                <div className="d-flex align-items-center me-1">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#e22b6e"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                  </svg>
+                  <span
+                    className="ms-1 fw-semibold"
+                    style={{ fontSize: "0.82rem", color: "#3d3d3d" }}
+                  >
+                    Filters
+                  </span>
                 </div>
-                <div className="ctq-filter-date-group">
-                  <label style={{ fontSize: "0.72rem", color: "#888", fontWeight: 600, letterSpacing: "0.03em" }}>
-                    TO
-                  </label>
-                  <input
-                    type="date"
-                    className="ctq-filter-date-input"
-                    value={toDate}
-                    onChange={(e) => setToDate(e.target.value)}
-                  />
-                </div>
+
+                {/* Select filters */}
+                {["Units", "Departments", "Sub Departments", "Sections", "Lines", "Shifts"].map(
+                  (label) => (
+                    <select
+                      key={label}
+                      className="ctq-filter-select me-1"
+                      value={selectedFilters[label] || ""}
+                      onChange={(e) =>
+                        setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
+                      }
+                    >
+                      <option value="">{label}</option>
+                      <option value="Option 1">Option 1</option>
+                      <option value="Option 2">Option 2</option>
+                      <option value="Option 3">Option 3</option>
+                    </select>
+                  ),
+                )}
 
                 {/* Clear button */}
                 <button
@@ -215,6 +199,47 @@ function Attendance() {
                   </svg>
                   Clear
                 </button>
+              </div>
+
+              {/* Date range filters */}
+              <div className="d-flex align-items-center gap-2 ps-5 ms-4">
+                <div className="d-flex align-items-center gap-2">
+                  <label
+                    style={{
+                      fontSize: "0.72rem",
+                      color: "#888",
+                      fontWeight: 600,
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    FROM
+                  </label>
+                  <input
+                    type="date"
+                    className="ctq-filter-date-input"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                  />
+                </div>
+                <div className="d-flex align-items-center gap-">
+                  <label
+                    style={{
+                      fontSize: "0.72rem",
+                      color: "#888",
+                      fontWeight: 600,
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    TO
+                  </label>
+                  <input
+                    type="date"
+                    className="ctq-filter-date-input"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                  />
+                </div>
+
               </div>
             </div>
           </div>

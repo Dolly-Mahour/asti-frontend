@@ -1,30 +1,34 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import type {
   User,
   UserFormData,
-  UserRole,
   RoleFilter,
-  DepartmentFilter,
 } from "../models/userManagement";
+import {
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "../services/userService";
+import "../../../styles/departments.css";
 
 function UserManagement() {
   const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
-  const [roleFilter, setRoleFilter] =
-    useState<RoleFilter>("All Roles");
-  const [deptFilter, setDeptFilter] =
-    useState<DepartmentFilter>("All Departments");
+  const [roleFilter, setRoleFilter] = useState<RoleFilter>("All Roles");
 
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const [formData, setFormData] = useState<UserFormData>({
     id: null,
     name: "",
-    username: "",
     email: "",
+    password: "",
     role: "OPERATOR",
-    department: "",
   });
 
   const roles: RoleFilter[] = [
@@ -35,111 +39,46 @@ function UserManagement() {
     "MANAGER",
   ];
 
-  const departments: DepartmentFilter[] = [
-    "All Departments",
-    "Operations",
-    "Training",
-    "Production",
-    "HR",
-    "Finance",
-    "IT",
-  ];
-
   // --------------------------------------------------
-  // Load users from localStorage
+  // Fetch users from API
   // --------------------------------------------------
-  useEffect(() => {
-    const savedUsers = localStorage.getItem("userManagementUsers");
-
-    if (savedUsers) {
-      try {
-        const parsedUsers: User[] = JSON.parse(savedUsers);
-        setUsers(parsedUsers);
-      } catch (error) {
-        console.error("Failed to parse users from localStorage:", error);
-      }
-    } else {
-      const defaultUsers: User[] = [
-        {
-          id: 1,
-          name: "Arjun Sharma",
-          username: "arjuns",
-          email: "arjun.sharma@asti.in",
-          role: "ADMIN",
-          department: "Operations",
-        },
-        {
-          id: 2,
-          name: "Priya Mehta",
-          username: "priyam",
-          email: "priya.mehta@asti.in",
-          role: "INSTRUCTOR",
-          department: "Training",
-        },
-        {
-          id: 3,
-          name: "Ravi Kumar",
-          username: "ravikumar",
-          email: null,
-          role: "OPERATOR",
-          department: "Production",
-        },
-      ];
-
-      setUsers(defaultUsers);
-
-      localStorage.setItem(
-        "userManagementUsers",
-        JSON.stringify(defaultUsers)
-      );
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const res = await getUser("desc", "id");
+      const userList = res?.data?.data || [];
+      setUsers(userList);
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchUsers();
   }, []);
 
   // --------------------------------------------------
-  // Save users to localStorage
+  // Role badge styling
   // --------------------------------------------------
-  const saveUsersToLocal = (updatedUsers: User[]): void => {
-    setUsers(updatedUsers);
+  const roleBadgeStyle = (role: string) => {
+    const normalized = (role || "").toUpperCase();
+    const map: Record<string, { bg: string; color: string; border: string }> = {
+      ADMIN: { bg: "#fee8f1", color: "#e22b6e", border: "1px solid #fca5c0" },
+      "SUPER ADMIN": { bg: "#fdf2f8", color: "#db2777", border: "1px solid #fbcfe8" },
+      INSTRUCTOR: { bg: "#f0edfc", color: "#6740d5", border: "1px solid #ddd6fe" },
+      OPERATOR: { bg: "#e7f3fd", color: "#3e6db5", border: "1px solid #bfdbfe" },
+      MANAGER: { bg: "#fef3c7", color: "#d97706", border: "1px solid #fde68a" },
+    };
 
-    localStorage.setItem(
-      "userManagementUsers",
-      JSON.stringify(updatedUsers)
-    );
-  };
-
-  // --------------------------------------------------
-  // Role badge
-  // --------------------------------------------------
-  const roleBadgeStyle = (role: UserRole) => {
-    const map: Record<
-      UserRole,
-      {
-        bg: string;
-        color: string;
+    return (
+      map[normalized] || {
+        bg: "#f1f5f9",
+        color: "#475569",
+        border: "1px solid #e2e8f0",
       }
-    > = {
-      ADMIN: {
-        bg: "#e8eafd",
-        color: "#3e6db5",
-      },
-      INSTRUCTOR: {
-        bg: "#e6f4ea",
-        color: "#2e7d32",
-      },
-      OPERATOR: {
-        bg: "#fff3e0",
-        color: "#e65100",
-      },
-      MANAGER: {
-        bg: "#fce4ec",
-        color: "#c62828",
-      },
-    };
-
-    return map[role] || {
-      bg: "#f0f0f0",
-      color: "#555",
-    };
+    );
   };
 
   // --------------------------------------------------
@@ -149,43 +88,37 @@ function UserManagement() {
     const searchValue = search.toLowerCase();
 
     const matchSearch =
-      user.name.toLowerCase().includes(searchValue) ||
-      user.username.toLowerCase().includes(searchValue);
+      (user.name || "").toLowerCase().includes(searchValue) ||
+      (user.email || "").toLowerCase().includes(searchValue) ||
+      String(user.id || "").includes(searchValue);
 
     const matchRole =
       roleFilter === "All Roles" ||
-      user.role === roleFilter;
+      (user.role || "").toUpperCase() === roleFilter.toUpperCase();
 
-    const matchDept =
-      deptFilter === "All Departments" ||
-      user.department === deptFilter;
-
-    return matchSearch && matchRole && matchDept;
+    return matchSearch && matchRole;
   });
 
   // --------------------------------------------------
   // Statistics
   // --------------------------------------------------
   const totalProfiles = users.length;
-
   const instructorCount = users.filter(
-    (user) => user.role === "INSTRUCTOR"
+    (u) => (u.role || "").toUpperCase() === "INSTRUCTOR"
   ).length;
-
   const adminCount = users.filter(
-    (user) => user.role === "ADMIN"
+    (u) =>
+      (u.role || "").toUpperCase() === "ADMIN" ||
+      (u.role || "").toUpperCase() === "SUPER ADMIN"
   ).length;
 
   // --------------------------------------------------
   // Input change
   // --------------------------------------------------
   const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ): void => {
     const { name, value } = e.target;
-
     setFormData((previous) => ({
       ...previous,
       [name]: value,
@@ -193,116 +126,131 @@ function UserManagement() {
   };
 
   // --------------------------------------------------
-  // Add user
+  // Open Add Modal
   // --------------------------------------------------
   const handleAddUser = (): void => {
     setFormData({
       id: null,
       name: "",
-      username: "",
       email: "",
+      password: "",
       role: "OPERATOR",
-      department: "",
     });
-
+    setErrorMessage("");
     setIsEditing(false);
     setShowModal(true);
   };
 
   // --------------------------------------------------
-  // Edit user
+  // Open Edit Modal
   // --------------------------------------------------
   const handleEditUser = (user: User): void => {
     setFormData({
       id: user.id,
       name: user.name,
-      username: user.username,
       email: user.email ?? "",
+      password: "",
       role: user.role,
-      department: user.department,
     });
-
+    setErrorMessage("");
     setIsEditing(true);
     setShowModal(true);
   };
 
   // --------------------------------------------------
-  // Delete user
+  // Delete user via API
   // --------------------------------------------------
-  const handleDeleteUser = (id: number): void => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete this user?"
-      )
-    ) {
-      const updatedUsers = users.filter(
-        (user) => user.id !== id
-      );
-
-      saveUsersToLocal(updatedUsers);
+  const handleDeleteUser = async (id: number): Promise<void> => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await deleteUser(id);
+        await fetchUsers();
+      } catch (error: any) {
+        console.error("Failed to delete user:", error);
+        alert(
+          error?.response?.data?.message ||
+            "Failed to delete user. Please try again."
+        );
+      }
     }
   };
 
   // --------------------------------------------------
-  // Submit user
+  // Submit user (Create or Update) via API
   // --------------------------------------------------
-  const handleSubmit = (): void => {
+  const handleSubmit = async (): Promise<void> => {
+    setErrorMessage("");
+
+    if (!formData.name.trim()) {
+      setErrorMessage("Please enter the user's name.");
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    if (!isEditing && (!formData.password || formData.password.length < 6)) {
+      setErrorMessage("Password must be at least 6 characters long.");
+      return;
+    }
+
     if (
-      !formData.name.trim() ||
-      !formData.username.trim() ||
-      !formData.role ||
-      !formData.department
+      isEditing &&
+      formData.password &&
+      formData.password.trim().length > 0 &&
+      formData.password.length < 6
     ) {
-      alert(
-        "Please fill in all required fields (Name, Username, Role, and Department)"
-      );
+      setErrorMessage("Password must be at least 6 characters long.");
       return;
     }
 
-    // Check duplicate username
-    const isDuplicate = users.some(
-      (user) =>
-        user.username.toLowerCase() ===
-          formData.username.trim().toLowerCase() &&
-        (isEditing ? user.id !== formData.id : true)
-    );
-
-    if (isDuplicate) {
-      alert(
-        "Username already exists. Please choose a different username."
-      );
+    if (!formData.role) {
+      setErrorMessage("Please select a role.");
       return;
     }
 
-    if (isEditing && formData.id !== null) {
-      const updatedUser: User = {
-        id: formData.id,
-        name: formData.name.trim(),
-        username: formData.username.trim(),
-        email: formData.email.trim() || null,
-        role: formData.role,
-        department: formData.department,
-      };
+    setSubmitting(true);
+    try {
+      if (isEditing && formData.id !== null) {
+        const payload: {
+          name: string;
+          email: string;
+          role: string;
+          password?: string;
+        } = {
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          role: formData.role,
+        };
 
-      const updatedUsers = users.map((user) =>
-        user.id === formData.id ? updatedUser : user
-      );
+        if (formData.password && formData.password.trim()) {
+          payload.password = formData.password.trim();
+        }
 
-      saveUsersToLocal(updatedUsers);
-    } else {
-      const newUser: User = {
-        id: Date.now(),
-        name: formData.name.trim(),
-        username: formData.username.trim(),
-        email: formData.email.trim() || null,
-        role: formData.role,
-        department: formData.department,
-      };
+        await updateUser(formData.id, payload);
+      } else {
+        await createUser({
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          password: formData.password?.trim() || "",
+          role: formData.role,
+        });
+      }
 
-      saveUsersToLocal([...users, newUser]);
+      setShowModal(false);
+      await fetchUsers();
+    } catch (error: any) {
+      console.error("Failed to save user:", error);
+      const msg =
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        "Failed to save user. Please verify your inputs.";
+      setErrorMessage(msg);
+    } finally {
+      setSubmitting(false);
     }
-
-    setShowModal(false);
   };
 
   // --------------------------------------------------
@@ -312,22 +260,14 @@ function UserManagement() {
     <div className="h-auto bg-white shadow-sm rounded border p-4">
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4 className="fw-bold mb-0">
-          User Management
-        </h4>
+        <h4 className="fw-bold mb-0">User Management</h4>
 
         <button
           type="button"
-          className="btn text-white px-4 py-2 fw-semibold rounded-pill"
-          style={{
-            background:
-              "linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)",
-            border: "none",
-            fontSize: "0.88rem",
-          }}
+          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
           onClick={handleAddUser}
         >
-          + Create User Profile
+          + Create User
         </button>
       </div>
 
@@ -337,48 +277,59 @@ function UserManagement() {
           {
             label: "Total Profiles",
             value: totalProfiles,
-            color: "#222",
+            color: "#3e6db5",
+            bgClass: "my-fade-blue",
+            stroke: "#3e6db5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            ),
           },
           {
             label: "Instructor Roles",
             value: `${instructorCount} Instructor${
               instructorCount !== 1 ? "s" : ""
             }`,
-            color: "#3e6db5",
+            color: "#6740d5",
+            bgClass: "my-fade-purple",
+            stroke: "#6740d5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                <path d="M6 12v5c3 3 9 3 12 0v-5" />
+              </svg>
+            ),
           },
           {
             label: "Admin Roles",
-            value: `${adminCount} Admin${
-              adminCount !== 1 ? "s" : ""
-            }`,
+            value: `${adminCount} Admin${adminCount !== 1 ? "s" : ""}`,
             color: "#e22b6e",
+            bgClass: "my-fade-pink",
+            stroke: "#e22b6e",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            ),
           },
         ].map((stat, index) => (
           <div key={index} className="col-md-4">
-            <div
-              className="border rounded-3 p-3"
-              style={{ background: "#fafafa" }}
-            >
+            <div className="stat-card-box d-flex align-items-center p-3">
               <div
-                style={{
-                  fontSize: "0.7rem",
-                  fontWeight: 600,
-                  color: "#999",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                }}
+                className={`me-3 rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0 ${stat.bgClass}`}
+                style={{ width: "46px", height: "46px", color: stat.stroke }}
               >
-                {stat.label}
+                {stat.icon}
               </div>
-
-              <div
-                className="fw-bold mt-1"
-                style={{
-                  fontSize: "1.4rem",
-                  color: stat.color,
-                }}
-              >
-                {stat.value}
+              <div>
+                <div className="stat-card-label">{stat.label}</div>
+                <div className="stat-card-value" style={{ color: stat.color }}>
+                  {stat.value}
+                </div>
               </div>
             </div>
           </div>
@@ -402,7 +353,10 @@ function UserManagement() {
             >
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
             </svg>
-            <span className="ms-1 fw-semibold" style={{ fontSize: "0.82rem", color: "#3d3d3d" }}>
+            <span
+              className="ms-1 fw-semibold"
+              style={{ fontSize: "0.82rem", color: "#3d3d3d" }}
+            >
               Filters
             </span>
           </div>
@@ -424,7 +378,7 @@ function UserManagement() {
             <input
               type="text"
               className="ctq-filter-search-input"
-              placeholder="Search by name, username..."
+              placeholder="Search by name, email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -445,28 +399,12 @@ function UserManagement() {
             </select>
           </div>
 
-          {/* Department Filter */}
-          <div className="d-flex align-items-center">
-            <select
-              className="ctq-filter-select"
-              value={deptFilter}
-              onChange={(e) => setDeptFilter(e.target.value as DepartmentFilter)}
-            >
-              {departments.map((department) => (
-                <option key={department} value={department}>
-                  {department}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {(roleFilter !== "All Roles" || deptFilter !== "All Departments" || search) && (
+          {(roleFilter !== "All Roles" || search) && (
             <button
               type="button"
               className="ctq-filter-clear-btn"
               onClick={() => {
                 setRoleFilter("All Roles");
-                setDeptFilter("All Departments");
                 setSearch("");
               }}
             >
@@ -482,154 +420,129 @@ function UserManagement() {
 
       {/* Table */}
       <div className="table-responsive">
-        <table
-          className="table table-hover align-middle mb-0"
-          style={{ fontSize: "0.88rem" }}
-        >
+        <table className="table table-hover align-middle mb-0 dept-table">
           <thead>
-            <tr
-              style={{
-                borderBottom: "2px solid #f0f0f0",
-              }}
-            >
-              {[
-                "Portal Name",
-                "Username (UID)",
-                "Email Address",
-                "Role Assignment",
-                "Department Name",
-                "Actions",
-              ].map((heading, index) => (
-                <th
-                  key={index}
-                  style={{
-                    fontSize: "0.72rem",
-                    fontWeight: 700,
-                    color: "#aaa",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                    paddingBottom: 10,
-                    border: "none",
-                    textAlign:
-                      index === 5 ? "right" : "left",
-                  }}
-                >
-                  {heading}
-                </th>
-              ))}
+            <tr className="dept-table-header">
+              {["ID", "Name", "Email Address", "Role", "Actions"].map(
+                (heading, index) => (
+                  <th
+                    key={index}
+                    className="py-3 px-3"
+                    style={{
+                      textAlign: index === 4 ? "right" : "left",
+                    }}
+                  >
+                    {heading}
+                  </th>
+                )
+              )}
             </tr>
           </thead>
 
           <tbody>
-            {filtered.map((user) => {
-              const badge = roleBadgeStyle(user.role);
+            {loading ? (
+              <tr>
+                <td colSpan={5} className="text-center py-5 text-muted">
+                  Loading users...
+                </td>
+              </tr>
+            ) : filtered.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="text-center py-5 text-muted">
+                  No records found.
+                </td>
+              </tr>
+            ) : (
+              filtered.map((user) => {
+                const badge = roleBadgeStyle(user.role);
 
-              return (
-                <tr
-                  key={user.id}
-                  style={{
-                    borderBottom:
-                      "1px solid #f5f5f5",
-                  }}
-                >
-                  <td className="fw-semibold">
-                    {user.name}
-                  </td>
-
-                  <td className="text-muted">
-                    {user.username}
-                  </td>
-
-                  <td
-                    style={{
-                      color: user.email
-                        ? "#444"
-                        : "#bbb",
-                      fontStyle: user.email
-                        ? "normal"
-                        : "italic",
-                    }}
+                return (
+                  <tr
+                    key={user.id}
+                    style={{ borderBottom: "1px solid #f1f5f9" }}
                   >
-                    {user.email || "NULL"}
-                  </td>
+                    <td className="px-3">
+                      <span className="badge-dept-code">#{user.id}</span>
+                    </td>
 
-                  <td>
-                    <span
-                      className="px-2 py-1 rounded-2 fw-bold"
+                    <td className="px-3 fw-semibold text-dark">{user.name}</td>
+
+                    <td
+                      className="px-3"
                       style={{
-                        fontSize: "0.72rem",
-                        background: badge.bg,
-                        color: badge.color,
-                        letterSpacing: "0.04em",
+                        color: user.email ? "#475569" : "#94a3b8",
+                        fontStyle: user.email ? "normal" : "italic",
                       }}
                     >
-                      {user.role}
-                    </span>
-                  </td>
+                      {user.email || "NULL"}
+                    </td>
 
-                  <td className="text-muted">
-                    {user.department}
-                  </td>
-
-                  <td className="text-end">
-                    {/* Edit */}
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-link p-1 me-1"
-                      title="Edit"
-                      onClick={() =>
-                        handleEditUser(user)
-                      }
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#555"
-                        strokeWidth="2"
+                    <td className="px-3">
+                      <span
+                        className="px-2 py-1 rounded-pill fw-bold"
+                        style={{
+                          fontSize: "0.72rem",
+                          background: badge.bg,
+                          color: badge.color,
+                          border: badge.border,
+                          letterSpacing: "0.04em",
+                          display: "inline-block",
+                        }}
                       >
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                      </svg>
-                    </button>
+                        {user.role}
+                      </span>
+                    </td>
 
-                    {/* Delete */}
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-link p-1"
-                      title="Delete"
-                      onClick={() =>
-                        handleDeleteUser(user.id)
-                      }
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#e22b6e"
-                        strokeWidth="2"
+                    <td className="px-3 text-end">
+                      {/* Edit */}
+                      <button
+                        type="button"
+                        className="btn-action-circle me-1"
+                        title="Edit"
+                        onClick={() => handleEditUser(user)}
                       >
-                        <polyline points="3 6 5 6 21 6" />
-                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                        <path d="M10 11v6" />
-                        <path d="M14 11v6" />
-                        <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                        </svg>
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        type="button"
+                        className="btn-action-delete"
+                        title="Delete"
+                        onClick={() => handleDeleteUser(user.id)}
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <polyline points="3 6 5 6 21 6" />
+                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                          <path d="M10 11v6" />
+                          <path d="M14 11v6" />
+                          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
-
-        {filtered.length === 0 && (
-          <div className="text-center py-5 text-muted">
-            No records found.
-          </div>
-        )}
       </div>
 
       {/* Modal */}
@@ -637,38 +550,34 @@ function UserManagement() {
         <>
           <div className="modal-backdrop fade show"></div>
 
-          <div
-            className="modal fade show d-block"
-            tabIndex={-1}
-          >
+          <div className="modal fade show d-block" tabIndex={-1}>
             <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
+              <div className="modal-content p-4">
                 {/* Modal Header */}
-                <div className="modal-header">
-                  <h5 className="modal-title">
-                    {isEditing
-                      ? "Edit User Profile"
-                      : "Create New User Profile"}
+                <div className="modal-header border-0 pb-0">
+                  <h5 className="modal-title fw-bold">
+                    {isEditing ? "Edit User" : "Create New User"}
                   </h5>
 
                   <button
                     type="button"
                     className="btn-close"
-                    onClick={() =>
-                      setShowModal(false)
-                    }
+                    onClick={() => setShowModal(false)}
                   ></button>
                 </div>
 
                 {/* Modal Body */}
                 <div className="modal-body">
+                  {errorMessage && (
+                    <div className="alert alert-danger py-2 small mb-3">
+                      {errorMessage}
+                    </div>
+                  )}
+
                   {/* Name */}
                   <div className="mb-3">
-                    <label className="form-label">
-                      Full Name{" "}
-                      <span className="text-danger">
-                        *
-                      </span>
+                    <label className="form-label fw-semibold small">
+                      Full Name <span className="text-danger">*</span>
                     </label>
 
                     <input
@@ -678,36 +587,14 @@ function UserManagement() {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Enter full name"
+                      autoFocus
                     />
-                  </div>
-
-                  {/* Username */}
-                  <div className="mb-3">
-                    <label className="form-label">
-                      Username (UID){" "}
-                      <span className="text-danger">
-                        *
-                      </span>
-                    </label>
-
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="username"
-                      value={formData.username}
-                      onChange={handleInputChange}
-                      placeholder="Enter username"
-                    />
-
-                    <small className="text-muted">
-                      Must be unique
-                    </small>
                   </div>
 
                   {/* Email */}
                   <div className="mb-3">
-                    <label className="form-label">
-                      Email Address
+                    <label className="form-label fw-semibold small">
+                      Email Address <span className="text-danger">*</span>
                     </label>
 
                     <input
@@ -720,13 +607,36 @@ function UserManagement() {
                     />
                   </div>
 
+                  {/* Password */}
+                  <div className="mb-3">
+                    <label className="form-label fw-semibold small">
+                      Password{" "}
+                      {!isEditing && <span className="text-danger">*</span>}
+                    </label>
+
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder={
+                        isEditing
+                          ? "Leave blank to keep current password"
+                          : "Enter password (min 6 characters)"
+                      }
+                    />
+                    <small className="text-muted" style={{ fontSize: "0.75rem" }}>
+                      {isEditing
+                        ? "Only enter if you wish to reset the user password."
+                        : "Must be at least 6 characters long."}
+                    </small>
+                  </div>
+
                   {/* Role */}
                   <div className="mb-3">
-                    <label className="form-label">
-                      Role Assignment{" "}
-                      <span className="text-danger">
-                        *
-                      </span>
+                    <label className="form-label fw-semibold small">
+                      Role Assignment <span className="text-danger">*</span>
                     </label>
 
                     <select
@@ -735,81 +645,34 @@ function UserManagement() {
                       value={formData.role}
                       onChange={handleInputChange}
                     >
-                      <option value="ADMIN">
-                        ADMIN
-                      </option>
-                      <option value="INSTRUCTOR">
-                        INSTRUCTOR
-                      </option>
-                      <option value="OPERATOR">
-                        OPERATOR
-                      </option>
-                      <option value="MANAGER">
-                        MANAGER
-                      </option>
-                    </select>
-                  </div>
-
-                  {/* Department */}
-                  <div className="mb-3">
-                    <label className="form-label">
-                      Department Name{" "}
-                      <span className="text-danger">
-                        *
-                      </span>
-                    </label>
-
-                    <select
-                      className="form-select"
-                      name="department"
-                      value={formData.department}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">
-                        Select Department
-                      </option>
-
-                      {departments
-                        .filter(
-                          (department) =>
-                            department !==
-                            "All Departments"
-                        )
-                        .map((department) => (
-                          <option
-                            key={department}
-                            value={department}
-                          >
-                            {department}
-                          </option>
-                        ))}
+                      <option value="ADMIN">ADMIN</option>
+                      <option value="INSTRUCTOR">INSTRUCTOR</option>
+                      <option value="OPERATOR">OPERATOR</option>
+                      <option value="MANAGER">MANAGER</option>
                     </select>
                   </div>
                 </div>
 
                 {/* Modal Footer */}
-                <div className="modal-footer">
+                <div className="modal-footer border-0 pt-0">
                   <button
                     type="button"
-                    className="btn btn-secondary rounded-pill"
-                    onClick={() =>
-                      setShowModal(false)
-                    }
+                    className="btn btn-light rounded-pill px-4"
+                    onClick={() => setShowModal(false)}
+                    disabled={submitting}
                   >
                     Cancel
                   </button>
 
                   <button
                     type="button"
-                    className="btn text-white rounded-pill"
+                    className="btn btn-asti-gradient rounded-pill px-4 fw-semibold"
                     onClick={handleSubmit}
-                    style={{
-                      background:
-                        "linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)",
-                      border: "none",
-                    }}
+                    disabled={submitting}
                   >
-                    {isEditing
+                    {submitting
+                      ? "Saving..."
+                      : isEditing
                       ? "Update User"
                       : "Create User"}
                   </button>

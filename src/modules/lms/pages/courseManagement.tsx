@@ -7,6 +7,7 @@ import type {
   StatusFilter,
   StatusBadgeStyle,
 } from '../models/coursemanagement';
+import '../../../styles/departments.css';
 
 function CourseManagement() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -121,19 +122,22 @@ function CourseManagement() {
 
   const statusStyle = (
     status: CourseStatus
-  ): StatusBadgeStyle => {
-    const map: Record<CourseStatus, StatusBadgeStyle> = {
+  ): { bg: string; color: string; border: string } => {
+    const map: Record<CourseStatus, { bg: string; color: string; border: string }> = {
       PUBLISHED: {
-        bg: '#e6f4ea',
-        color: '#2e7d32',
+        bg: '#ecfdf5',
+        color: '#059669',
+        border: '1px solid #a7f3d0',
       },
       DRAFT: {
-        bg: '#fff8e1',
-        color: '#f57f17',
+        bg: '#fef3c7',
+        color: '#d97706',
+        border: '1px solid #fde68a',
       },
       ARCHIVED: {
-        bg: '#eeeeee',
-        color: '#757575',
+        bg: '#f1f5f9',
+        color: '#64748b',
+        border: '1px solid #cbd5e1',
       },
     };
 
@@ -347,19 +351,17 @@ function CourseManagement() {
     <div className="h-auto bg-white shadow-sm rounded border p-4">
 
       {/* Header */}
+      {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4 className="fw-bold mb-0">
-          Course Management
-        </h4>
+        <div>
+          <h4 className="fw-bold mb-1">Course Management</h4>
+          <p className="text-muted mb-0" style={{ fontSize: "0.85rem" }}>
+            Design, schedule, and publish training programs and courses
+          </p>
+        </div>
 
         <button
-          className="btn text-white px-4 py-2 fw-semibold rounded-pill"
-          style={{
-            background:
-              'linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)',
-            border: 'none',
-            fontSize: '0.88rem',
-          }}
+          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
           onClick={handleAddCourse}
         >
           + Create Course
@@ -370,46 +372,60 @@ function CourseManagement() {
       <div className="row g-3 mb-4">
         {[
           {
-            label: 'Total Courses',
+            label: "Total Courses",
             value: courses.length,
-            color: '#222',
+            color: "#3e6db5",
+            bgClass: "my-fade-blue",
+            stroke: "#3e6db5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+            ),
           },
           {
-            label: 'Published Courses',
+            label: "Published Courses",
             value: `${publishedCount} Published`,
-            color: '#2e7d32',
+            color: "#e22b6e",
+            bgClass: "my-fade-pink",
+            stroke: "#e22b6e",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            ),
           },
           {
-            label: 'Total Enrollments',
+            label: "Total Enrollments",
             value: `${totalEnrolled} Enrolled`,
-            color: '#3e6db5',
+            color: "#6740d5",
+            bgClass: "my-fade-purple",
+            stroke: "#6740d5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            ),
           },
         ].map((stat, index) => (
           <div key={index} className="col-md-4">
-            <div
-              className="border rounded-3 p-3"
-              style={{ background: '#fafafa' }}
-            >
+            <div className="stat-card-box d-flex align-items-center p-3">
               <div
-                style={{
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
-                  color: '#999',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                }}
+                className={`me-3 rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0 ${stat.bgClass}`}
+                style={{ width: "46px", height: "46px", color: stat.stroke }}
               >
-                {stat.label}
+                {stat.icon}
               </div>
-
-              <div
-                className="fw-bold mt-1"
-                style={{
-                  fontSize: '1.4rem',
-                  color: stat.color,
-                }}
-              >
-                {stat.value}
+              <div>
+                <div className="stat-card-label">{stat.label}</div>
+                <div className="stat-card-value" style={{ color: stat.color }}>
+                  {stat.value}
+                </div>
               </div>
             </div>
           </div>
@@ -498,17 +514,9 @@ function CourseManagement() {
 
       {/* Table */}
       <div className="table-responsive">
-        <table
-          className="table table-hover align-middle mb-0"
-          style={{ fontSize: '0.88rem' }}
-        >
+        <table className="table table-hover align-middle mb-0 dept-table">
           <thead>
-            <tr
-              style={{
-                borderBottom:
-                  '2px solid #f0f0f0',
-              }}
-            >
+            <tr className="dept-table-header">
               {[
                 'Course Title',
                 'Course Code',
@@ -520,18 +528,9 @@ function CourseManagement() {
               ].map((heading, index) => (
                 <th
                   key={heading}
+                  className="py-3 px-3"
                   style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: '#aaa',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    paddingBottom: 10,
-                    border: 'none',
-                    textAlign:
-                      index === 6
-                        ? 'right'
-                        : 'left',
+                    textAlign: index === 6 ? 'right' : 'left',
                   }}
                 >
                   {heading}
@@ -550,67 +549,70 @@ function CourseManagement() {
                 <tr
                   key={course.id}
                   style={{
-                    borderBottom:
-                      '1px solid #f5f5f5',
+                    borderBottom: '1px solid #f1f5f9',
                   }}
                 >
-                  <td className="fw-semibold">
+                  <td className="px-3 fw-semibold text-dark">
                     {course.title}
                   </td>
 
-                  <td className="text-muted">
-                    {course.code}
+                  <td className="px-3">
+                    <span className="badge-dept-code">
+                      {course.code}
+                    </span>
                   </td>
 
-                  <td>
+                  <td className="px-3 text-dark">
                     {course.instructor}
                   </td>
 
-                  <td className="text-muted">
+                  <td className="px-3 text-muted" style={{ fontSize: "0.85rem" }}>
                     {course.startDate} →{' '}
                     {course.endDate}
                   </td>
 
-                  <td>
+                  <td className="px-3">
                     <span
-                      className="fw-semibold"
+                      className="fw-bold"
                       style={{
-                        color: '#3e6db5',
+                        color: '#e22b6e',
                       }}
                     >
                       {course.enrolled}
                     </span>
                   </td>
 
-                  <td>
+                  <td className="px-3">
                     <span
-                      className="px-2 py-1 rounded-2 fw-bold"
+                      className="px-2 py-1 rounded-pill fw-bold"
                       style={{
                         fontSize: '0.72rem',
                         background: badge.bg,
                         color: badge.color,
+                        border: badge.border,
                         letterSpacing: '0.04em',
+                        display: 'inline-block',
                       }}
                     >
                       {course.status}
                     </span>
                   </td>
 
-                  <td className="text-end">
+                  <td className="px-3 text-end">
                     {/* Edit */}
                     <button
-                      className="btn btn-sm btn-link p-1 me-1"
+                      className="btn-action-circle me-1"
                       title="Edit"
                       onClick={() =>
                         handleEditCourse(course)
                       }
                     >
                       <svg
-                        width="16"
-                        height="16"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#555"
+                        stroke="currentColor"
                         strokeWidth="2"
                       >
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -620,7 +622,7 @@ function CourseManagement() {
 
                     {/* Delete */}
                     <button
-                      className="btn btn-sm btn-link p-1"
+                      className="btn-action-delete"
                       title="Delete"
                       onClick={() =>
                         handleDeleteCourse(
@@ -629,11 +631,11 @@ function CourseManagement() {
                       }
                     >
                       <svg
-                        width="16"
-                        height="16"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#e22b6e"
+                        stroke="currentColor"
                         strokeWidth="2"
                       >
                         <polyline points="3 6 5 6 21 6" />

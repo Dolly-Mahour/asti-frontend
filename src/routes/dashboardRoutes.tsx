@@ -11,15 +11,15 @@ function DashboardRoutes() {
   return (
     <>
       <Routes>
-        <Route element={<ProtectedRoute />}>
-          <Route element={<DashboardTemplate />}>
-            <Route index element={<DashboardOverview />} />
-            <Route path="attendance" element={<Attendance />} />
-            <Route path="requirements" element={<Requirements />} />
-            <Route path="ctq-monitoring" element={<CTQMonitoring />} />
-            <Route path="report-system-management" element={<ReportSystem />} />
-          </Route>
+        {/* <Route element={<ProtectedRoute />}> */}
+        <Route element={<DashboardTemplate />}>
+          <Route index element={<DashboardOverview />} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="requirements" element={<Requirements />} />
+          <Route path="ctq-monitoring" element={<CTQMonitoring />} />
+          <Route path="report-system-management" element={<ReportSystem />} />
         </Route>
+        {/* </Route> */}
       </Routes>
     </>
   );

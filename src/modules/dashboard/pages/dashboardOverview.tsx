@@ -21,6 +21,7 @@ import {
   type ChartOptions,
 } from "chart.js";
 import { Bar, Line, Doughnut } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -60,32 +61,26 @@ function DashboardOverview() {
       {
         label: "Required",
         data: [75, 60, 55, 70, 65, 20, 32, 56, 43, 23],
-        backgroundColor: "#466ad5",
+        backgroundColor: "#F59E0B",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
-        // categoryPercentage: 0.5,
-        // barPercentage: 0.9,
       },
       {
-        label: "Actual Present/Holiday",
+        label: "Allocation",
         data: [55, 50, 45, 60, 55, 70, 60, 95, 70, 65],
-        backgroundColor: "#ec2471",
+        backgroundColor: "#5B6FAF",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
-        // categoryPercentage: 0.5,
-        // barPercentage: 0.9,
       },
       {
-        label: "Current Headcount",
+        label: "Actual Present",
         data: [60, 30, 28, 40, 38, 50, 50, 45, 60, 55],
-        backgroundColor: "#6740d5",
+        backgroundColor: "#14B8A6",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
-        // categoryPercentage: 0.5,
-        // barPercentage: 0.9,
       },
     ],
   };
@@ -93,10 +88,27 @@ function DashboardOverview() {
   const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
-
+    animation: false,
+    layout: {
+      padding: {
+        top: 22,
+      },
+    },
     plugins: {
       legend: {
         display: false,
+      },
+      datalabels: {
+        anchor: "end",
+        align: "top",
+        offset: 2,
+        clip: false,
+        color: "#1E293B",
+        font: {
+          size: 11,
+          weight: "bold",
+        },
+        formatter: (value: number) => value,
       },
     },
 
@@ -105,18 +117,21 @@ function DashboardOverview() {
         grid: {
           display: false,
         },
+        ticks: {
+          color: "#1E293B",
+        },
       },
       y: {
         beginAtZero: true,
+        suggestedMax: 115,
 
         grid: {
-          color: "#d9d9d9",
-          // borderDash: [10, 10],
-          // drawBorder: false,
+          color: "#e2e8f0",
         },
 
         ticks: {
           display: true,
+          color: "#1E293B",
         },
 
         border: {
@@ -143,8 +158,8 @@ function DashboardOverview() {
       {
         label: "Daily Absenteeism",
         data: [15, 18, 12, 20, 16, 8, 14, 22, 17, 10],
-        backgroundColor: "#e22b6e",
-        hoverBackgroundColor: "#c81e5b",
+        backgroundColor: "#E91E63",
+        hoverBackgroundColor: "#d81b60",
         borderRadius: 6,
         barThickness: 22,
       },
@@ -154,10 +169,33 @@ function DashboardOverview() {
   const dailyAbsenteeismOptions: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 22,
+      },
+    },
     plugins: {
       legend: {
         display: true,
         position: "bottom",
+        labels: {
+          color: "#1E293B",
+          font: {
+            weight: 600,
+          },
+        },
+      },
+      datalabels: {
+        anchor: "end",
+        align: "top",
+        offset: 2,
+        clip: false,
+        color: "#1E293B",
+        font: {
+          size: 11,
+          weight: "bold",
+        },
+        formatter: (value: number) => value,
       },
     },
     scales: {
@@ -165,20 +203,94 @@ function DashboardOverview() {
         grid: {
           display: false,
         },
+        ticks: {
+          color: "#1E293B",
+        },
       },
       y: {
         beginAtZero: true,
+        suggestedMax: 26,
         ticks: {
           stepSize: 5,
+          color: "#1E293B",
         },
         grid: {
-          color: "#e5e5e5",
+          color: "#e2e8f0",
         },
       },
     },
   };
 
   const dailyAttritionData: ChartData<"bar"> = {
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+    datasets: [
+      {
+        label: "Weekly Attrition",
+        data: [8, 12, 6, 14],
+        backgroundColor: "#172554",
+        hoverBackgroundColor: "#0f172a",
+        borderRadius: 6,
+        barThickness: 32,
+      },
+    ],
+  };
+
+  const dailyAttritionOptions: ChartOptions<"bar"> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 22,
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom",
+        labels: {
+          color: "#1E293B",
+          font: {
+            weight: 600,
+          },
+        },
+      },
+      datalabels: {
+        anchor: "end",
+        align: "top",
+        offset: 2,
+        clip: false,
+        color: "#1E293B",
+        font: {
+          size: 11,
+          weight: "bold",
+        },
+        formatter: (value: number) => value,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: "#1E293B",
+        },
+      },
+      y: {
+        beginAtZero: true,
+        suggestedMax: 18,
+        ticks: {
+          stepSize: 4,
+          color: "#1E293B",
+        },
+        grid: {
+          color: "#e2e8f0",
+        },
+      },
+    },
+  };
+
+  const secondManpowerData: ChartData<"bar"> = {
     labels: [
       "26 Jul",
       "27 Jul",
@@ -193,23 +305,56 @@ function DashboardOverview() {
     ],
     datasets: [
       {
-        label: "Daily Attrition",
-        data: [2, 4, 1, 3, 5, 1, 2, 4, 3, 1],
-        backgroundColor: "#3e6db5",
-        hoverBackgroundColor: "#2f5793",
-        borderRadius: 6,
-        barThickness: 22,
+        label: "Planned",
+        data: [72, 64, 58, 68, 62, 28, 36, 58, 48, 29],
+        backgroundColor: "#E91E63",
+        borderRadius: 5,
+        barThickness: 25,
+        inflateAmount: -2,
+      },
+      {
+        label: "Deployed",
+        data: [60, 52, 46, 62, 56, 68, 58, 88, 65, 60],
+        backgroundColor: "#5B6FAF",
+        borderRadius: 5,
+        barThickness: 25,
+        inflateAmount: -2,
+      },
+      {
+        label: "Optimal",
+        data: [58, 32, 26, 42, 36, 48, 46, 42, 58, 52],
+        backgroundColor: "#172554",
+        borderRadius: 5,
+        barThickness: 25,
+        inflateAmount: -2,
       },
     ],
   };
 
-  const dailyAttritionOptions: ChartOptions<"bar"> = {
+  const secondManpowerOptions: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: false,
+    layout: {
+      padding: {
+        top: 22,
+      },
+    },
     plugins: {
       legend: {
-        display: true,
-        position: "bottom",
+        display: false,
+      },
+      datalabels: {
+        anchor: "end",
+        align: "top",
+        offset: 2,
+        clip: false,
+        color: "#1E293B",
+        font: {
+          size: 11,
+          weight: "bold",
+        },
+        formatter: (value: number) => value,
       },
     },
     scales: {
@@ -217,132 +362,113 @@ function DashboardOverview() {
         grid: {
           display: false,
         },
+        ticks: {
+          color: "#1E293B",
+        },
       },
       y: {
         beginAtZero: true,
-        ticks: {
-          stepSize: 2,
-        },
+        suggestedMax: 110,
         grid: {
-          color: "#e5e5e5",
+          color: "#e2e8f0",
+        },
+        ticks: {
+          display: true,
+          color: "#1E293B",
+        },
+        border: {
+          display: false,
         },
       },
     },
   };
 
-  const genderDistributionData: ChartData<"doughnut"> = {
-    labels: ["Male", "Female"],
+  // ─── Skill Level Distribution (L0–L4) ──────────────────────────
+  const skillLevelData: ChartData<"bar"> = {
+    labels: ["L0 – Untrained", "L1 – Awareness", "L2 – Basic", "L3 – Skilled", "L4 – Expert"],
     datasets: [
       {
-        label: "Employees",
-        data: [780, 470],
-        backgroundColor: [
-          "#3e6db5", // Male (ASTI Blue)
-          "#e22b6e", // Female (ASTI Pink)
-        ],
-        borderColor: "#ffffff",
-        borderWidth: 3,
-        hoverOffset: 10,
+        label: "Required",
+        data: [120, 95, 80, 60, 35],
+        backgroundColor: "#7C3AED",
+        borderRadius: 5,
+        barThickness: 28,
+        inflateAmount: -2,
+      },
+      {
+        label: "Allocation",
+        data: [100, 88, 72, 55, 30],
+        backgroundColor: "#0891B2",
+        borderRadius: 5,
+        barThickness: 28,
+        inflateAmount: -2,
+      },
+      {
+        label: "Actual Present",
+        data: [85, 76, 65, 48, 24],
+        backgroundColor: "#16A34A",
+        borderRadius: 5,
+        barThickness: 28,
+        inflateAmount: -2,
       },
     ],
   };
 
-  const genderDistributionOptions: ChartOptions<"doughnut"> = {
+  const skillLevelOptions: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: false,
+    layout: {
+      padding: {
+        top: 22,
+      },
+    },
     plugins: {
       legend: {
-        position: "right",
-        labels: {
-          usePointStyle: true,
-          pointStyle: "circle",
-          boxWidth: 30,
-          boxHeight: 8,
-          padding: 20,
+        display: false,
+      },
+      datalabels: {
+        anchor: "end",
+        align: "top",
+        offset: 2,
+        clip: false,
+        color: "#1E293B",
+        font: {
+          size: 11,
+          weight: "bold",
+        },
+        formatter: (value: number) => value,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: "#1E293B",
+        },
+      },
+      y: {
+        beginAtZero: true,
+        suggestedMax: 150,
+        grid: {
+          color: "#e2e8f0",
+        },
+        ticks: {
+          display: true,
+          color: "#1E293B",
+        },
+        border: {
+          display: false,
         },
       },
     },
   };
+
   return (
     <>
       <div className="h-auto shadow border p-4">
-        {/* FOUR KPI CARDS ----------------------  */}
-        <div className="row g-0 g-0 my-4">
-          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3  border shadow  rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-purple rounded-pill p-1"
-                  src={profileSvg1}
-                  alt=""
-                />
-              </div>
-              <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
-                  Total Manpower
-                </p>
-                <p className="fw-semibold fs-5">1,250</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow  rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-pink rounded-pill p-1"
-                  src={profileSvg2}
-                  alt=""
-                />
-              </div>
-              <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
-                  Total Present
-                </p>
-                <p className="fw-semibold fs-5" style={{ color: "#2e7d32" }}>
-                  1,148
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow  rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-blue rounded-circle p-1"
-                  src={profileSvg3}
-                  alt=""
-                />
-              </div>
-              <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
-                  Total Absent
-                </p>
-                <p className="fw-semibold fs-5" style={{ color: "#c62828" }}>
-                  102
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-yellow rounded-circle p-1"
-                  src={profileSvg4}
-                  alt=""
-                />
-              </div>
-              <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
-                  Attendance %
-                </p>
-                <p className="fw-semibold fs-5" style={{ color: "#e65100" }}>
-                  91.8%
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
         {/* FILTERS DIV--------------------------------------------- */}
         <div
           className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3"
@@ -448,12 +574,92 @@ function DashboardOverview() {
             </div>
           </div>
         </div>
+        {/* FOUR KPI CARDS ----------------------  */}
+        <div className="row g-0 g-0 my-4">
+          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
+            <div className="row g-0 p-3 border shadow rounded-4">
+              <div className="col center-elements">
+                <img
+                  className="h-60px my-fade-purple rounded-pill p-1"
+                  src={profileSvg1}
+                  alt=""
+                />
+              </div>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                  Total Manpower
+                </p>
+                <p className="fw-semibold fs-5" style={{ color: "#172554" }}>
+                  1,250
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
+            <div className="row g-0 p-3 border shadow rounded-4">
+              <div className="col center-elements">
+                <img
+                  className="h-60px my-fade-pink rounded-pill p-1"
+                  src={profileSvg2}
+                  alt=""
+                />
+              </div>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                  Total Present
+                </p>
+                <p className="fw-semibold fs-5" style={{ color: "#14B8A6" }}>
+                  1,148
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
+            <div className="row g-0 p-3 border shadow rounded-4">
+              <div className="col center-elements">
+                <img
+                  className="h-60px my-fade-blue rounded-circle p-1"
+                  src={profileSvg3}
+                  alt=""
+                />
+              </div>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                  Total Absent
+                </p>
+                <p className="fw-semibold fs-5" style={{ color: "#E91E63" }}>
+                  102
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
+            <div className="row g-0 p-3 border shadow rounded-4">
+              <div className="col center-elements">
+                <img
+                  className="h-60px my-fade-yellow rounded-circle p-1"
+                  src={profileSvg4}
+                  alt=""
+                />
+              </div>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                  Attendance %
+                </p>
+                <p className="fw-semibold fs-5" style={{ color: "#5B6FAF" }}>
+                  91.8%
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* TRIPPLE BAR GRAPH ------------------------------------- */}
         <div className="my-3 rounded-4 shadow -sm border bg-white">
           <div className="d-flex align-items-center justify-content-between p-4 pb-2">
             <div className="d-flex align-items-center w-auto flex-shrink-0 p-1">
               <svg
-                className="me-3 my-fade-pink rounded-circle p-2"
+                className="me-3 my-fade-blue rounded-circle p-2"
                 width="45px"
                 height="45px"
                 viewBox="0 0 24 24"
@@ -462,13 +668,13 @@ function DashboardOverview() {
               >
                 <path
                   d="M18 19V18C18 15.7909 16.2091 14 14 14H10C7.79086 14 6 15.7909 6 18V19M23 19V18C23 15.7909 21.2091 14 19 14H18.5M1 19V18C1 15.7909 2.79086 14 5 14H5.5M17 11C18.6569 11 20 9.65685 20 8C20 6.34315 18.6569 5 17 5M7 11C5.34315 11 4 9.65685 4 8C4 6.34315 5.34315 5 7 5M15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z"
-                  stroke="#e22b6e"
+                  stroke="#5B6FAF"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 ></path>
               </svg>
-              <h5 className="mb-0 fw-bold">Daily Manpower Trend</h5>
+              <h5 className="mb-0 fw-bold" style={{ color: "#172554" }}>Daily Manpower Trend</h5>
             </div>
           </div>
           {/* CHART DIV--------------------------- */}
@@ -480,7 +686,7 @@ function DashboardOverview() {
                 height: "400px",
               }}
             >
-              <Bar data={data} options={options} />
+              <Bar data={data} options={options} plugins={[ChartDataLabels]} />
             </div>
           </div>
           {/* FIXED BOTTOM INFORMATION (NOT HORIZONTALLY SCROLLABLE) */}
@@ -498,7 +704,7 @@ function DashboardOverview() {
                   width: 12,
                   height: 12,
                   borderRadius: 3,
-                  backgroundColor: "#466ad5",
+                  backgroundColor: "#F59E0B",
                   display: "inline-block",
                   marginRight: 8,
                 }}
@@ -507,7 +713,7 @@ function DashboardOverview() {
                 style={{
                   fontSize: "0.85rem",
                   fontWeight: 600,
-                  color: "#3d3d3d",
+                  color: "#1E293B",
                 }}
               >
                 Required
@@ -519,7 +725,7 @@ function DashboardOverview() {
                   width: 12,
                   height: 12,
                   borderRadius: 3,
-                  backgroundColor: "#ec2471",
+                  backgroundColor: "#5B6FAF",
                   display: "inline-block",
                   marginRight: 8,
                 }}
@@ -528,10 +734,10 @@ function DashboardOverview() {
                 style={{
                   fontSize: "0.85rem",
                   fontWeight: 600,
-                  color: "#3d3d3d",
+                  color: "#1E293B",
                 }}
               >
-                Actual Present/Holiday
+                Allocation
               </span>
             </div>
             <div className="d-flex align-items-center">
@@ -540,7 +746,7 @@ function DashboardOverview() {
                   width: 12,
                   height: 12,
                   borderRadius: 3,
-                  backgroundColor: "#6740d5",
+                  backgroundColor: "#14B8A6",
                   display: "inline-block",
                   marginRight: 8,
                 }}
@@ -549,10 +755,10 @@ function DashboardOverview() {
                 style={{
                   fontSize: "0.85rem",
                   fontWeight: 600,
-                  color: "#3d3d3d",
+                  color: "#1E293B",
                 }}
               >
-                Current Headcount
+                Actual Present
               </span>
             </div>
           </div>
@@ -570,7 +776,7 @@ function DashboardOverview() {
                   height="38px"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#e22b6e"
+                  stroke="#E91E63"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -581,7 +787,7 @@ function DashboardOverview() {
                   <line x1="22" y1="8" x2="17" y2="13" />
                 </svg>
                 <div>
-                  <p className="fw-bold">Daily Absenteeism</p>
+                  <p className="fw-bold mb-0" style={{ color: "#172554" }}>Daily Absenteeism</p>
                   <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
                     Daily absences in selected month
                   </p>
@@ -599,6 +805,7 @@ function DashboardOverview() {
                 <Bar
                   data={dailyAbsenteeismData}
                   options={dailyAbsenteeismOptions}
+                  plugins={[ChartDataLabels]}
                 />
               </div>
             </div>
@@ -614,7 +821,7 @@ function DashboardOverview() {
                   height="38px"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#3e6db5"
+                  stroke="#172554"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -624,14 +831,14 @@ function DashboardOverview() {
                   <polyline points="16 11 18 13 22 9" />
                 </svg>
                 <div>
-                  <p className="fw-bold">Daily Attrition</p>
+                  <p className="fw-bold mb-0" style={{ color: "#172554" }}>Weekly Attrition</p>
                   <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
-                    Daily employee attrition trend
+                    Weekly employee attrition trend
                   </p>
                 </div>
               </div>
 
-              {/* SINGLE BAR GRAPH OF DAILY ATTRITION */}
+              {/* SINGLE BAR GRAPH OF WEEKLY ATTRITION */}
               <div
                 className="p-4"
                 style={{
@@ -642,47 +849,198 @@ function DashboardOverview() {
                 <Bar
                   data={dailyAttritionData}
                   options={dailyAttritionOptions}
+                  plugins={[ChartDataLabels]}
                 />
               </div>
             </div>
           </div>
         </div>
-        {/* GENDER DISTRIBUTION DOUGHNUT -------------------------------------------- */}
-        <div className="row g-0 ">
-          <div className="col-lg-6 col-12 pe-2 ">
-            {/* DOUGHNUT CHART----------------------- */}
-            <div className="shadow border rounded-4 p-4 -sm">
-              {/* HEADINGSS----------------- */}
-              <div className="d-flex align-items-center mb-1">
-                <svg
-                  className="me-2 my-fade-purple rounded-circle p-2 flex-shrink-0"
-                  width="38px"
-                  height="38px"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#6740d5"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                  <path d="M2 12h20" />
-                </svg>
-                <div>
-                  <p className="fw-bold">Gender Distribution</p>
-                  <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
-                    Workforce gender ratio
-                  </p>
-                </div>
-              </div>
-              <div style={{ height: "300px", width: "100%" }} className="p-4">
-                <Doughnut
-                  data={genderDistributionData}
-                  options={genderDistributionOptions}
-                />
+
+        {/* DAILY MANPOWER DEPLOYMENT (SECOND GRAPH LIKE MANPOWER) ----------------------- */}
+        <div className="border rounded-4 shadow-sm mt-4">
+          {/* TOP HEADING */}
+          <div className="d-flex align-items-center justify-content-between p-4 pb-0">
+            <div className="d-flex align-items-center">
+              <svg
+                className="me-2 my-fade-pink rounded-circle p-2 flex-shrink-0"
+                width="38px"
+                height="38px"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#E91E63"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <h5 className="mb-0 fw-bold" style={{ color: "#172554" }}>DOJO Manpower Trend</h5>
+            </div>
+          </div>
+          {/* CHART DIV--------------------------- */}
+          <div style={{ overflowX: "auto" }}>
+            <div
+              className="p-4 pt-2"
+              style={{
+                width: `${(secondManpowerData.labels?.length ?? 0) * 140}px`,
+                height: "400px",
+              }}
+            >
+              <Bar
+                data={secondManpowerData}
+                options={secondManpowerOptions}
+                plugins={[ChartDataLabels]}
+              />
+            </div>
+          </div>
+          {/* FIXED BOTTOM INFORMATION (NOT HORIZONTALLY SCROLLABLE) */}
+          <div
+            className="d-flex align-items-center justify-content-center flex-wrap gap-4 py-3 px-4 border-top"
+            style={{
+              background: "#fafbff",
+              borderBottomLeftRadius: "1rem",
+              borderBottomRightRadius: "1rem",
+            }}
+          >
+            <div className="d-flex align-items-center">
+              <span
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 3,
+                  backgroundColor: "#E91E63",
+                  display: "inline-block",
+                  marginRight: 8,
+                }}
+              ></span>
+              <span
+                style={{
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  color: "#1E293B",
+                }}
+              >
+                Planned
+              </span>
+            </div>
+            <div className="d-flex align-items-center">
+              <span
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 3,
+                  backgroundColor: "#5B6FAF",
+                  display: "inline-block",
+                  marginRight: 8,
+                }}
+              ></span>
+              <span
+                style={{
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  color: "#1E293B",
+                }}
+              >
+                Deployed
+              </span>
+            </div>
+            <div className="d-flex align-items-center">
+              <span
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: 3,
+                  backgroundColor: "#172554",
+                  display: "inline-block",
+                  marginRight: 8,
+                }}
+              ></span>
+              <span
+                style={{
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  color: "#1E293B",
+                }}
+              >
+                Optimal
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* SKILL LEVEL DISTRIBUTION L0–L4 ------------------------------------------------ */}
+        <div className="border rounded-4 shadow-sm mt-4">
+          {/* TOP HEADING */}
+          <div className="d-flex align-items-center justify-content-between p-4 pb-0">
+            <div className="d-flex align-items-center">
+              <svg
+                className="me-2 my-fade-blue rounded-circle p-2 flex-shrink-0"
+                width="38px"
+                height="38px"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#5B6FAF"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+              <div>
+                <h5 className="mb-0 fw-bold" style={{ color: "#172554" }}>Skill Level Distribution</h5>
+                <p className="mb-0 text-secondary" style={{ fontSize: "0.8rem" }}>Workforce skill progression from L0 to L4</p>
               </div>
             </div>
+          </div>
+          {/* CHART DIV */}
+          <div style={{ overflowX: "auto" }}>
+            <div
+              className="p-4 pt-2"
+              style={{
+                width: `${(skillLevelData.labels?.length ?? 0) * 160}px`,
+                height: "420px",
+              }}
+            >
+              <Bar
+                data={skillLevelData}
+                options={skillLevelOptions}
+                plugins={[ChartDataLabels]}
+              />
+            </div>
+          </div>
+          {/* FIXED BOTTOM LEGEND */}
+          <div
+            className="d-flex align-items-center justify-content-center flex-wrap gap-4 py-3 px-4 border-top"
+            style={{
+              background: "#fafbff",
+              borderBottomLeftRadius: "1rem",
+              borderBottomRightRadius: "1rem",
+            }}
+          >
+            {[
+              { color: "#8B5CF6", label: "Required" },
+              { color: "#0EA5E9", label: "Allocation" },
+              { color: "#22C55E", label: "Actual Present" },
+            ].map(({ color, label }) => (
+              <div key={label} className="d-flex align-items-center">
+                <span
+                  style={{
+                    width: 12,
+                    height: 12,
+                    borderRadius: 3,
+                    backgroundColor: color,
+                    display: "inline-block",
+                    marginRight: 8,
+                  }}
+                ></span>
+                <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#1E293B" }}>
+                  {label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

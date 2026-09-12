@@ -1,5 +1,11 @@
 /* =========================================================
-   Departments & Sub-Departments Module Stylesheet
+   ASTI LMS & Departments Module Stylesheet
+   Color Theme matching the ASTI Logo:
+   - Primary Magenta/Pink: #e22b6e
+   - Primary Slate/Ocean Blue: #3e6db5
+   - Accent Purple: #6740d5
+   - Accent Cyan: #0284c7
+   - Gradient: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)
 ========================================================= */
 
 /* Primary ASTI Gradient Button */
@@ -7,65 +13,93 @@
   background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
   border: none;
   font-size: 0.88rem;
-  color: #ffffff;
-  transition: opacity 0.2s ease, transform 0.1s ease;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(226, 43, 110, 0.25);
+  transition: all 0.2s ease;
 }
 
 .btn-asti-gradient:hover {
-  opacity: 0.92;
-  color: #ffffff;
+  opacity: 0.94;
+  box-shadow: 0 4px 12px rgba(226, 43, 110, 0.35);
+  transform: translateY(-1px);
+  color: #ffffff !important;
 }
 
 .btn-asti-gradient:active {
-  transform: scale(0.98);
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(226, 43, 110, 0.2);
 }
 
 /* Stat Cards */
 .stat-card-box {
-  background: #fafafa;
-  border: 1px solid #e9ecef;
-  border-radius: 0.5rem;
-  padding: 1rem;
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 0.75rem;
+  padding: 1.1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.stat-card-box:hover {
+  transform: none !important;
 }
 
 .stat-card-label {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  color: #999999;
+  color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
 .stat-card-value {
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   margin-top: 0.25rem;
 }
 
 .stat-card-value-sub {
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   margin-top: 0.25rem;
 }
 
 .stat-card-value-dark {
-  color: #222222;
-}
-
-.stat-card-value-success {
-  color: #2e7d32;
+  color: #1e293b;
 }
 
 .stat-card-value-primary {
   color: #3e6db5;
 }
 
+.stat-card-value-pink {
+  color: #e22b6e;
+}
+
+.stat-card-value-purple {
+  color: #6740d5;
+}
+
+.stat-card-value-cyan {
+  color: #0284c7;
+}
+
+.stat-card-value-success {
+  color: #059669;
+}
+
+.stat-card-value-warning {
+  color: #d97706;
+}
+
 /* Filter & Search Bar */
 .filter-bar-container {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
+  background: #fafbff;
+  border: 1px solid #eef2f6;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
 }
 
 .filter-search-group {
@@ -83,6 +117,7 @@
 
 .filter-count-info {
   font-size: 0.85rem;
+  color: #64748b;
 }
 
 /* Table Custom Classes */
@@ -93,98 +128,187 @@
 .dept-table-header {
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #666666;
+  color: #475569;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  background-color: #fafbff;
+}
+
+.dept-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.dept-table tbody tr:hover {
+  background-color: #fdf2f7 !important;
 }
 
 .dept-desc-text {
   font-size: 0.78rem;
-  color: #6c757d;
+  color: #64748b;
 }
 
 .dept-sub-desc-text {
   font-size: 0.85rem;
-  color: #6c757d;
+  color: #64748b;
 }
 
-/* Badges */
+/* Badges Matching ASTI Logo Theme */
 .badge-dept-code {
-  background-color: #e8eafd;
+  background-color: #e7f3fd;
   color: #3e6db5;
   font-size: 0.8rem;
   font-weight: 700;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 0.35rem;
+  border: 1px solid #bfdbfe;
+  display: inline-block;
+}
+
+.badge-asti-pink {
+  background-color: #fee8f1;
+  color: #e22b6e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.35rem;
+  border: 1px solid #fca5c0;
+  display: inline-block;
+}
+
+.badge-asti-blue {
+  background-color: #e7f3fd;
+  color: #3e6db5;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.35rem;
+  border: 1px solid #bfdbfe;
+  display: inline-block;
+}
+
+.badge-asti-purple {
+  background-color: #f0edfc;
+  color: #6740d5;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.35rem;
+  border: 1px solid #ddd6fe;
+  display: inline-block;
+}
+
+.badge-asti-yellow {
+  background-color: #fef3c7;
+  color: #d97706;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.35rem;
+  border: 1px solid #fde68a;
+  display: inline-block;
 }
 
 .badge-status-active {
-  background-color: #e6f4ea;
-  color: #2e7d32;
+  background-color: #ecfdf5;
+  color: #059669;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.25rem 0.6rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid #a7f3d0;
+  display: inline-block;
 }
 
 .badge-status-inactive {
-  background-color: #ffebee;
-  color: #c62828;
+  background-color: #fee8f1;
+  color: #e22b6e;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 0.25rem 0.6rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid #fca5c0;
+  display: inline-block;
 }
 
+/* Sub-Department Pills & Counts */
 .btn-subdept-count-badge {
-  background-color: #f0f4ff;
-  color: #3e6db5;
-  border: 1px solid #c7d7f8;
+  background-color: #fee8f1;
+  color: #e22b6e;
+  border: 1px solid #fca5c0;
   font-size: 0.8rem;
   font-weight: 600;
-  padding: 0.25rem 0.75rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  display: inline-block;
 }
 
 .btn-subdept-count-badge:hover {
-  background-color: #e2ecff;
-  color: #2c5282;
+  background-color: #ffd6e4;
+  color: #be123c;
+  transform: translateY(-1px);
 }
 
-/* Action Buttons */
 .btn-subdept-nav {
-  background-color: #e8eafd;
+  background: linear-gradient(130deg, rgba(226, 43, 110, 0.08) 0%, rgba(62, 109, 181, 0.12) 100%);
   color: #3e6db5;
-  border: none;
+  border: 1px solid rgba(62, 109, 181, 0.25);
   font-size: 0.8rem;
-  padding: 4px 12px;
+  padding: 5px 14px;
   font-weight: 600;
+  border-radius: 20px;
+  transition: all 0.2s ease;
 }
 
 .btn-subdept-nav:hover {
-  background-color: #d7dcfa;
-  color: #2b4c80;
+  background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(62, 109, 181, 0.3);
+  transform: translateY(-1px);
 }
 
+/* Action Buttons */
 .btn-action-circle {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   padding: 2px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  color: #3e6db5;
+  transition: all 0.2s ease;
+}
+
+.btn-action-circle:hover {
+  background-color: #e7f3fd;
+  color: #2563eb;
+  border-color: #bfdbfe;
+  transform: scale(1.08);
 }
 
 .btn-action-delete {
-  width: 28px;
-  height: 28px;
-  background-color: #ffebee;
+  width: 32px;
+  height: 32px;
+  background-color: #fee8f1;
   color: #e22b6e;
   border: 1px solid #fca5c0;
   padding: 2px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
 .btn-action-delete:hover {
-  background-color: #ffd6e0;
-  color: #c41857;
+  background-color: #ffd6e4;
+  color: #be123c;
+  border-color: #f43f5e;
+  transform: scale(1.08);
 }
 
 /* Navigation & Breadcrumb */
@@ -192,9 +316,11 @@
   color: #3e6db5;
   text-decoration: none;
   font-weight: 600;
+  transition: color 0.15s ease;
 }
 
 .breadcrumb-link-primary:hover {
+  color: #e22b6e;
   text-decoration: underline;
 }
 
@@ -203,11 +329,22 @@
 }
 
 .btn-back-nav {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
+  border-color: #cbd5e1;
+  color: #475569;
+  transition: all 0.2s ease;
+}
+
+.btn-back-nav:hover {
+  border-color: #3e6db5;
+  color: #3e6db5;
+  background-color: #e7f3fd;
+  transform: translateY(-1px);
 }
 
 /* Modal Overlay backdrop */
 .dept-modal-backdrop {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
   z-index: 1050;
 }

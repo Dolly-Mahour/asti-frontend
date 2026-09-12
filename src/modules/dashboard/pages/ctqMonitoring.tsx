@@ -21,6 +21,8 @@ import {
   type ChartOptions,
 } from "chart.js";
 import { Bar, Line, Doughnut } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -60,32 +62,26 @@ function CTQMonitoring() {
       {
         label: "Required",
         data: [75, 60, 55, 70, 65, 20, 32, 56, 43, 23],
-        backgroundColor: "#466ad5",
+        backgroundColor: "#F59E0B",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
-        // categoryPercentage: 0.5,
-        // barPercentage: 0.9,
       },
       {
-        label: "Actual Present/Holiday",
+        label: "Allocation",
         data: [55, 50, 45, 60, 55, 70, 60, 95, 70, 65],
-        backgroundColor: "#ec2471",
+        backgroundColor: "#5B6FAF",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
-        // categoryPercentage: 0.5,
-        // barPercentage: 0.9,
       },
       {
-        label: "Current Headcount",
+        label: "Actual Present",
         data: [60, 30, 28, 40, 38, 50, 50, 45, 60, 55],
-        backgroundColor: "#6740d5",
+        backgroundColor: "#14B8A6",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
-        // categoryPercentage: 0.5,
-        // barPercentage: 0.9,
       },
     ],
   };
@@ -93,10 +89,28 @@ function CTQMonitoring() {
   const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
-
+    animation: false,
+    layout: {
+      padding: {
+        top: 25,
+      },
+    },
     plugins: {
       legend: {
         display: false,
+      },
+      datalabels: {
+        display: true,
+        anchor: "end",
+        align: "top",
+        offset: 4,
+        clip: false,
+        color: "#1E293B",
+        font: {
+          size: 11,
+          weight: "bold",
+        },
+        formatter: (value: number) => value,
       },
     },
 
@@ -105,20 +119,19 @@ function CTQMonitoring() {
         grid: {
           display: false,
         },
+        ticks: {
+          color: "#1E293B",
+        },
       },
       y: {
         beginAtZero: true,
-
+        max: 120,
         grid: {
-          color: "#d9d9d9",
-          // borderDash: [10, 10],
-          // drawBorder: false,
+          color: "#E8EDF5",
         },
-
         ticks: {
-          display: true,
+          color: "#1E293B",
         },
-
         border: {
           display: false,
         },
@@ -143,8 +156,8 @@ function CTQMonitoring() {
       {
         label: "Daily Absenteeism",
         data: [15, 18, 12, 20, 16, 8, 14, 22, 17, 10],
-        backgroundColor: "#e22b6e",
-        hoverBackgroundColor: "#c81e5b",
+        backgroundColor: "#E91E63",
+        hoverBackgroundColor: "#d81b60",
         borderRadius: 6,
         barThickness: 22,
       },
@@ -154,10 +167,34 @@ function CTQMonitoring() {
   const dailyAbsenteeismOptions: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 22,
+      },
+    },
     plugins: {
       legend: {
         display: true,
         position: "bottom",
+        labels: {
+          color: "#1E293B",
+          font: {
+            weight: 600,
+          },
+        },
+      },
+      datalabels: {
+        display: true,
+        anchor: "end",
+        align: "top",
+        offset: 2,
+        clip: false,
+        color: "#1E293B",
+        font: {
+          size: 11,
+          weight: "bold",
+        },
+        formatter: (value: number) => value,
       },
     },
     scales: {
@@ -165,11 +202,16 @@ function CTQMonitoring() {
         grid: {
           display: false,
         },
+        ticks: {
+          color: "#1E293B",
+        },
       },
       y: {
         beginAtZero: true,
+        suggestedMax: 26,
         ticks: {
           stepSize: 5,
+          color: "#1E293B",
         },
         grid: {
           color: "#e5e5e5",
@@ -179,6 +221,76 @@ function CTQMonitoring() {
   };
 
   const dailyAttritionData: ChartData<"bar"> = {
+    labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+    datasets: [
+      {
+        label: "Weekly Attrition",
+        data: [8, 12, 6, 14],
+        backgroundColor: "#172554",
+        hoverBackgroundColor: "#0f172a",
+        borderRadius: 6,
+        barThickness: 32,
+      },
+    ],
+  };
+
+  const dailyAttritionOptions: ChartOptions<"bar"> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 22,
+      },
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: "bottom",
+        labels: {
+          color: "#1E293B",
+          font: {
+            weight: 600,
+          },
+        },
+      },
+      datalabels: {
+        display: true,
+        anchor: "end",
+        align: "top",
+        offset: 2,
+        clip: false,
+        color: "#1E293B",
+        font: {
+          size: 11,
+          weight: "bold",
+        },
+        formatter: (value: number) => value,
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: "#1E293B",
+        },
+      },
+      y: {
+        beginAtZero: true,
+        suggestedMax: 18,
+        ticks: {
+          stepSize: 4,
+          color: "#1E293B",
+        },
+        grid: {
+          color: "#e5e5e5",
+        },
+      },
+    },
+  };
+
+  const secondManpowerData: ChartData<"bar"> = {
     labels: [
       "26 Jul",
       "27 Jul",
@@ -193,23 +305,53 @@ function CTQMonitoring() {
     ],
     datasets: [
       {
-        label: "Daily Attrition",
-        data: [2, 4, 1, 3, 5, 1, 2, 4, 3, 1],
+        label: "Planned",
+        data: [72, 64, 58, 68, 62, 28, 36, 58, 48, 29],
+        backgroundColor: "#e22b6e",
+        borderRadius: 5,
+        barThickness: 25,
+        inflateAmount: -2,
+      },
+      {
+        label: "Deployed",
+        data: [60, 52, 46, 62, 56, 68, 58, 88, 65, 60],
         backgroundColor: "#3e6db5",
-        hoverBackgroundColor: "#2f5793",
-        borderRadius: 6,
-        barThickness: 22,
+        borderRadius: 5,
+        barThickness: 25,
+        inflateAmount: -2,
+      },
+      {
+        label: "Optimal",
+        data: [58, 32, 26, 42, 36, 48, 46, 42, 58, 52],
+        backgroundColor: "#0284c7",
+        borderRadius: 5,
+        barThickness: 25,
+        inflateAmount: -2,
       },
     ],
   };
 
-  const dailyAttritionOptions: ChartOptions<"bar"> = {
+  const secondManpowerOptions: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: false,
+    layout: {
+      padding: {
+        top: 25,
+      },
+    },
     plugins: {
       legend: {
+        display: false,
+      },
+      datalabels: {
         display: true,
-        position: "bottom",
+        anchor: "end",
+        align: "top",
+        offset: 4,
+        clip: false,
+        color: "#334155",
+        formatter: (value: number) => value,
       },
     },
     scales: {
@@ -220,154 +362,67 @@ function CTQMonitoring() {
       },
       y: {
         beginAtZero: true,
-        ticks: {
-          stepSize: 2,
-        },
+        max: 120,
         grid: {
-          color: "#e5e5e5",
+          color: "#E8EDF5",
+        },
+        border: {
+          display: false,
         },
       },
     },
   };
 
-  const genderDistributionData: ChartData<"doughnut"> = {
-    labels: ["Male", "Female"],
-    datasets: [
-      {
-        label: "Employees",
-        data: [780, 470],
-        backgroundColor: [
-          "#3e6db5", // Male (ASTI Blue)
-          "#e22b6e", // Female (ASTI Pink)
-        ],
-        borderColor: "#ffffff",
-        borderWidth: 3,
-        hoverOffset: 10,
-      },
-    ],
-  };
-
-  const genderDistributionOptions: ChartOptions<"doughnut"> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "right",
-        labels: {
-          usePointStyle: true,
-          pointStyle: "circle",
-          boxWidth: 30,
-          boxHeight: 8,
-          padding: 20,
-        },
-      },
-    },
-  };
   return (
     <>
       <div className="h-auto shadow border p-4">
-
-        {/* FOUR KPI CARDS ----------------------  */}
-        <div className="row g-0 g-0 my-4">
-          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3  border shadow scale-transition rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-purple rounded-pill p-1"
-                  src={profileSvg1}
-                  alt=""
-                />
-              </div>
-              <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{fontSize: '0.85rem'}}>Total Manpower</p>
-                <p className="fw-semibold fs-5">1,250</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow scale-transition rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-pink rounded-pill p-1"
-                  src={profileSvg2}
-                  alt=""
-                />
-              </div>
-              <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{fontSize: '0.85rem'}}>Total Present</p>
-                <p className="fw-semibold fs-5" style={{color: '#2e7d32'}}>1,148</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow scale-transition rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-blue rounded-circle p-1"
-                  src={profileSvg3}
-                  alt=""
-                />
-              </div>
-              <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{fontSize: '0.85rem'}}>Total Absent</p>
-                <p className="fw-semibold fs-5" style={{color: '#c62828'}}>102</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow scale-transition rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-yellow rounded-circle p-1"
-                  src={profileSvg4}
-                  alt=""
-                />
-              </div>
-              <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{fontSize: '0.85rem'}}>Attendance %</p>
-                <p className="fw-semibold fs-5" style={{color: '#e65100'}}>91.8%</p>
-              </div>
-            </div>
-          </div>
-        </div>
         {/* FILTERS DIV--------------------------------------------- */}
-        <div className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3" style={{background: '#fafbff'}}>
-          <div className="d-flex align-items-center flex-wrap gap-2">
-            {/* Filter label */}
-            <div className="d-flex align-items-center me-1">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e22b6e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-              </svg>
-              <span className="ms-1 fw-semibold" style={{fontSize: '0.82rem', color: '#3d3d3d'}}>Filters</span>
-            </div>
-
-            {/* Select filters */}
-            {["Units", "Departments", "Sections", "Lines", "Shifts"].map((label) => (
-              <select
-                key={label}
-                className="ctq-filter-select me-1"
-                value={selectedFilters[label] || ""}
-                onChange={(e) =>
-                  setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
-                }
-              >
-                <option value="">{label}</option>
-                <option value="Option 1">Option 1</option>
-                <option value="Option 2">Option 2</option>
-                <option value="Option 3">Option 3</option>
-              </select>
-            ))}
-
-            {/* Date range filters */}
-            <div className="d-flex align-items-center ms-auto gap-2">
-              <div className="ctq-filter-date-group">
-                <label style={{fontSize: '0.72rem', color: '#888', fontWeight: 600, letterSpacing: '0.03em'}}>FROM</label>
-                <input type="date" className="ctq-filter-date-input" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+        <div
+          className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3"
+          style={{ background: "#fafbff" }}
+        >
+          <div className="d-flex align-items-center flex-wrap gap-2 px-4">
+            <div className="w-100 d-flex justify-content-between align-items-center">
+              {/* Filter label */}
+              <div className="d-flex align-items-center me-1">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#e22b6e"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                </svg>
+                <span
+                  className="ms-1 fw-semibold"
+                  style={{ fontSize: "0.82rem", color: "#3d3d3d" }}
+                >
+                  Filters
+                </span>
               </div>
-              <div className="ctq-filter-date-group">
-                <label style={{fontSize: '0.72rem', color: '#888', fontWeight: 600, letterSpacing: '0.03em'}}>TO</label>
-                <input type="date" className="ctq-filter-date-input" value={toDate} onChange={(e) => setToDate(e.target.value)} />
-              </div>
+
+              {/* Select filters */}
+              {["Units", "Departments", "Sub Departments", "Sections", "Lines", "Shifts"].map(
+                (label) => (
+                  <select
+                    key={label}
+                    className="ctq-filter-select me-1"
+                    value={selectedFilters[label] || ""}
+                    onChange={(e) =>
+                      setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
+                    }
+                  >
+                    <option value="">{label}</option>
+                    <option value="Option 1">Option 1</option>
+                    <option value="Option 2">Option 2</option>
+                    <option value="Option 3">Option 3</option>
+                  </select>
+                ),
+              )}
 
               {/* Clear button */}
               <button
@@ -383,10 +438,115 @@ function CTQMonitoring() {
                 Clear
               </button>
             </div>
+
+            {/* Date range filters */}
+            <div className="d-flex align-items-center gap-2 ps-5 ms-4">
+              <div className="d-flex align-items-center gap-2">
+                <label
+                  style={{
+                    fontSize: "0.72rem",
+                    color: "#888",
+                    fontWeight: 600,
+                    letterSpacing: "0.03em",
+                  }}
+                >
+                  FROM
+                </label>
+                <input
+                  type="date"
+                  className="ctq-filter-date-input"
+                  value={fromDate}
+                  onChange={(e) => setFromDate(e.target.value)}
+                />
+              </div>
+              <div className="d-flex align-items-center gap-">
+                <label
+                  style={{
+                    fontSize: "0.72rem",
+                    color: "#888",
+                    fontWeight: 600,
+                    letterSpacing: "0.03em",
+                  }}
+                >
+                  TO
+                </label>
+                <input
+                  type="date"
+                  className="ctq-filter-date-input"
+                  value={toDate}
+                  onChange={(e) => setToDate(e.target.value)}
+                />
+              </div>
+
+            </div>
           </div>
         </div>
+        {/* FOUR KPI CARDS ----------------------  */}
+        <div className="row g-0 g-0 my-4">
+          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
+            <div className="row g-0 p-3  border shadow  rounded-4">
+              <div className="col center-elements">
+                <img
+                  className="h-60px my-fade-purple rounded-pill p-1"
+                  src={profileSvg1}
+                  alt=""
+                />
+              </div>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{ fontSize: '0.85rem' }}>Total Manpower</p>
+                <p className="fw-semibold fs-5">1,250</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
+            <div className="row g-0 p-3 border shadow  rounded-4">
+              <div className="col center-elements">
+                <img
+                  className="h-60px my-fade-pink rounded-pill p-1"
+                  src={profileSvg2}
+                  alt=""
+                />
+              </div>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{ fontSize: '0.85rem' }}>Total Present</p>
+                <p className="fw-semibold fs-5" style={{ color: '#2e7d32' }}>1,148</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
+            <div className="row g-0 p-3 border shadow  rounded-4">
+              <div className="col center-elements">
+                <img
+                  className="h-60px my-fade-blue rounded-circle p-1"
+                  src={profileSvg3}
+                  alt=""
+                />
+              </div>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{ fontSize: '0.85rem' }}>Total Absent</p>
+                <p className="fw-semibold fs-5" style={{ color: '#c62828' }}>102</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-sm-12 p-2">
+            <div className="row g-0 p-3 border shadow  rounded-4">
+              <div className="col center-elements">
+                <img
+                  className="h-60px my-fade-yellow rounded-circle p-1"
+                  src={profileSvg4}
+                  alt=""
+                />
+              </div>
+              <div className="col d-flex flex-column justify-content-center align-items-start">
+                <p className="text-secondary" style={{ fontSize: '0.85rem' }}>Attendance %</p>
+                <p className="fw-semibold fs-5" style={{ color: '#e65100' }}>91.8%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* TRIPPLE BAR GRAPH ------------------------------------- */}
-        <div className="my-3 rounded-4 shadow scale-transition-sm border bg-white">
+        <div className="my-3 rounded-4 shadow -sm border bg-white">
           <div className="d-flex align-items-center justify-content-between p-4 pb-2">
             <div className="d-flex align-items-center w-auto flex-shrink-0 p-1">
               <svg
@@ -417,7 +577,7 @@ function CTQMonitoring() {
                 height: "400px",
               }}
             >
-              <Bar data={data} options={options} />
+              <Bar data={data} options={options} plugins={[ChartDataLabels]} />
             </div>
           </div>
           {/* FIXED BOTTOM INFORMATION (NOT HORIZONTALLY SCROLLABLE) */}
@@ -435,12 +595,12 @@ function CTQMonitoring() {
                   width: 12,
                   height: 12,
                   borderRadius: 3,
-                  backgroundColor: "#466ad5",
+                  backgroundColor: "#F59E0B",
                   display: "inline-block",
                   marginRight: 8,
                 }}
               ></span>
-              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#3d3d3d" }}>
+              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#1E293B" }}>
                 Required
               </span>
             </div>
@@ -450,13 +610,13 @@ function CTQMonitoring() {
                   width: 12,
                   height: 12,
                   borderRadius: 3,
-                  backgroundColor: "#ec2471",
+                  backgroundColor: "#5B6FAF",
                   display: "inline-block",
                   marginRight: 8,
                 }}
               ></span>
-              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#3d3d3d" }}>
-                Actual Present/Holiday
+              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#1E293B" }}>
+                Allocation
               </span>
             </div>
             <div className="d-flex align-items-center">
@@ -465,13 +625,13 @@ function CTQMonitoring() {
                   width: 12,
                   height: 12,
                   borderRadius: 3,
-                  backgroundColor: "#6740d5",
+                  backgroundColor: "#14B8A6",
                   display: "inline-block",
                   marginRight: 8,
                 }}
               ></span>
-              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#3d3d3d" }}>
-                Current Headcount
+              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#1E293B" }}>
+                Actual Present
               </span>
             </div>
           </div>
@@ -480,7 +640,7 @@ function CTQMonitoring() {
         <div className="row g-0 my-4 g-3">
           {/* Daily Absenteeism chart-------- */}
           <div className="col-lg-6 col-12 pe-2">
-            <div className="p-4 rounded-4 border shadow scale-transition-sm">
+            <div className="p-4 rounded-4 border shadow -sm">
               {/* HEADINGSS----------------- */}
               <div className="d-flex align-items-center mb-1">
                 <svg
@@ -489,7 +649,7 @@ function CTQMonitoring() {
                   height="38px"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#e22b6e"
+                  stroke="#E91E63"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -500,8 +660,8 @@ function CTQMonitoring() {
                   <line x1="22" y1="8" x2="17" y2="13" />
                 </svg>
                 <div>
-                  <p className="fw-bold">Daily Absenteeism</p>
-                  <p className="text-secondary" style={{fontSize: "0.85rem"}}>
+                  <p className="fw-bold mb-0" style={{ color: "#172554" }}>Daily Absenteeism</p>
+                  <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
                     Daily absences in selected month
                   </p>
                 </div>
@@ -518,13 +678,14 @@ function CTQMonitoring() {
                 <Bar
                   data={dailyAbsenteeismData}
                   options={dailyAbsenteeismOptions}
+                  plugins={[ChartDataLabels]}
                 />
               </div>
             </div>
           </div>
           {/* Daily Attrition chart-------- */}
           <div className="col-lg-6 col-12 ps-2">
-            <div className="p-4 border shadow rounded-4 scale-transition-sm">
+            <div className="p-4 border shadow rounded-4 -sm">
               {/* HEADINGSS----------------- */}
               <div className="d-flex align-items-center mb-1">
                 <svg
@@ -533,7 +694,7 @@ function CTQMonitoring() {
                   height="38px"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#3e6db5"
+                  stroke="#172554"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -543,14 +704,14 @@ function CTQMonitoring() {
                   <polyline points="16 11 18 13 22 9" />
                 </svg>
                 <div>
-                  <p className="fw-bold">Daily Attrition</p>
-                  <p className="text-secondary" style={{fontSize: "0.85rem"}}>
-                    Daily employee attrition trend
+                  <p className="fw-bold mb-0" style={{ color: "#172554" }}>Weekly Attrition</p>
+                  <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                    Weekly employee attrition trend
                   </p>
                 </div>
               </div>
 
-              {/* SINGLE BAR GRAPH OF DAILY ATTRITION */}
+              {/* SINGLE BAR GRAPH OF WEEKLY ATTRITION */}
               <div
                 className="p-4"
                 style={{
@@ -561,44 +722,7 @@ function CTQMonitoring() {
                 <Bar
                   data={dailyAttritionData}
                   options={dailyAttritionOptions}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* GENDER DISTRIBUTION DOUGHNUT -------------------------------------------- */}
-        <div className="row g-0 ">
-          <div className="col-lg-6 col-12 pe-2 ">
-            {/* DOUGHNUT CHART----------------------- */}
-            <div className="shadow border rounded-4 p-4 scale-transition-sm">
-              {/* HEADINGSS----------------- */}
-              <div className="d-flex align-items-center mb-1">
-                <svg
-                  className="me-2 my-fade-purple rounded-circle p-2 flex-shrink-0"
-                  width="38px"
-                  height="38px"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#6740d5"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                  <path d="M2 12h20" />
-                </svg>
-                <div>
-                  <p className="fw-bold">Gender Distribution</p>
-                  <p className="text-secondary" style={{fontSize: "0.85rem"}}>
-                    Workforce gender ratio
-                  </p>
-                </div>
-              </div>
-              <div style={{ height: "300px", width: "100%" }} className="p-4">
-                <Doughnut
-                  data={genderDistributionData}
-                  options={genderDistributionOptions}
+                  plugins={[ChartDataLabels]}
                 />
               </div>
             </div>

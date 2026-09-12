@@ -10,6 +10,7 @@ export default function Departments() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
   const [lines, setLines] = useState<Line[]>([]);
+  const [search, setSearch] = useState<string>("");
 
   // Add Modal State
   const [showAddModal, setShowAddModal] = useState(false);
@@ -149,15 +150,72 @@ export default function Departments() {
       {/* Stats */}
       <div className="row g-3 mb-4">
         {[ 
-          { label: "Total Departments", value: totalDepts, colorClass: "stat-card-value-dark" },
-          { label: "Total Sub-Departments", value: `${totalSubDepts} Sub-Depts`, colorClass: "stat-card-value-primary" },
-          { label: "Total Sections", value: displayedSections, colorClass: "stat-card-value-success" },
-          { label: "Active Lines", value: displayedLines, colorClass: "stat-card-value-info" },
+          {
+            label: "Total Departments",
+            value: totalDepts,
+            colorClass: "stat-card-value-primary",
+            bgClass: "my-fade-blue",
+            stroke: "#3e6db5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
+            ),
+          },
+          {
+            label: "Total Sub-Departments",
+            value: `${totalSubDepts} Sub-Depts`,
+            colorClass: "stat-card-value-pink",
+            bgClass: "my-fade-pink",
+            stroke: "#e22b6e",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+              </svg>
+            ),
+          },
+          {
+            label: "Total Sections",
+            value: displayedSections,
+            colorClass: "stat-card-value-purple",
+            bgClass: "my-fade-purple",
+            stroke: "#6740d5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+            ),
+          },
+          {
+            label: "Active Lines",
+            value: displayedLines,
+            colorClass: "stat-card-value-cyan",
+            bgClass: "my-fade-yellow",
+            stroke: "#0284c7",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+            ),
+          },
         ].map((stat, i) => (
           <div key={i} className="col-md-6 col-lg-3">
-            <div className="stat-card-box">
-              <div className="stat-card-label">{stat.label}</div>
-              <div className={`stat-card-value ${stat.colorClass}`}>{stat.value}</div>
+            <div className="stat-card-box d-flex align-items-center p-3 h-100">
+              <div
+                className={`me-3 rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0 ${stat.bgClass}`}
+                style={{ width: "46px", height: "46px", color: stat.stroke }}
+              >
+                {stat.icon}
+              </div>
+              <div>
+                <div className="stat-card-label">{stat.label}</div>
+                <div className={`stat-card-value ${stat.colorClass}`}>{stat.value}</div>
+              </div>
             </div>
           </div>
         ))}

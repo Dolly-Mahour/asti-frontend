@@ -8,6 +8,7 @@ import type {
   StatusFilter,
   StatusBadgeStyle,
 } from '../models/employeeManagement';
+import '../../../styles/departments.css';
 
 function EmployeeManagement() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -124,16 +125,18 @@ function EmployeeManagement() {
 
   const statusStyle = (
     status: EmployeeStatus
-  ): StatusBadgeStyle => {
-    const styles: Record<EmployeeStatus, StatusBadgeStyle> = {
+  ): { bg: string; color: string; border: string } => {
+    const styles: Record<EmployeeStatus, { bg: string; color: string; border: string }> = {
       ACTIVE: {
-        bg: '#e6f4ea',
-        color: '#2e7d32',
+        bg: '#ecfdf5',
+        color: '#059669',
+        border: '1px solid #a7f3d0',
       },
 
       INACTIVE: {
-        bg: '#fce4ec',
-        color: '#c62828',
+        bg: '#fee8f1',
+        color: '#e22b6e',
+        border: '1px solid #fca5c0',
       },
     };
 
@@ -354,19 +357,17 @@ function EmployeeManagement() {
     <div className="h-auto bg-white shadow-sm rounded border p-4">
 
       {/* Header */}
+      {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4 className="fw-bold mb-0">
-          Employee Management
-        </h4>
+        <div>
+          <h4 className="fw-bold mb-1">Employee Management</h4>
+          <p className="text-muted mb-0" style={{ fontSize: "0.85rem" }}>
+            Manage employee directories, roles, and department assignments
+          </p>
+        </div>
 
         <button
-          className="btn text-white px-4 py-2 fw-semibold rounded-pill"
-          style={{
-            background:
-              'linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)',
-            border: 'none',
-            fontSize: '0.88rem',
-          }}
+          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
           onClick={handleAddEmployee}
         >
           + Add Employee
@@ -377,49 +378,60 @@ function EmployeeManagement() {
       <div className="row g-3 mb-4">
         {[
           {
-            label: 'Total Employees',
+            label: "Total Employees",
             value: employees.length,
-            color: '#222',
+            color: "#3e6db5",
+            bgClass: "my-fade-blue",
+            stroke: "#3e6db5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            ),
           },
           {
-            label: 'Active Employees',
+            label: "Active Employees",
             value: `${activeCount} Active`,
-            color: '#2e7d32',
+            color: "#e22b6e",
+            bgClass: "my-fade-pink",
+            stroke: "#e22b6e",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            ),
           },
           {
-            label: 'Departments',
+            label: "Departments",
             value: `${deptCount} Depts`,
-            color: '#3e6db5',
+            color: "#6740d5",
+            bgClass: "my-fade-purple",
+            stroke: "#6740d5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
+            ),
           },
         ].map((stat, index) => (
-          <div
-            key={index}
-            className="col-md-4"
-          >
-            <div
-              className="border rounded-3 p-3"
-              style={{ background: '#fafafa' }}
-            >
+          <div key={index} className="col-md-4">
+            <div className="stat-card-box d-flex align-items-center p-3">
               <div
-                style={{
-                  fontSize: '0.7rem',
-                  fontWeight: 600,
-                  color: '#999',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                }}
+                className={`me-3 rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0 ${stat.bgClass}`}
+                style={{ width: "46px", height: "46px", color: stat.stroke }}
               >
-                {stat.label}
+                {stat.icon}
               </div>
-
-              <div
-                className="fw-bold mt-1"
-                style={{
-                  fontSize: '1.4rem',
-                  color: stat.color,
-                }}
-              >
-                {stat.value}
+              <div>
+                <div className="stat-card-label">{stat.label}</div>
+                <div className="stat-card-value" style={{ color: stat.color }}>
+                  {stat.value}
+                </div>
               </div>
             </div>
           </div>
@@ -524,16 +536,9 @@ function EmployeeManagement() {
 
       {/* Table */}
       <div className="table-responsive">
-        <table
-          className="table table-hover align-middle mb-0"
-          style={{ fontSize: '0.88rem' }}
-        >
+        <table className="table table-hover align-middle mb-0 dept-table">
           <thead>
-            <tr
-              style={{
-                borderBottom: '2px solid #f0f0f0',
-              }}
-            >
+            <tr className="dept-table-header">
               {[
                 'Employee Name',
                 'Employee ID',
@@ -545,18 +550,9 @@ function EmployeeManagement() {
               ].map((heading, index) => (
                 <th
                   key={heading}
+                  className="py-3 px-3"
                   style={{
-                    fontSize: '0.72rem',
-                    fontWeight: 700,
-                    color: '#aaa',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    paddingBottom: 10,
-                    border: 'none',
-                    textAlign:
-                      index === 6
-                        ? 'right'
-                        : 'left',
+                    textAlign: index === 6 ? 'right' : 'left',
                   }}
                 >
                   {heading}
@@ -575,23 +571,25 @@ function EmployeeManagement() {
                 <tr
                   key={employee.id}
                   style={{
-                    borderBottom:
-                      '1px solid #f5f5f5',
+                    borderBottom: '1px solid #f1f5f9',
                   }}
                 >
-                  <td className="fw-semibold">
+                  <td className="px-3 fw-semibold text-dark">
                     {employee.name}
                   </td>
 
-                  <td className="text-muted">
-                    {employee.empId}
+                  <td className="px-3">
+                    <span className="badge-dept-code">
+                      {employee.empId}
+                    </span>
                   </td>
 
                   <td
+                    className="px-3"
                     style={{
                       color: employee.email
-                        ? '#444'
-                        : '#bbb',
+                        ? '#475569'
+                        : '#94a3b8',
                       fontStyle: employee.email
                         ? 'normal'
                         : 'italic',
@@ -600,43 +598,45 @@ function EmployeeManagement() {
                     {employee.email || 'NULL'}
                   </td>
 
-                  <td>
+                  <td className="px-3 text-dark">
                     {employee.designation}
                   </td>
 
-                  <td className="text-muted">
+                  <td className="px-3 text-muted">
                     {employee.department}
                   </td>
 
-                  <td>
+                  <td className="px-3">
                     <span
-                      className="px-2 py-1 rounded-2 fw-bold"
+                      className="px-2 py-1 rounded-pill fw-bold"
                       style={{
                         fontSize: '0.72rem',
                         background: badge.bg,
                         color: badge.color,
+                        border: badge.border,
                         letterSpacing: '0.04em',
+                        display: 'inline-block',
                       }}
                     >
                       {employee.status}
                     </span>
                   </td>
 
-                  <td className="text-end">
+                  <td className="px-3 text-end">
                     {/* Edit */}
                     <button
-                      className="btn btn-sm btn-link p-1 me-1"
+                      className="btn-action-circle me-1"
                       title="Edit"
                       onClick={() =>
                         handleEditEmployee(employee)
                       }
                     >
                       <svg
-                        width="16"
-                        height="16"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#555"
+                        stroke="currentColor"
                         strokeWidth="2"
                       >
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -646,7 +646,7 @@ function EmployeeManagement() {
 
                     {/* Delete */}
                     <button
-                      className="btn btn-sm btn-link p-1"
+                      className="btn-action-delete"
                       title="Delete"
                       onClick={() =>
                         handleDeleteEmployee(
@@ -655,11 +655,11 @@ function EmployeeManagement() {
                       }
                     >
                       <svg
-                        width="16"
-                        height="16"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#e22b6e"
+                        stroke="currentColor"
                         strokeWidth="2"
                       >
                         <polyline points="3 6 5 6 21 6" />
