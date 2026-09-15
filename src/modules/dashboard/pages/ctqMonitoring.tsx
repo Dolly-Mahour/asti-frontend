@@ -494,6 +494,7 @@ function CTQMonitoring() {
             </div>
           </div>
         </div>
+
         {/* FOUR KPI CARDS ----------------------  */}
         <div className="row g-0 g-0 my-4">
           <div className="col-lg-3 col-md-6 col-sm-12 p-2">
@@ -627,7 +628,7 @@ function CTQMonitoring() {
                   display: "inline-block",
                   marginRight: 8,
                 }}
-              ></span>
+              ></span> 
               <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#1E293B" }}>
                 Allocation
               </span>
@@ -679,7 +680,6 @@ function CTQMonitoring() {
                   </p>
                 </div>
               </div>
-
               {/* SINGLE BAR GRAPH OF DAILY ABSENTEEISM */}
               <div
                 className="p-4"

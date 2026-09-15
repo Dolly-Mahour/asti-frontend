@@ -400,6 +400,7 @@ function UserManagement() {
           </div>
 
           {(roleFilter !== "All Roles" || search) && (
+
             <button
               type="button"
               className="ctq-filter-clear-btn"
