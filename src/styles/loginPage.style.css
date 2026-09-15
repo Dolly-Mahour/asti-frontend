@@ -258,7 +258,7 @@ h6 {
 }
 
 .ctq-filter-dropdown-item:hover {
-  background: linear-gradient(130deg, rgba(226,43,110,0.08), rgba(62,109,181,0.08));
+  background: linear-gradient(130deg, rgba(226, 43, 110, 0.08), rgba(62, 109, 181, 0.08));
   color: #e22b6e;
 }
 
@@ -288,4 +288,44 @@ h6 {
 
 .ctq-filter-date-input:hover {
   border-color: #b0b4c8;
+}
+
+.asti-logo {
+  height: 70px;
+}
+
+.login-page-text {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.login-page-sub-text {
+  font-size: 18px;
+  line-height: 1;
+}
+
+@media screen and (max-width: 768px) {
+
+  .login-page-text {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .login-page-sub-text {
+    font-size: 16px;
+    line-height: 1.2;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+
+  .login-page-text {
+    font-size: 40px;
+    line-height: 1;
+  }
+
+  .login-page-sub-text {
+    font-size: 18px;
+    line-height: 1;
+  }
 }

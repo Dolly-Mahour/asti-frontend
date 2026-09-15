@@ -1,21 +1,26 @@
 import React from "react";
 import "../../styles/loginPage.style.css";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/asti-india-logo.png";
-import { loginAdmin } from "../services/authService";
+import { loginAdmin, isAuthenticated } from "../services/authService";
 import bgImage from "/login-bg.png";
 
 function LoginPage() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/admin-portals", { replace: true });
+    }
+  }, [navigate]);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   const [emailError, setEmailError] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
   const [loginError, setLoginError] = useState("");
 
   const validateEmail = (email: string) => {
@@ -93,18 +98,18 @@ function LoginPage() {
           <div className="col-lg-6 col-md-6 col-sm-12 d-flex flex-column align-items-end justify-content-top pt-5 mt-5">
             <div className="d-flex flex-column align-items-start justify-content-center p-2 rounded-4">
               <img
-                className="h-70px"
+                className="asti-logo"
                 src="/asti-india-logo.png"
                 alt="asti india logo"
               />
-              <h3 className="fw-bold mt-3">Manage People.</h3>
-              <h3 className="fw-bold mt-3 gradient-text">Build Skills.</h3>
-              <h3 className="fw-bold mt-3 gradient-text">
+              <p className="fw-bold mt-3 login-page-text">Manage People.</p>
+              <p className="fw-bold mt-3 gradient-text login-page-text">Build Skills.</p>
+              <p className="fw-bold mt-3 gradient-text login-page-text">
                 Organise Knowledge.
-              </h3>
-              <h5 className="text-body-tertiary mt-3">
+              </p>
+              <p className="text-body-tertiary mt-3 login-page-sub-text">
                 One platform for a smarter workforce.
-              </h5>
+              </p>
             </div>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 d-flex flex-column align-items-center justify-content-center">
@@ -132,12 +137,12 @@ function LoginPage() {
                 <p className="form-label mt-3 d-flex align-items-center">
                   Password <span className="text-danger ms-1">*</span>
                 </p>
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center border rounded-3">
                   <input
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="form-control"
+                    className="border-0 outline-none form-control"
                     type={showPassword ? "text" : "password"}
                     placeholder="password"
                   />
@@ -160,10 +165,10 @@ function LoginPage() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
-                        <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
-                        <line x1="1" y1="1" x2="23" y2="23" />
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
                       </svg>
+
                     ) : (
                       /* Eye icon (password hidden → click to show) */
                       <svg
@@ -177,8 +182,9 @@ function LoginPage() {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       >
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                        <circle cx="12" cy="12" r="3" />
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                        <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                        <line x1="1" y1="1" x2="23" y2="23" />
                       </svg>
                     )}
                   </button>

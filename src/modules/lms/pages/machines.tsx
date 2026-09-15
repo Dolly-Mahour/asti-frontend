@@ -181,13 +181,47 @@ export default function Machines() {
       {/* Stats */}
       <div className="row g-3 mb-4">
         {[
-          { label: "Line Name", value: lineName, colorClass: "stat-card-value-primary" },
-          { label: "Machines Count", value: `${machines.length} Machines`, colorClass: "stat-card-value-dark" },
+          {
+            label: "Line Name",
+            value: lineName,
+            colorClass: "stat-card-value-primary",
+            bgClass: "my-fade-blue",
+            stroke: "#3e6db5",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+            ),
+          },
+          {
+            label: "Machines Count",
+            value: `${machines.length} Machines`,
+            colorClass: "stat-card-value-pink",
+            bgClass: "my-fade-pink",
+            stroke: "#e22b6e",
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+            ),
+          },
         ].map((stat, i) => (
           <div key={i} className="col-md-6">
-            <div className="stat-card-box">
-              <div className="stat-card-label">{stat.label}</div>
-              <div className={`stat-card-value-sub ${stat.colorClass}`}>{stat.value}</div>
+            <div className="stat-card-box d-flex align-items-center p-3 h-100">
+              <div
+                className={`me-3 rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0 ${stat.bgClass}`}
+                style={{ width: "46px", height: "46px", color: stat.stroke }}
+              >
+                {stat.icon}
+              </div>
+              <div>
+                <div className="stat-card-label">{stat.label}</div>
+                <div className={`stat-card-value-sub ${stat.colorClass}`}>{stat.value}</div>
+              </div>
             </div>
           </div>
         ))}

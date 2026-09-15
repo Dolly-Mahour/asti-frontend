@@ -10,3 +10,13 @@ export async function loginAdmin(email: string, password: string) {
 
     return res.data;
 }
+
+export function logout() {
+    sessionStorage.removeItem("token");
+    sessionStorage.clear();
+    localStorage.removeItem("token");
+}
+
+export function isAuthenticated(): boolean {
+    return Boolean(sessionStorage.getItem("token"));
+}
