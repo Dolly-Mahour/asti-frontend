@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import DateRangePicker from '../utils/dateRangePicker';
 import type {
   Course,
@@ -374,9 +374,9 @@ function CourseManagement() {
           {
             label: "Total Courses",
             value: courses.length,
-            color: "#3e6db5",
+            color: "#1d4ed8",
             bgClass: "my-fade-blue",
-            stroke: "#3e6db5",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -387,9 +387,9 @@ function CourseManagement() {
           {
             label: "Published Courses",
             value: `${publishedCount} Published`,
-            color: "#e22b6e",
-            bgClass: "my-fade-pink",
-            stroke: "#e22b6e",
+            color: "#1d4ed8",
+            bgClass: "my-fade-blue",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -400,9 +400,9 @@ function CourseManagement() {
           {
             label: "Total Enrollments",
             value: `${totalEnrolled} Enrolled`,
-            color: "#6740d5",
+            color: "#4338ca",
             bgClass: "my-fade-purple",
-            stroke: "#6740d5",
+            stroke: "#4338ca",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -443,7 +443,7 @@ function CourseManagement() {
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#e22b6e"
+              stroke="#1d4ed8"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -575,7 +575,7 @@ function CourseManagement() {
                     <span
                       className="fw-bold"
                       style={{
-                        color: '#e22b6e',
+                        color: '#1d4ed8',
                       }}
                     >
                       {course.enrolled}
@@ -855,7 +855,7 @@ function CourseManagement() {
                     onClick={handleSubmit}
                     style={{
                       background:
-                        'linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)',
+                        '#1d4ed8',
                       border: 'none',
                     }}
                   >

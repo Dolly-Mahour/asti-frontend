@@ -1,7 +1,8 @@
 import axios from "axios";
+const API_BASE_URL = import.meta.env.API_BASE_URL;
 
 export async function loginAdmin(email: string, password: string) {
-    const res = await axios.post('http://localhost:3001/api/v1/auth/login', { email, password });
+    const res = await axios.post(`${API_BASE_URL}/v1/auth/login`, { email, password });
     // Store token if returned in response
     const token = res.data?.data?.token || res.data?.token;
     if (token) {
@@ -19,4 +20,4 @@ export function logout() {
 
 export function isAuthenticated(): boolean {
     return Boolean(sessionStorage.getItem("token"));
-}
+}

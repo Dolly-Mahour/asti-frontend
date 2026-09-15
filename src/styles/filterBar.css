@@ -32,7 +32,7 @@
 }
 
 .ctq-filter-label svg {
-  color: #e22b6e;
+  color: #2563eb;
   flex-shrink: 0;
 }
 
@@ -59,10 +59,10 @@
 
 .ctq-filter-dropdown-btn:hover,
 .ctq-filter-select-btn:hover {
-  border-color: #e22b6e;
-  background: #fef1f6;
-  color: #e22b6e;
-  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.12);
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
 }
 
 .ctq-filter-dropdown-btn svg,
@@ -74,17 +74,17 @@
 
 .ctq-filter-dropdown-btn:hover svg,
 .ctq-filter-select-btn:hover svg {
-  color: #e22b6e;
+  color: #1d4ed8;
 }
 
 /* When Bootstrap opens the dropdown */
 .dropdown.show .ctq-filter-dropdown-btn,
 .dropdown.show .ctq-filter-select-btn,
 .ctq-filter-dropdown-btn.active {
-  border-color: #e22b6e;
-  background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
+  border-color: #1d4ed8;
+  background: #1d4ed8;
   color: #ffffff;
-  box-shadow: 0 3px 12px rgba(226, 43, 110, 0.22);
+  box-shadow: 0 3px 12px rgba(29, 78, 216, 0.2);
 }
 
 .dropdown.show .ctq-filter-dropdown-btn svg,
@@ -120,17 +120,17 @@
 .ctq-filter-select:hover,
 .filter-select-status:hover,
 .filter-select:hover {
-  border-color: #e22b6e;
-  background-color: #fef1f6;
-  color: #e22b6e;
-  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.12);
+  border-color: #2563eb;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
 }
 
 .ctq-filter-select:focus,
 .filter-select-status:focus,
 .filter-select:focus {
-  border-color: #e22b6e;
-  box-shadow: 0 0 0 3px rgba(226, 43, 110, 0.12);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
   background-color: #ffffff;
 }
 
@@ -159,8 +159,8 @@
 
 .ctq-filter-search-input:focus,
 .filter-search-group .form-control:focus {
-  border-color: #e22b6e !important;
-  box-shadow: 0 0 0 3px rgba(226, 43, 110, 0.12) !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
   background: #ffffff !important;
 }
 
@@ -212,8 +212,8 @@
 }
 
 .ctq-filter-dropdown-item:hover {
-  background: linear-gradient(130deg, rgba(226, 43, 110, 0.08), rgba(62, 109, 181, 0.08));
-  color: #e22b6e;
+  background: #eff6ff;
+  color: #1d4ed8;
 }
 
 /* ─── Date Range Inputs ───────────────────────────────────────── */
@@ -245,8 +245,8 @@
 }
 
 .ctq-filter-date-input:focus {
-  border-color: #e22b6e;
-  box-shadow: 0 0 0 3px rgba(226, 43, 110, 0.1);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .ctq-filter-date-input:hover {
@@ -270,8 +270,8 @@
   align-items: center;
   gap: 5px;
   background: #ffffff;
-  border: 1.5px solid #fecdd3;
-  color: #e22b6e;
+  border: 1.5px solid #e2e8f0;
+  color: #64748b;
   font-size: 0.8rem;
   font-weight: 600;
   text-decoration: none;
@@ -284,10 +284,10 @@
 }
 
 .ctq-filter-clear-btn:hover {
-  color: #ffffff;
-  background: #e22b6e;
-  border-color: #e22b6e;
-  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.25);
+  color: #1d4ed8;
+  background: #eff6ff;
+  border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
   transform: translateY(-1px);
 }
 

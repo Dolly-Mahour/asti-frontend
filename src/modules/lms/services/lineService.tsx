@@ -1,5 +1,5 @@
 import axios from "axios";
-
+const API_BASE_URL = import.meta.env.API_BASE_URL;
 const getHeaders = () => {
     const token = sessionStorage.getItem("token");
     return {
@@ -11,7 +11,7 @@ const getHeaders = () => {
 
 export async function getLines(sortOrder: 'asc' | 'desc' = 'asc', sortBy: string = 'id') {
     const res = await axios.get(
-        `http://localhost:3001/api/v1/lines`,
+        `${API_BASE_URL}/v1/lines`,
         getHeaders()
     );
     return res;
@@ -24,7 +24,7 @@ export async function createLine(
     sectionId: number | string
 ) {
     const res = await axios.post(
-        'http://localhost:3001/api/v1/lines',
+        `${API_BASE_URL}/v1/lines`,
         {
             name,
             departmentId: Number(departmentId),
@@ -38,7 +38,7 @@ export async function createLine(
 
 export async function updateLine(id: string | number, name: string) {
     const res = await axios.patch(
-        `http://localhost:3001/api/v1/lines/${id}`,
+        `${API_BASE_URL}/v1/lines/${id}`,
         { name },
         getHeaders()
     );
@@ -47,7 +47,7 @@ export async function updateLine(id: string | number, name: string) {
 
 export async function deleteLine(id: string | number) {
     const res = await axios.delete(
-        `http://localhost:3001/api/v1/lines/${id}`,
+        `${API_BASE_URL}/v1/lines/${id}`,
         getHeaders()
     );
     return res;

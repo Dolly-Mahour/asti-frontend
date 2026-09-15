@@ -1,4 +1,5 @@
 import axios from "axios";
+const API_BASE_URL = import.meta.env.API_BASE_URL;
 
 const getHeaders = () => {
   const token = sessionStorage.getItem("token");
@@ -18,7 +19,7 @@ export interface UserPayload {
 
 export async function createUser(payload: UserPayload) {
   const res = await axios.post(
-    "http://localhost:3001/api/v1/users",
+    `${API_BASE_URL}/v1/users`,
     payload,
     getHeaders()
   );
@@ -30,7 +31,7 @@ export async function getUser(
   sortBy: "id" | "name" | "createdAt" = "id"
 ) {
   const res = await axios.get(
-    `http://localhost:3001/api/v1/users?sortBy=${sortBy}&sortOrder=${sortOrder}`,
+    `${API_BASE_URL}/v1/users?sortBy=${sortBy}&sortOrder=${sortOrder}`,
     getHeaders()
   );
   return res;
@@ -41,7 +42,7 @@ export async function updateUser(
   payload: Partial<UserPayload>
 ) {
   const res = await axios.patch(
-    `http://localhost:3001/api/v1/users/${id}`,
+    `${API_BASE_URL}/v1/users/${id}`,
     payload,
     getHeaders()
   );
@@ -50,7 +51,7 @@ export async function updateUser(
 
 export async function deleteUser(id: string | number) {
   const res = await axios.delete(
-    `http://localhost:3001/api/v1/users/${id}`,
+    `${API_BASE_URL}/v1/users/${id}`,
     getHeaders()
   );
   return res;

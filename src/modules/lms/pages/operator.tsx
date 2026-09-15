@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 
 import type { ShiftFilter, OperatorData, CertFilter,ShiftStyle,Shift } from "../models/operator";
 const machines = [
@@ -120,8 +120,8 @@ function Operator() {
         color: "#3949ab",
       },
       Night: {
-        bg: "#fce4ec",
-        color: "#c62828",
+        bg: "#f1f5f9",
+        color: "#334155",
       },
     };
 
@@ -296,7 +296,7 @@ function Operator() {
         <button
           className="btn text-white px-4 py-2 fw-semibold rounded-pill"
           style={{
-            background: "linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)",
+            background: "#1d4ed8",
             border: "none",
             fontSize: "0.88rem",
           }}
@@ -322,7 +322,7 @@ function Operator() {
           {
             label: "Pending Certification",
             value: `${pendingCount} Pending`,
-            color: "#e22b6e",
+            color: "#1d4ed8",
           },
         ].map((stat, index) => (
           <div key={index} className="col-md-4">
@@ -367,7 +367,7 @@ function Operator() {
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#e22b6e"
+              stroke="#1d4ed8"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -548,8 +548,8 @@ function Operator() {
                         className="px-2 py-1 rounded-2 fw-bold"
                         style={{
                           fontSize: "0.72rem",
-                          background: "#fce4ec",
-                          color: "#c62828",
+                          background: "#fef2f2",
+                          color: "#b91c1c",
                         }}
                       >
                         ✗ PENDING
@@ -586,7 +586,7 @@ function Operator() {
                         height="16"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#e22b6e"
+                        stroke="#1d4ed8"
                         strokeWidth="2"
                       >
                         <polyline points="3 6 5 6 21 6" />
@@ -762,7 +762,7 @@ function Operator() {
                     onClick={handleSubmit}
                     style={{
                       background:
-                        "linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)",
+                        "#1d4ed8",
                       border: "none",
                     }}
                   >

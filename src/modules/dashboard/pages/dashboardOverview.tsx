@@ -2,7 +2,7 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import profileSvg1 from "../../../assets/purple-profile.png";
-import profileSvg2 from "../../../assets/pink-profile.png";
+import profileSvg2 from "../../../assets/blue-profile.png";
 import profileSvg3 from "../../../assets/blue-profile.png";
 import profileSvg4 from "../../../assets/yellow-profile.png";
 
@@ -20,8 +20,9 @@ import {
   type ChartData,
   type ChartOptions,
 } from "chart.js";
-import { Bar, Line, Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -32,7 +33,20 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  ChartDataLabels,
 );
+
+// Ensure datalabels plugin always recognizes BarElement across Vite chunk boundaries
+if (BarElement && !Object.prototype.hasOwnProperty.call(BarElement, Symbol.hasInstance)) {
+  Object.defineProperty(BarElement, Symbol.hasInstance, {
+    value: (instance: any) =>
+      Boolean(
+        instance &&
+          (instance.constructor?.name === "BarElement" ||
+            (instance.base !== undefined && instance.horizontal !== undefined)),
+      ),
+  });
+}
 function DashboardOverview() {
   const [selectedFilters, setSelectedFilters] = useState<{ [key: string]: string }>({});
   const [fromDate, setFromDate] = useState("");
@@ -61,7 +75,7 @@ function DashboardOverview() {
       {
         label: "Required",
         data: [75, 60, 55, 70, 65, 20, 32, 56, 43, 23],
-        backgroundColor: "#F59E0B",
+        backgroundColor: "#f59e0b",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
@@ -69,7 +83,7 @@ function DashboardOverview() {
       {
         label: "Allocation",
         data: [55, 50, 45, 60, 55, 70, 60, 95, 70, 65],
-        backgroundColor: "#5B6FAF",
+        backgroundColor: "#1e40af",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
@@ -77,7 +91,7 @@ function DashboardOverview() {
       {
         label: "Actual Present",
         data: [60, 30, 28, 40, 38, 50, 50, 45, 60, 55],
-        backgroundColor: "#14B8A6",
+        backgroundColor: "#2563eb",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
@@ -158,8 +172,8 @@ function DashboardOverview() {
       {
         label: "Daily Absenteeism",
         data: [15, 18, 12, 20, 16, 8, 14, 22, 17, 10],
-        backgroundColor: "#E91E63",
-        hoverBackgroundColor: "#d81b60",
+        backgroundColor: "#1d4ed8",
+        hoverBackgroundColor: "#1e40af",
         borderRadius: 6,
         barThickness: 22,
       },
@@ -307,7 +321,7 @@ function DashboardOverview() {
       {
         label: "Planned",
         data: [72, 64, 58, 68, 62, 28, 36, 58, 48, 29],
-        backgroundColor: "#E91E63",
+        backgroundColor: "#3b82f6",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
@@ -483,7 +497,7 @@ function DashboardOverview() {
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#e22b6e"
+                  stroke="#1d4ed8"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -599,7 +613,7 @@ function DashboardOverview() {
             <div className="row g-0 p-3 border shadow rounded-4">
               <div className="col center-elements">
                 <img
-                  className="h-60px my-fade-pink rounded-pill p-1"
+                  className="h-60px my-fade-blue rounded-pill p-1"
                   src={profileSvg2}
                   alt=""
                 />
@@ -627,7 +641,7 @@ function DashboardOverview() {
                 <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
                   Total Absent
                 </p>
-                <p className="fw-semibold fs-5" style={{ color: "#E91E63" }}>
+                <p className="fw-semibold fs-5" style={{ color: "#b91c1c" }}>
                   102
                 </p>
               </div>
@@ -771,12 +785,12 @@ function DashboardOverview() {
               {/* HEADINGSS----------------- */}
               <div className="d-flex align-items-center mb-1">
                 <svg
-                  className="me-2 my-fade-pink rounded-circle p-2 flex-shrink-0"
+                  className="me-2 my-fade-blue rounded-circle p-2 flex-shrink-0"
                   width="38px"
                   height="38px"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#E91E63"
+                  stroke="#1d4ed8"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -862,12 +876,12 @@ function DashboardOverview() {
           <div className="d-flex align-items-center justify-content-between p-4 pb-0">
             <div className="d-flex align-items-center">
               <svg
-                className="me-2 my-fade-pink rounded-circle p-2 flex-shrink-0"
+                className="me-2 my-fade-blue rounded-circle p-2 flex-shrink-0"
                 width="38px"
                 height="38px"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#E91E63"
+                stroke="#1d4ed8"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -911,7 +925,7 @@ function DashboardOverview() {
                   width: 12,
                   height: 12,
                   borderRadius: 3,
-                  backgroundColor: "#E91E63",
+                  backgroundColor: "#3b82f6",
                   display: "inline-block",
                   marginRight: 8,
                 }}

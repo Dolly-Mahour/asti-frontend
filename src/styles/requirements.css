@@ -66,9 +66,9 @@
 }
 
 .pink-theme {
-  border: 1px solid #e83e8c !important;
-  color: #e83e8c !important;
-  background-color: #fff0f5 !important;
+  border: 1px solid #2563eb !important;
+  color: #1d4ed8 !important;
+  background-color: #eff6ff !important;
   border-radius: 2rem !important;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .records-icon {
-  background: #5d49d6;
+  background: #1d4ed8;
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -116,7 +116,7 @@
 }
 
 .add-btn {
-  background: #5d49d6;
+  background: #1d4ed8;
   color: white;
   border: none;
   border-radius: 2rem;
@@ -128,7 +128,7 @@
 }
 
 .add-btn:hover {
-  background: #4b3bb0;
+  background: #1e40af;
 }
 
 .records-table {
@@ -147,10 +147,10 @@
 }
 
 .records-table th.purple-header {
-  background-color: #7b61ff;
+  background-color: #1e40af;
   color: white;
   text-align: center;
-  border-left: 1px solid white;
+  border-left: 1px solid rgba(255,255,255,0.2);
 }
 
 .records-table th.purple-header:first-of-type {

@@ -1,4 +1,5 @@
 import axios from "axios";
+const API_BASE_URL = import.meta.env.API_BASE_URL;
 
 const getHeaders = () => {
     const token = sessionStorage.getItem("token");
@@ -11,7 +12,7 @@ const getHeaders = () => {
 
 export async function getMachines(sortOrder: 'asc' | 'desc' = 'asc', sortBy: string = 'id') {
     const res = await axios.get(
-        `http://localhost:3001/api/v1/machines`,
+        `${API_BASE_URL}/v1/machines`,
         getHeaders()
     );
     return res;
@@ -25,7 +26,7 @@ export async function createMachine(
     lineId: number | string
 ) {
     const res = await axios.post(
-        'http://localhost:3001/api/v1/machines',
+        `${API_BASE_URL}/v1/machines`,
         {
             name,
             departmentId: Number(departmentId),
@@ -40,7 +41,7 @@ export async function createMachine(
 
 export async function updateMachine(id: string | number, name: string) {
     const res = await axios.patch(
-        `http://localhost:3001/api/v1/machines/${id}`,
+        `${API_BASE_URL}/v1/machines/${id}`,
         { name },
         getHeaders()
     );
@@ -49,7 +50,7 @@ export async function updateMachine(id: string | number, name: string) {
 
 export async function deleteMachine(id: string | number) {
     const res = await axios.delete(
-        `http://localhost:3001/api/v1/machines/${id}`,
+        `${API_BASE_URL}/v1/machines/${id}`,
         getHeaders()
     );
     return res;
