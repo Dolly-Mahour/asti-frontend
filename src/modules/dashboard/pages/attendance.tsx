@@ -239,7 +239,6 @@ function Attendance() {
                     onChange={(e) => setToDate(e.target.value)}
                   />
                 </div>
-
               </div>
             </div>
           </div>

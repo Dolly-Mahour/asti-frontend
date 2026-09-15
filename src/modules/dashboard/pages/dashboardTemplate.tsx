@@ -59,7 +59,6 @@ function DashboardTemplate() {
               if (isMobile()) setMobileOpen(false);
             }} />
           </div>
-
           <div
             className={`dashboard-content ${collapsed ? "content-collapsed" : "content-expanded"}`}
           >
