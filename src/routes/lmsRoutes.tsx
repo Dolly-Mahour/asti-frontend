@@ -9,28 +9,35 @@ import Departments from "../modules/lms/pages/departments";
 import SubDepartments from "../modules/lms/pages/subDepartments";
 import SectionsAndLines from "../modules/lms/pages/sectionsAndLines";
 import Machines from "../modules/lms/pages/machines";
+import CreateQuestionPaper from "../modules/lms/pages/createQuestionPaper";
+import PreviewQuestionPaper from "../modules/lms/pages/previewQuestionPaper";
 import ProtectedRoute from "../shared/services/protectedRoutes";
 
 function LMSRoutes() {
   return (
     <>
       <Routes>
-        {/* <Route element={<ProtectedRoute />}> */}
-        <Route element={<LMSTemplate />}>
-          <Route index element={<LMSOverview />} />
-          <Route path="user-management" element={<UserManagement />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<LMSTemplate />}>
+            <Route index element={<LMSOverview />} />
+            <Route path="user-management" element={<UserManagement />} />
 
-          <Route path="employee-management" element={<EmployeeManagement />} />
-          <Route path="course-management" element={<CourseManagement />} />
-          <Route path="departments" element={<Departments />} />
-          <Route path="departments/sub-departments" element={<SubDepartments />} />
-          <Route path="departments/:deptName/sub-departments" element={<SubDepartments />} />
-          <Route path="departments/:deptName" element={<SubDepartments />} />
-          <Route path="departments/sections-lines" element={<SectionsAndLines />} />
-          <Route path="departments/machines" element={<Machines />} />
+            <Route path="employee-management" element={<EmployeeManagement />} />
+            <Route path="course-management" element={<CourseManagement />} />
+            <Route path="question-paper-management" element={<CourseManagement />} />
+            <Route path="create-question-paper" element={<CreateQuestionPaper />} />
+            <Route path="departments" element={<Departments />} />
+            <Route path="departments/sub-departments" element={<SubDepartments />} />
+            <Route path="departments/:deptName/sub-departments" element={<SubDepartments />} />
+            <Route path="departments/:deptName" element={<SubDepartments />} />
+            <Route path="departments/sections-lines" element={<SectionsAndLines />} />
+            <Route path="departments/machines" element={<Machines />} />
+          </Route>
         </Route>
-        {/* </Route> */}
-      </Routes>
+
+        {/* Standalone full-page routes (no sidebar) */}
+        <Route path="preview-question-paper" element={<PreviewQuestionPaper />} />
+      </Routes >
     </>
   );
 }

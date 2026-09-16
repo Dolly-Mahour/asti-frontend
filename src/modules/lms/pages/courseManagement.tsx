@@ -1,129 +1,48 @@
-﻿import { useEffect, useState } from 'react';
-import DateRangePicker from '../utils/dateRangePicker';
-import type {
-  Course,
-  CourseFormData,
-  CourseStatus,
-  StatusFilter,
-  StatusBadgeStyle,
-} from '../models/coursemanagement';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../../styles/departments.css';
+import '../../../styles/createqQuestionPaper.css';
+import type { QuestionPaper, PaperStatus } from '../models/questionPaper';
+import { questionPaperService } from '../services/questionPaperService';
 
-function CourseManagement() {
-  const [courses, setCourses] = useState<Course[]>([]);
+type StatusFilter = 'All Status' | PaperStatus;
+
+export function CourseManagement() {
+  const navigate = useNavigate();
+  const [papers, setPapers] = useState<QuestionPaper[]>([]);
   const [search, setSearch] = useState<string>('');
-  const [statusFilter, setStatusFilter] =
-    useState<StatusFilter>('All Status');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('All Status');
+  const [deptFilter, setDeptFilter] = useState<string>('All Departments');
 
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
+  // Preview Modal State
+  const [previewPaper, setPreviewPaper] = useState<QuestionPaper | null>(null);
 
-  const [formData, setFormData] = useState<CourseFormData>({
-    id: null,
-    title: '',
-    code: '',
-    instructor: '',
-    startDate: '',
-    endDate: '',
-    enrolled: 0,
-    status: 'DRAFT',
-  });
+  // Delete Confirmation Modal State
+  const [paperToDelete, setPaperToDelete] = useState<QuestionPaper | null>(null);
 
-  const statuses: StatusFilter[] = [
-    'All Status',
-    'PUBLISHED',
-    'DRAFT',
-    'ARCHIVED',
-  ];
+  // Toast Notification State
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const instructors: string[] = [
-    'Dr. Ananya Krishnan',
-    'Prof. Manoj Tiwari',
-    'Ms. Divya Pillai',
-    'Dr. Rajesh Kumar',
-    'Prof. Sunita Sharma',
-  ];
-
-  // --------------------------------------------------
-  // Load courses
-  // --------------------------------------------------
-
-  useEffect(() => {
-    const savedCourses = localStorage.getItem(
-      'courseManagementCourses'
-    );
-
-    if (savedCourses) {
-      try {
-        const parsedCourses: Course[] = JSON.parse(savedCourses);
-        setCourses(parsedCourses);
-      } catch (error) {
-        console.error('Failed to parse saved courses:', error);
-      }
-    } else {
-      const defaultCourses: Course[] = [
-        {
-          id: 1,
-          title: 'CNC Machine Operation Basics',
-          code: 'CRS-101',
-          instructor: 'Dr. Ananya Krishnan',
-          startDate: '2024-01-01',
-          endDate: '2024-03-01',
-          enrolled: 18,
-          status: 'PUBLISHED',
-        },
-        {
-          id: 2,
-          title: 'Workplace Safety & Compliance',
-          code: 'CRS-102',
-          instructor: 'Ms. Divya Pillai',
-          startDate: '2024-03-15',
-          endDate: '2024-04-15',
-          enrolled: 25,
-          status: 'PUBLISHED',
-        },
-        {
-          id: 3,
-          title: 'Quality Inspection Techniques',
-          code: 'CRS-103',
-          instructor: 'Prof. Manoj Tiwari',
-          startDate: '2024-05-01',
-          endDate: '2024-06-01',
-          enrolled: 10,
-          status: 'DRAFT',
-        },
-      ];
-
-      setCourses(defaultCourses);
-
-      localStorage.setItem(
-        'courseManagementCourses',
-        JSON.stringify(defaultCourses)
-      );
-    }
-  }, []);
-
-  // --------------------------------------------------
-  // Save courses
-  // --------------------------------------------------
-
-  const saveCoursesToLocal = (updatedCourses: Course[]): void => {
-    setCourses(updatedCourses);
-
-    localStorage.setItem(
-      'courseManagementCourses',
-      JSON.stringify(updatedCourses)
-    );
+  // Load question papers from localStorage service
+  const loadPapers = () => {
+    const list = questionPaperService.getAll();
+    setPapers(list);
   };
 
-  // --------------------------------------------------
-  // Status badge
-  // --------------------------------------------------
+  useEffect(() => {
+    loadPapers();
+  }, []);
 
-  const statusStyle = (
-    status: CourseStatus
-  ): { bg: string; color: string; border: string } => {
-    const map: Record<CourseStatus, { bg: string; color: string; border: string }> = {
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 2500);
+  };
+
+  // Status badge styling
+  const statusStyle = (status: PaperStatus) => {
+    const map: Record<PaperStatus, { bg: string; color: string; border: string }> = {
       PUBLISHED: {
         bg: '#ecfdf5',
         color: '#059669',
@@ -140,256 +59,116 @@ function CourseManagement() {
         border: '1px solid #cbd5e1',
       },
     };
-
-    return map[status];
+    return map[status] || map.DRAFT;
   };
 
-  // --------------------------------------------------
-  // Filter
-  // --------------------------------------------------
-
-  const filtered: Course[] = courses.filter((course) => {
-    const searchValue = search.toLowerCase();
-
+  // Filtered papers
+  const filtered: QuestionPaper[] = papers.filter((paper) => {
+    const q = search.toLowerCase();
     const matchSearch =
-      course.title.toLowerCase().includes(searchValue) ||
-      course.code.toLowerCase().includes(searchValue);
+      (paper.title || '').toLowerCase().includes(q) ||
+      (paper.code || '').toLowerCase().includes(q) ||
+      (paper.department || '').toLowerCase().includes(q) ||
+      (paper.subTitle || '').toLowerCase().includes(q);
 
-    const matchStatus =
-      statusFilter === 'All Status' ||
-      course.status === statusFilter;
+    const matchStatus = statusFilter === 'All Status' || paper.status === statusFilter;
+    const matchDept = deptFilter === 'All Departments' || paper.department === deptFilter;
 
-    return matchSearch && matchStatus;
+    return matchSearch && matchStatus && matchDept;
   });
 
-  // --------------------------------------------------
-  // Stats
-  // --------------------------------------------------
-
-  const publishedCount = courses.filter(
-    (course) => course.status === 'PUBLISHED'
-  ).length;
-
-  const totalEnrolled = courses.reduce(
-    (sum, course) => sum + course.enrolled,
+  // Calculate stats
+  const publishedCount = papers.filter((p) => p.status === 'PUBLISHED').length;
+  const totalQuestions = papers.reduce(
+    (sum, p) =>
+      sum +
+      (p.sections || []).reduce((sSum, sec) => sSum + (sec.questions || []).length, 0),
     0
   );
+  const avgTime =
+    papers.length > 0
+      ? Math.round(papers.reduce((sum, p) => sum + (p.allowedTime || 0), 0) / papers.length)
+      : 0;
 
-  // --------------------------------------------------
-  // Input change
-  // --------------------------------------------------
-
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement
-    >
-  ): void => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]:
-        name === 'enrolled'
-          ? Number(value)
-          : value,
-    }));
+  // Actions
+  const handleCreatePaper = () => {
+    navigate('/lms/create-question-paper');
   };
 
-  // --------------------------------------------------
-  // Add course
-  // --------------------------------------------------
-
-  const handleAddCourse = (): void => {
-    const newCode = generateCourseCode();
-
-    setFormData({
-      id: null,
-      title: '',
-      code: newCode,
-      instructor: '',
-      startDate: '',
-      endDate: '',
-      enrolled: 0,
-      status: 'DRAFT',
-    });
-
-    setIsEditing(false);
-    setShowModal(true);
+  const handleEditPaper = (paper: QuestionPaper) => {
+    navigate(`/lms/create-question-paper?id=${paper.id}`);
   };
 
-  // --------------------------------------------------
-  // Edit course
-  // --------------------------------------------------
-
-  const handleEditCourse = (
-    course: Course
-  ): void => {
-    setFormData({
-      id: course.id,
-      title: course.title,
-      code: course.code,
-      instructor: course.instructor,
-      startDate: course.startDate,
-      endDate: course.endDate,
-      enrolled: course.enrolled,
-      status: course.status,
-    });
-
-    setIsEditing(true);
-    setShowModal(true);
+  const handlePreviewPaper = (paper: QuestionPaper) => {
+    navigate(`/lms/preview-question-paper?id=${paper.id}`);
   };
 
-  // --------------------------------------------------
-  // Delete course
-  // --------------------------------------------------
-
-  const handleDeleteCourse = (
-    id: number
-  ): void => {
-    if (
-      window.confirm(
-        'Are you sure you want to delete this course?'
-      )
-    ) {
-      const updatedCourses = courses.filter(
-        (course) => course.id !== id
-      );
-
-      saveCoursesToLocal(updatedCourses);
-    }
+  const handleConfirmDelete = () => {
+    if (!paperToDelete) return;
+    questionPaperService.delete(paperToDelete.id);
+    showToast(`Deleted question paper "${paperToDelete.title}"`);
+    setPaperToDelete(null);
+    loadPapers();
   };
-
-  // --------------------------------------------------
-  // Submit
-  // --------------------------------------------------
-
-  const handleSubmit = (): void => {
-    if (
-      !formData.title ||
-      !formData.code ||
-      !formData.instructor ||
-      !formData.startDate ||
-      !formData.endDate ||
-      !formData.status
-    ) {
-      alert('Please fill in all required fields');
-      return;
-    }
-
-    if (formData.enrolled < 0) {
-      alert('Enrolled count cannot be negative');
-      return;
-    }
-
-    // Duplicate course code check
-    const isDuplicate = courses.some(
-      (course) =>
-        course.code.toLowerCase() ===
-          formData.code.toLowerCase() &&
-        (isEditing
-          ? course.id !== formData.id
-          : true)
-    );
-
-    if (isDuplicate) {
-      alert(
-        'Course code already exists. Please use a unique code.'
-      );
-      return;
-    }
-
-    if (isEditing && formData.id !== null) {
-      const updatedCourses = courses.map(
-        (course) =>
-          course.id === formData.id
-            ? {
-                ...formData,
-                id: formData.id,
-              }
-            : course
-      );
-
-      saveCoursesToLocal(updatedCourses);
-    } else {
-      const newCourse: Course = {
-        ...formData,
-        id: Date.now(),
-      };
-
-      saveCoursesToLocal([
-        ...courses,
-        newCourse,
-      ]);
-    }
-
-    setShowModal(false);
-  };
-
-  // --------------------------------------------------
-  // Generate Course Code
-  // --------------------------------------------------
-
-  const generateCourseCode = (): string => {
-    const lastCourseNumber =
-      courses.length > 0
-        ? courses.reduce((max, course) => {
-            const parts = course.code.split('-');
-            const number = Number(parts[1]);
-
-            return number > max ? number : max;
-          }, 100)
-        : 100;
-
-    return `CRS-${lastCourseNumber + 1}`;
-  };
-
-  // --------------------------------------------------
-  // Render
-  // --------------------------------------------------
 
   return (
     <div className="h-auto bg-white shadow-sm rounded border p-4">
+      {/* Toast Notice */}
+      {toastMessage && (
+        <div className="qp-toast-notice">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>{toastMessage}</span>
+        </div>
+      )}
 
       {/* Header */}
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div>
-          <h4 className="fw-bold mb-1">Course Management</h4>
-          <p className="text-muted mb-0" style={{ fontSize: "0.85rem" }}>
-            Design, schedule, and publish training programs and courses
+          <h4 className="fw-bold mb-1 text-dark">Question Paper Management</h4>
+          <p className="text-muted mb-0" style={{ fontSize: '0.86rem' }}>
+            Design, configure, and manage technical evaluation &amp; skill test papers
           </p>
         </div>
 
         <button
-          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
-          onClick={handleAddCourse}
+          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill d-inline-flex align-items-center gap-2"
+          onClick={handleCreatePaper}
         >
-          + Create Course
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Create Question Paper
         </button>
       </div>
 
-      {/* Stats */}
+      {/* Stats Cards */}
       <div className="row g-3 mb-4">
         {[
           {
-            label: "Total Courses",
-            value: courses.length,
-            color: "#1d4ed8",
-            bgClass: "my-fade-blue",
-            stroke: "#1d4ed8",
+            label: 'Total Question Papers',
+            value: papers.length,
+            color: '#1d4ed8',
+            bgClass: 'my-fade-blue',
+            stroke: '#1d4ed8',
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
               </svg>
             ),
           },
           {
-            label: "Published Courses",
-            value: `${publishedCount} Published`,
-            color: "#1d4ed8",
-            bgClass: "my-fade-blue",
-            stroke: "#1d4ed8",
+            label: 'Published Papers',
+            value: `${publishedCount} Active`,
+            color: '#059669',
+            bgClass: 'my-fade-blue',
+            stroke: '#059669',
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -398,26 +177,38 @@ function CourseManagement() {
             ),
           },
           {
-            label: "Total Enrollments",
-            value: `${totalEnrolled} Enrolled`,
-            color: "#4338ca",
-            bgClass: "my-fade-purple",
-            stroke: "#4338ca",
+            label: 'Total Questions',
+            value: `${totalQuestions} Questions`,
+            color: '#4338ca',
+            bgClass: 'my-fade-purple',
+            stroke: '#4338ca',
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <line x1="12" y1="17" x2="12.01" y2="17" />
+              </svg>
+            ),
+          },
+          {
+            label: 'Avg Allowed Time',
+            value: `${avgTime} Mins`,
+            color: '#d97706',
+            bgClass: 'my-fade-blue',
+            stroke: '#d97706',
+            icon: (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
               </svg>
             ),
           },
         ].map((stat, index) => (
-          <div key={index} className="col-md-4">
+          <div key={index} className="col-12 col-sm-6 col-lg-3">
             <div className="stat-card-box d-flex align-items-center p-3">
               <div
                 className={`me-3 rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0 ${stat.bgClass}`}
-                style={{ width: "46px", height: "46px", color: stat.stroke }}
+                style={{ width: '46px', height: '46px', color: stat.stroke }}
               >
                 {stat.icon}
               </div>
@@ -432,11 +223,10 @@ function CourseManagement() {
         ))}
       </div>
 
-      {/* Filters */}
-      {/* Filter Bar */}
+      {/* Filters Bar */}
       <div className="ctq-filter-bar border rounded-4 shadow-sm p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div className="d-flex align-items-center flex-wrap gap-2">
-          {/* Filter label */}
+          {/* Filter Icon Label */}
           <div className="d-flex align-items-center me-1">
             <svg
               width="16"
@@ -450,12 +240,12 @@ function CourseManagement() {
             >
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
             </svg>
-            <span className="ms-1 fw-semibold" style={{ fontSize: "0.82rem", color: "#3d3d3d" }}>
+            <span className="ms-1 fw-semibold" style={{ fontSize: '0.82rem', color: '#3d3d3d' }}>
               Filters
             </span>
           </div>
 
-          {/* Search */}
+          {/* Search Input */}
           <div className="ctq-filter-search-group">
             <svg
               className="ctq-filter-search-icon"
@@ -472,7 +262,7 @@ function CourseManagement() {
             <input
               type="text"
               className="ctq-filter-search-input"
-              placeholder="Search by title or course code..."
+              placeholder="Search by title, code, dept..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -485,21 +275,36 @@ function CourseManagement() {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
             >
-              {statuses.map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
+              <option value="All Status">All Status</option>
+              <option value="PUBLISHED">PUBLISHED</option>
+              <option value="DRAFT">DRAFT</option>
+              <option value="ARCHIVED">ARCHIVED</option>
             </select>
           </div>
 
-          {(statusFilter !== "All Status" || search) && (
+          {/* Department Filter */}
+          <div className="d-flex align-items-center">
+            <select
+              className="ctq-filter-select"
+              value={deptFilter}
+              onChange={(e) => setDeptFilter(e.target.value)}
+            >
+              <option value="All Departments">All Departments</option>
+              <option value="Production">Production</option>
+              <option value="Quality Assurance">Quality Assurance</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Operations">Operations</option>
+            </select>
+          </div>
+
+          {(statusFilter !== 'All Status' || deptFilter !== 'All Departments' || search) && (
             <button
               type="button"
               className="ctq-filter-clear-btn"
               onClick={() => {
-                setStatusFilter("All Status");
-                setSearch("");
+                setStatusFilter('All Status');
+                setDeptFilter('All Departments');
+                setSearch('');
               }}
             >
               Clear
@@ -508,7 +313,7 @@ function CourseManagement() {
         </div>
 
         <div className="ctq-filter-count-info ms-auto">
-          Showing <strong>{filtered.length}</strong> of {courses.length} courses
+          Showing <strong>{filtered.length}</strong> of {papers.length} question papers
         </div>
       </div>
 
@@ -517,71 +322,88 @@ function CourseManagement() {
         <table className="table table-hover align-middle mb-0 dept-table">
           <thead>
             <tr className="dept-table-header">
-              {[
-                'Course Title',
-                'Course Code',
-                'Instructor',
-                'Duration',
-                'Enrolled',
-                'Status',
-                'Actions',
-              ].map((heading, index) => (
-                <th
-                  key={heading}
-                  className="py-3 px-3"
-                  style={{
-                    textAlign: index === 6 ? 'right' : 'left',
-                  }}
-                >
-                  {heading}
-                </th>
-              ))}
+              <th className="py-3 px-3">Paper Title &amp; Module</th>
+              <th className="py-3 px-3">Paper Code / Ref</th>
+              <th className="py-3 px-3">Department &amp; Line</th>
+              <th className="py-3 px-3">Allowed Time</th>
+              <th className="py-3 px-3">Passing Score</th>
+              <th className="py-3 px-3">Questions</th>
+              <th className="py-3 px-3">Status</th>
+              <th className="py-3 px-3 text-end">Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {filtered.map((course) => {
-              const badge = statusStyle(
-                course.status
+            {filtered.map((paper) => {
+              const badge = statusStyle(paper.status);
+              const qCount = (paper.sections || []).reduce(
+                (acc, s) => acc + (s.questions || []).length,
+                0
               );
 
               return (
                 <tr
-                  key={course.id}
+                  key={paper.id}
                   style={{
                     borderBottom: '1px solid #f1f5f9',
                   }}
                 >
-                  <td className="px-3 fw-semibold text-dark">
-                    {course.title}
-                  </td>
-
+                  {/* Title & Subtitle */}
                   <td className="px-3">
-                    <span className="badge-dept-code">
-                      {course.code}
-                    </span>
-                  </td>
-
-                  <td className="px-3 text-dark">
-                    {course.instructor}
-                  </td>
-
-                  <td className="px-3 text-muted" style={{ fontSize: "0.85rem" }}>
-                    {course.startDate} →{' '}
-                    {course.endDate}
-                  </td>
-
-                  <td className="px-3">
-                    <span
-                      className="fw-bold"
-                      style={{
-                        color: '#1d4ed8',
-                      }}
+                    <div
+                      className="fw-bold text-dark"
+                      onClick={() => handleEditPaper(paper)}
+                      title="Click to edit question paper"
+                      style={{ cursor: 'pointer' }}
                     >
-                      {course.enrolled}
+                      {paper.title}
+                    </div>
+                    {paper.subTitle && (
+                      <div className="text-muted" style={{ fontSize: '0.8rem' }}>
+                        {paper.subTitle}
+                      </div>
+                    )}
+                  </td>
+
+                  {/* Code */}
+                  <td className="px-3">
+                    <span className="badge-dept-code" style={{ fontSize: '0.78rem' }}>
+                      {paper.code || 'ASTI-QP'}
                     </span>
                   </td>
 
+                  {/* Department & Section */}
+                  <td className="px-3">
+                    <div className="text-dark fw-semibold" style={{ fontSize: '0.88rem' }}>
+                      {paper.department}
+                    </div>
+                    <div className="text-muted" style={{ fontSize: '0.78rem' }}>
+                      {paper.subDepartment || 'General'} • {paper.lineSection || 'Line 1'}
+                    </div>
+                  </td>
+
+                  {/* Time Allowed */}
+                  <td className="px-3">
+                    <span className="badge bg-light text-dark border px-2 py-1" style={{ fontSize: '0.82rem' }}>
+                      ⏱️ {paper.allowedTime || 60} Mins
+                    </span>
+                  </td>
+
+                  {/* Passing Score */}
+                  <td className="px-3">
+                    <span className="fw-bold" style={{ color: '#1d4ed8', fontSize: '0.88rem' }}>
+                      {paper.passingScore || 20}%
+                    </span>
+                  </td>
+
+                  {/* Total Questions */}
+                  <td className="px-3">
+                    <span className="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1">
+                      {qCount} Qs ({(paper.sections || []).length} Secs)
+                    </span>
+                  </td>
+
+                  {/* Status */}
                   <td className="px-3">
                     <span
                       className="px-2 py-1 rounded-pill fw-bold"
@@ -594,18 +416,42 @@ function CourseManagement() {
                         display: 'inline-block',
                       }}
                     >
-                      {course.status}
+                      {paper.status}
                     </span>
                   </td>
 
+                  {/* Actions */}
                   <td className="px-3 text-end">
-                    {/* Edit */}
+                    {/* Preview Button */}
                     <button
+                      type="button"
                       className="btn-action-circle me-1"
-                      title="Edit"
-                      onClick={() =>
-                        handleEditCourse(course)
-                      }
+                      title="Preview paper"
+                      onClick={() => handlePreviewPaper(paper)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <svg
+                        width="15"
+                        height="15"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
+
+                    {/* Edit Button */}
+                    <button
+                      type="button"
+                      className="btn-action-circle me-1"
+                      title="Edit question paper"
+                      onClick={() => handleEditPaper(paper)}
+                      style={{ cursor: 'pointer' }}
                     >
                       <svg
                         width="14"
@@ -614,21 +460,21 @@ function CourseManagement() {
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                       </svg>
                     </button>
 
-                    {/* Delete */}
+                    {/* Delete Button */}
                     <button
+                      type="button"
                       className="btn-action-delete"
-                      title="Delete"
-                      onClick={() =>
-                        handleDeleteCourse(
-                          course.id
-                        )
-                      }
+                      title="Delete question paper"
+                      onClick={() => setPaperToDelete(paper)}
+                      style={{ cursor: 'pointer' }}
                     >
                       <svg
                         width="14"
@@ -637,6 +483,8 @@ function CourseManagement() {
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         <polyline points="3 6 5 6 21 6" />
                         <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
@@ -652,223 +500,230 @@ function CourseManagement() {
           </tbody>
         </table>
 
+        {/* Empty State */}
         {filtered.length === 0 && (
-          <div className="text-center py-5 text-muted">
-            No records found.
+          <div className="text-center py-5">
+            <div className="mb-3 text-muted">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            {papers.length === 0 ? (
+              <>
+                <h6 className="fw-bold text-dark mb-1">No Question Papers Created Yet</h6>
+                <p className="text-muted mb-3" style={{ fontSize: '0.88rem' }}>
+                  Get started by creating your first technical evaluation test paper.
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
+                  onClick={handleCreatePaper}
+                >
+                  + Create Question Paper
+                </button>
+              </>
+            ) : (
+              <>
+                <h6 className="fw-bold text-dark mb-1">No matching question papers</h6>
+                <p className="text-muted mb-2" style={{ fontSize: '0.88rem' }}>
+                  Try changing your search term or filters.
+                </p>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-sm rounded-pill"
+                  onClick={() => {
+                    setSearch('');
+                    setStatusFilter('All Status');
+                    setDeptFilter('All Departments');
+                  }}
+                >
+                  Clear Filters
+                </button>
+              </>
+            )}
           </div>
         )}
       </div>
 
-      {/* Modal */}
-      {showModal && (
-        <>
-          <div className="modal-backdrop fade show"></div>
-
-          <div
-            className="modal fade show d-block"
-            tabIndex={-1}
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-
-                {/* Modal Header */}
-                <div className="modal-header">
-                  <h5 className="modal-title">
-                    {isEditing
-                      ? 'Edit Course'
-                      : 'Create New Course'}
-                  </h5>
-
-                  <button
-                    type="button"
-                    className="btn-close"
-                    onClick={() =>
-                      setShowModal(false)
-                    }
-                  ></button>
-                </div>
-
-                {/* Modal Body */}
-                <div className="modal-body">
-
-                  {/* Course Title */}
-                  <div className="mb-3">
-                    <label className="form-label">
-                      Course Title{' '}
-                      <span className="text-danger">
-                        *
-                      </span>
-                    </label>
-
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="title"
-                      value={formData.title}
-                      onChange={handleInputChange}
-                      placeholder="Enter course title"
-                    />
-                  </div>
-
-                  {/* Course Code */}
-                  <div className="mb-3">
-                    <label className="form-label">
-                      Course Code{' '}
-                      <span className="text-danger">
-                        *
-                      </span>
-                    </label>
-
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="code"
-                      value={formData.code}
-                      onChange={handleInputChange}
-                      placeholder="Enter course code"
-                      readOnly={
-                        !isEditing &&
-                        formData.code !== ''
-                      }
-                    />
-
-                    <small className="text-muted">
-                      Must be unique (auto-generated
-                      for new courses)
-                    </small>
-                  </div>
-
-                  {/* Instructor */}
-                  <div className="mb-3">
-                    <label className="form-label">
-                      Instructor{' '}
-                      <span className="text-danger">
-                        *
-                      </span>
-                    </label>
-
-                    <select
-                      className="form-select"
-                      name="instructor"
-                      value={formData.instructor}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">
-                        Select Instructor
-                      </option>
-
-                      {instructors.map(
-                        (instructor) => (
-                          <option
-                            key={instructor}
-                            value={instructor}
-                          >
-                            {instructor}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </div>
-
-                  {/* Date Range */}
-                  <DateRangePicker
-                    startDate={
-                      formData.startDate
-                    }
-                    endDate={
-                      formData.endDate
-                    }
-                    onChange={(
-                      field,
-                      value
-                    ) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        [field]:
-                          value,
-                      }))
-                    }
-                  />
-
-                  {/* Enrolled */}
-                  <div className="mb-3">
-                    <label className="form-label">
-                      Enrolled Students
-                    </label>
-
-                    <input
-                      type="number"
-                      className="form-control"
-                      name="enrolled"
-                      value={formData.enrolled}
-                      onChange={handleInputChange}
-                      min="0"
-                    />
-                  </div>
-
-                  {/* Status */}
-                  <div className="mb-3">
-                    <label className="form-label">
-                      Status{' '}
-                      <span className="text-danger">
-                        *
-                      </span>
-                    </label>
-
-                    <select
-                      className="form-select"
-                      name="status"
-                      value={formData.status}
-                      onChange={handleInputChange}
-                    >
-                      <option value="DRAFT">
-                        DRAFT
-                      </option>
-
-                      <option value="PUBLISHED">
-                        PUBLISHED
-                      </option>
-
-                      <option value="ARCHIVED">
-                        ARCHIVED
-                      </option>
-                    </select>
-                  </div>
-
-                </div>
-
-                {/* Modal Footer */}
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary rounded-pill"
-                    onClick={() =>
-                      setShowModal(false)
-                    }
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn text-white rounded-pill"
-                    onClick={handleSubmit}
-                    style={{
-                      background:
-                        '#1d4ed8',
-                      border: 'none',
-                    }}
-                  >
-                    {isEditing
-                      ? 'Update Course'
-                      : 'Create Course'}
-                  </button>
-                </div>
-
-              </div>
+      {/* Delete Confirmation Modal */}
+      {paperToDelete && (
+        <div className="qp-modal-overlay" onClick={() => setPaperToDelete(null)}>
+          <div className="qp-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="d-flex align-items-center justify-content-between mb-3">
+              <h5 className="fw-bold text-danger mb-0 d-flex align-items-center gap-2">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                Delete Question Paper
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setPaperToDelete(null)}
+              ></button>
+            </div>
+            <p className="text-muted mb-4" style={{ fontSize: '0.92rem' }}>
+              Are you sure you want to delete <strong>"{paperToDelete.title}"</strong> ({paperToDelete.code})? This action cannot be undone.
+            </p>
+            <div className="d-flex justify-content-end gap-2">
+              <button
+                type="button"
+                className="btn btn-light border"
+                onClick={() => setPaperToDelete(null)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleConfirmDelete}
+              >
+                Delete Paper
+              </button>
             </div>
           </div>
-        </>
+        </div>
+      )}
+
+      {/* Full Question Paper Preview Modal */}
+      {previewPaper && (
+        <div className="qp-modal-overlay" onClick={() => setPreviewPaper(null)}>
+          <div className="qp-preview-modal-dialog" onClick={(e) => e.stopPropagation()}>
+            {/* Exam Paper Body */}
+            <div className="qp-exam-paper">
+              {/* Paper Header: Logo + Title */}
+              <div className="qp-exam-header">
+                <img
+                  className="qp-exam-logo"
+                  src="/asti-logo.png"
+                  alt="ASTI Logo"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+                <div className="qp-exam-title-block">
+                  <div className="qp-exam-org-name">Automotive Stamping Technology India Pvt. Ltd.</div>
+                  <div className="qp-exam-main-title">{previewPaper.title}</div>
+                  <div className="qp-exam-subtitle">{previewPaper.subTitle || 'Technical Assessment'}</div>
+                </div>
+                <button
+                  type="button"
+                  className="btn-close ms-2"
+                  onClick={() => setPreviewPaper(null)}
+                />
+              </div>
+
+              {/* Info Table */}
+              <div className="qp-exam-info-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Paper Code / Ref</th>
+                      <th>Department</th>
+                      <th>Sub Dept / Line</th>
+                      <th>Time Allowed</th>
+                      <th>Pass Score</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{previewPaper.code || 'ASTI-QP'}</td>
+                      <td>{previewPaper.department}</td>
+                      <td>{previewPaper.subDepartment} – {previewPaper.lineSection}</td>
+                      <td>{previewPaper.allowedTime} Mins</td>
+                      <td>{previewPaper.passingScore}%</td>
+                      <td>{previewPaper.status}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Instructions */}
+              <div className="qp-exam-instructions">
+                <strong>Instructions:</strong> Read all questions carefully before answering. Each question carries marks as indicated. Negative marking applies where specified. Total sections: {(previewPaper.sections || []).length}.
+              </div>
+
+              {/* Sections and Questions */}
+              <div className="preview-sections-body">
+                {(!previewPaper.sections || previewPaper.sections.length === 0) ? (
+                  <div className="text-center py-4 text-muted">No sections or questions configured in this paper yet.</div>
+                ) : (
+                  previewPaper.sections.map((sec, secIdx) => {
+                    let qGlobalOffset = 0;
+                    for (let i = 0; i < secIdx; i++) {
+                      qGlobalOffset += (previewPaper.sections[i]?.questions || []).length;
+                    }
+                    const sectionMarks = sec.questions.reduce((sum, q) => sum + (q.marks || 0), 0);
+                    return (
+                      <div key={sec.id} className="mb-4">
+                        <div className="qp-exam-section-header">
+                          <span>{sec.name}: {sec.subtitle}</span>
+                          <span>{sec.questions.length} Q(s) · {sectionMarks} Marks</span>
+                        </div>
+
+                        {sec.questions.map((q, qIdx) => (
+                          <div key={q.id} className="qp-exam-question">
+                            <div className="qp-exam-q-text">
+                              <span className="qp-exam-q-num">Q{qGlobalOffset + qIdx + 1}.</span>
+                              <span>{q.questionText}</span>
+                              <span className="qp-exam-q-marks">[{q.marks} {q.marks > 1 ? 'Marks' : 'Mark'}]</span>
+                            </div>
+
+                            <div className="qp-exam-options-grid">
+                              {(q.options && q.options.length > 0
+                                ? q.options
+                                : [
+                                    { id: `${q.id}-a`, label: 'A', text: 'Option A' },
+                                    { id: `${q.id}-b`, label: 'B', text: 'Option B' },
+                                    { id: `${q.id}-c`, label: 'C', text: 'Option C' },
+                                    { id: `${q.id}-d`, label: 'D', text: 'Option D' },
+                                  ]
+                              ).map((opt) => (
+                                <div key={opt.id} className="qp-exam-option">
+                                  <span className="qp-exam-option-letter">({opt.label})</span>
+                                  <span>{opt.text}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="qp-preview-modal-footer">
+              <button
+                type="button"
+                className="btn btn-outline-primary px-3"
+                onClick={() => {
+                  const toEdit = previewPaper;
+                  setPreviewPaper(null);
+                  handleEditPaper(toEdit);
+                }}
+              >
+                Edit Question Paper
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary px-4"
+                onClick={() => setPreviewPaper(null)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

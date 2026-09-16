@@ -18,11 +18,11 @@ function AppRoutes() {
             </PublicRoute>
           }
         />
-        {/* <Route element={<ProtectedRoute />}> */}
-        <Route path="/admin-portals" element={<AdminPortal />}></Route>
-        <Route path="dashboard/*" element={<DashboardRoutes />}></Route>
-        <Route path="lms/*" element={<LMSRoutes />}></Route>
-        {/* </Route> */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin-portals" element={<AdminPortal />}></Route>
+          <Route path="dashboard/*" element={<DashboardRoutes />}></Route>
+          <Route path="lms/*" element={<LMSRoutes />}></Route>
+        </Route>
       </Routes>
     </>
   );
