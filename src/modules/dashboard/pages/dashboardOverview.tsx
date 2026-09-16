@@ -321,7 +321,7 @@ function DashboardOverview() {
       {
         label: "Planned",
         data: [72, 64, 58, 68, 62, 28, 36, 58, 48, 29],
-        backgroundColor: "#3b82f6",
+        backgroundColor: "#3b82f6",n
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,

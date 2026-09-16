@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const API_BASE_URL = import.meta.env.API_BASE_URL;
 
 const getHeaders = () => {
@@ -31,7 +32,7 @@ export async function getUser(
   sortBy: "id" | "name" | "createdAt" = "id"
 ) {
   const res = await axios.get(
-    `${API_BASE_URL}/v1/users?sortBy=${sortBy}&sortOrder=${sortOrder}`,
+    `${API_BASE_URL}/v1/users?sortBy=${sortBy}&sortOrder=${sortOrder}`,n
     getHeaders()
   );
   return res;

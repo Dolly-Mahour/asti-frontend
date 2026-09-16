@@ -1,4 +1,4 @@
-﻿import "../../../styles/departments.css";
+import "../../../styles/departments.css";
 
 function LMSOverview() {
   const stats = [

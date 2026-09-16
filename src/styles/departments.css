@@ -1,4 +1,4 @@
-﻿/* =========================================================
+/* =========================================================
    ASTI LMS & Departments Module Stylesheet
    Professional Corporate Color Theme:
    - Primary Blue: #1d4ed8 / #2563eb
@@ -259,7 +259,7 @@
   transition: all 0.2s ease;
 }
 
-.btn-subdept-nav:hover {
+.btn-subdept-nav:hover {  
   background: #1d4ed8;
   color: #ffffff;
   border-color: transparent;

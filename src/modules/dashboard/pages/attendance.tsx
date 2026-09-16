@@ -995,7 +995,7 @@ function Attendance() {
                     <option value="Option 3">Option 3</option>
                   </select>
                 ))}
-
+        
                 {/* Clear button */}
                 <button
                   type="button"
