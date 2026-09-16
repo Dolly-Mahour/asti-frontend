@@ -53,9 +53,9 @@
 }
 
 .status-absent {
-  background: #ffebee;
-  color: #c62828;
-  border: 1px solid #ffcdd2;
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
 }
 
 .status-halfday {
@@ -99,16 +99,16 @@
 }
 
 .pagination-btn:hover:not(:disabled) {
-  border-color: #e22b6e;
-  color: #e22b6e;
-  background: #fef1f6;
+  border-color: #2563eb;
+  color: #1d4ed8;
+  background: #eff6ff;
 }
 
 .pagination-btn.active {
-  background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
-  border-color: transparent;
+  background: #1d4ed8;
+  border-color: #1d4ed8;
   color: #ffffff;
-  box-shadow: 0 3px 10px rgba(226, 43, 110, 0.25);
+  box-shadow: 0 2px 6px rgba(29, 78, 216, 0.2);
 }
 
 .pagination-btn:disabled {

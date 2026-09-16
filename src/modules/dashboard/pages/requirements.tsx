@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import "../../../styles/requirements.css";
 import { Link } from "react-router";
 
@@ -453,7 +453,7 @@ function Requirement() {
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#e22b6e"
+                  stroke="#1d4ed8"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"

@@ -5,9 +5,9 @@ function LMSOverview() {
     {
       title: "Total Users",
       value: "1,245",
-      color: "#3e6db5",
+      color: "#1d4ed8",
       bgClass: "my-fade-blue",
-      stroke: "#3e6db5",
+      stroke: "#1d4ed8",
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -20,9 +20,9 @@ function LMSOverview() {
     {
       title: "Active Courses",
       value: "32",
-      color: "#e22b6e",
-      bgClass: "my-fade-pink",
-      stroke: "#e22b6e",
+      color: "#1d4ed8",
+      bgClass: "my-fade-blue",
+      stroke: "#1d4ed8",
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -33,9 +33,9 @@ function LMSOverview() {
     {
       title: "Total Instructors",
       value: "45",
-      color: "#6740d5",
+      color: "#4338ca",
       bgClass: "my-fade-purple",
-      stroke: "#6740d5",
+      stroke: "#4338ca",
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
@@ -106,7 +106,7 @@ function LMSOverview() {
               <div className="d-flex align-items-center">
                 <span
                   className="rounded-circle me-2 d-inline-block"
-                  style={{ width: 10, height: 10, backgroundColor: "#e22b6e" }}
+                  style={{ width: 10, height: 10, backgroundColor: "#1d4ed8" }}
                 ></span>
                 <h6 className="fw-bold mb-0">Recent Enrollments</h6>
               </div>
@@ -177,11 +177,11 @@ function LMSOverview() {
               <div className="d-flex align-items-center">
                 <span
                   className="rounded-circle me-2 d-inline-block"
-                  style={{ width: 10, height: 10, backgroundColor: "#3e6db5" }}
+                  style={{ width: 10, height: 10, backgroundColor: "#1d4ed8" }}
                 ></span>
                 <h6 className="fw-bold mb-0">Popular Courses</h6>
               </div>
-              <span className="badge rounded-pill" style={{ background: "#e7f3fd", color: "#3e6db5", fontSize: "0.75rem" }}>
+              <span className="badge rounded-pill" style={{ background: "#eff6ff", color: "#1d4ed8", fontSize: "0.75rem" }}>
                 Top 3
               </span>
             </div>
@@ -192,7 +192,7 @@ function LMSOverview() {
                     <h6 className="fw-semibold mb-1" style={{ fontSize: "0.9rem" }}>CNC Machine Operation Basics</h6>
                     <small className="text-muted">120 Enrolled Learners</small>
                   </div>
-                  <span className="badge rounded-pill px-3 py-2 text-white" style={{ background: "linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)", fontSize: "0.75rem" }}>
+                  <span className="badge rounded-pill px-3 py-2 text-white" style={{ background: "#1d4ed8", fontSize: "0.75rem" }}>
                     #1
                   </span>
                 </li>
@@ -201,7 +201,7 @@ function LMSOverview() {
                     <h6 className="fw-semibold mb-1" style={{ fontSize: "0.9rem" }}>Workplace Safety & Compliance</h6>
                     <small className="text-muted">98 Enrolled Learners</small>
                   </div>
-                  <span className="badge rounded-pill px-3 py-2 text-white" style={{ background: "linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)", fontSize: "0.75rem" }}>
+                  <span className="badge rounded-pill px-3 py-2 text-white" style={{ background: "#1d4ed8", fontSize: "0.75rem" }}>
                     #2
                   </span>
                 </li>
@@ -210,7 +210,7 @@ function LMSOverview() {
                     <h6 className="fw-semibold mb-1" style={{ fontSize: "0.9rem" }}>Quality Inspection Techniques</h6>
                     <small className="text-muted">75 Enrolled Learners</small>
                   </div>
-                  <span className="badge rounded-pill px-3 py-2 text-white" style={{ background: "linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)", fontSize: "0.75rem" }}>
+                  <span className="badge rounded-pill px-3 py-2 text-white" style={{ background: "#1d4ed8", fontSize: "0.75rem" }}>
                     #3
                   </span>
                 </li>

@@ -3,17 +3,17 @@
    ========================================================================== */
 
 :root {
-  --asti-pink: #e22b6e;
-  --asti-pink-light: rgba(226, 43, 110, 0.08);
-  --asti-pink-glow: rgba(226, 43, 110, 0.25);
-  --asti-blue: #3e6db5;
-  --asti-blue-light: rgba(62, 109, 181, 0.08);
-  --asti-blue-glow: rgba(62, 109, 181, 0.25);
-  --asti-purple: #8b3fc9;
-  --asti-purple-light: rgba(139, 63, 201, 0.08);
-  --asti-gradient: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
-  --asti-card-border: #e9edf5;
-  --asti-text-main: #1e293b;
+  --asti-primary: #1d4ed8;
+  --asti-primary-light: rgba(29, 78, 216, 0.08);
+  --asti-primary-glow: rgba(29, 78, 216, 0.25);
+  --asti-blue: #2563eb;
+  --asti-blue-light: rgba(37, 99, 235, 0.08);
+  --asti-blue-glow: rgba(37, 99, 235, 0.25);
+  --asti-indigo: #4338ca;
+  --asti-indigo-light: rgba(67, 56, 202, 0.08);
+  --asti-gradient: #1d4ed8;
+  --asti-card-border: #e2e8f0;
+  --asti-text-main: #0f172a;
   --asti-text-muted: #64748b;
   --asti-bg-light: #f8fafc;
 }
@@ -56,13 +56,13 @@
   width: 52px;
   height: 52px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(62, 109, 181, 0.12) 0%, rgba(226, 43, 110, 0.12) 100%);
-  color: var(--asti-blue);
+  background: rgba(29, 78, 216, 0.08);
+  color: var(--asti-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 1px solid rgba(62, 109, 181, 0.18);
+  border: 1px solid rgba(29, 78, 216, 0.15);
 }
 
 .report-header-title {
@@ -90,7 +90,7 @@
 }
 
 .btn-trigger-manual {
-  background: var(--asti-gradient);
+  background: #1d4ed8;
   color: #ffffff;
   border: none;
   font-weight: 600;
@@ -100,14 +100,15 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  box-shadow: 0 4px 14px rgba(62, 109, 181, 0.3);
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.2);
   transition: all 0.25s ease;
   cursor: pointer;
 }
 
 .btn-trigger-manual:hover {
+  background: #1e40af;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(226, 43, 110, 0.35);
+  box-shadow: 0 6px 20px rgba(29, 78, 216, 0.25);
   color: #ffffff;
 }
 
@@ -157,7 +158,7 @@
 }
 
 .badge-new {
-  background: rgba(62, 109, 181, 0.12);
+  background: rgba(37, 99, 235, 0.12);
   color: var(--asti-blue);
   font-weight: 600;
   font-size: 0.72rem;
@@ -216,7 +217,7 @@
   outline: none;
   border-color: var(--asti-blue);
   background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(62, 109, 181, 0.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 .time-input-icon {
@@ -301,7 +302,7 @@
   outline: none;
   border-color: var(--asti-blue);
   background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(62, 109, 181, 0.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 .input-leading-icon {
@@ -643,7 +644,7 @@
 }
 
 .report-toast.toast-info {
-  border-left: 4px solid #3e6db5;
+  border-left: 4px solid #1d4ed8;
 }
 
 @keyframes slideInToast {
@@ -696,7 +697,7 @@
 
 .report-modal-header {
   padding: 1.25rem 1.5rem;
-  background: linear-gradient(135deg, rgba(62, 109, 181, 0.05) 0%, rgba(226, 43, 110, 0.05) 100%);
+  background: #f8fafc;
   border-bottom: 1px solid #edf2f7;
   display: flex;
   align-items: center;

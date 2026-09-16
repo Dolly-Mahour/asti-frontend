@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import "../../../styles/reportSystem.css";
 
 interface Recipient {
@@ -11,64 +11,23 @@ interface Recipient {
 
 const AVATAR_COLORS = [
   "#2563eb", // Blue
-  "#7c3aed", // Purple
-  "#ec2471", // ASTI Pink
+  "#1d4ed8", // Navy Blue
+  "#4338ca", // Indigo
   "#0284c7", // Sky blue
   "#0d9488", // Teal
-  "#e11d48", // Rose
-  "#4f46e5", // Indigo
+  "#334155", // Slate
+  "#4f46e5", // Professional Indigo
 ];
 
 const INITIAL_RECIPIENTS: Recipient[] = [
   {
     id: "1",
-    email: "savdhan007@gmail.com",
+    email: "ameensid7@gmail.com",
     frequencies: ["daily", "management"],
     combinedEmail: true,
     avatarColor: "#2563eb",
   },
-  {
-    id: "2",
-    email: "shivampanday70114@gmail.com",
-    frequencies: ["daily", "management"],
-    combinedEmail: true,
-    avatarColor: "#2563eb",
-  },
-  {
-    id: "3",
-    email: "tejprakash2002jas@gmail.com",
-    frequencies: ["daily", "management"],
-    combinedEmail: true,
-    avatarColor: "#4f46e5",
-  },
-  {
-    id: "4",
-    email: "pradeep.singh@furukawaminda.com",
-    frequencies: ["daily", "management"],
-    combinedEmail: true,
-    avatarColor: "#2563eb",
-  },
-  {
-    id: "5",
-    email: "ankur.yadav@furukawaminda.com",
-    frequencies: ["daily", "management"],
-    combinedEmail: true,
-    avatarColor: "#2563eb",
-  },
-  {
-    id: "6",
-    email: "krishna@gmail.com",
-    frequencies: ["daily"],
-    combinedEmail: false,
-    avatarColor: "#2563eb",
-  },
-  {
-    id: "7",
-    email: "tejparkash2002jas@gmail.com",
-    frequencies: ["daily", "management"],
-    combinedEmail: true,
-    avatarColor: "#2563eb",
-  },
+  
 ];
 
 function ReportSystem() {
@@ -908,7 +867,7 @@ function ReportSystem() {
                 type="button"
                 className="btn text-white rounded-pill px-4 fw-semibold"
                 style={{
-                  background: "linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)",
+                  background: "#1d4ed8",
                   border: "none",
                 }}
                 onClick={handleTriggerManualSend}
@@ -958,7 +917,7 @@ function ReportSystem() {
                 height="18"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#3e6db5"
+                stroke="#1d4ed8"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"

@@ -2,7 +2,7 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import profileSvg1 from "../../../assets/purple-profile.png";
-import profileSvg2 from "../../../assets/pink-profile.png";
+import profileSvg2 from "../../../assets/blue-profile.png";
 import profileSvg3 from "../../../assets/blue-profile.png";
 import profileSvg4 from "../../../assets/yellow-profile.png";
 
@@ -20,7 +20,7 @@ import {
   type ChartData,
   type ChartOptions,
 } from "chart.js";
-import { Bar, Line, Doughnut } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 ChartJS.register(
@@ -33,7 +33,20 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
+  ChartDataLabels,
 );
+
+// Ensure datalabels plugin always recognizes BarElement across Vite chunk boundaries
+if (BarElement && !Object.prototype.hasOwnProperty.call(BarElement, Symbol.hasInstance)) {
+  Object.defineProperty(BarElement, Symbol.hasInstance, {
+    value: (instance: any) =>
+      Boolean(
+        instance &&
+          (instance.constructor?.name === "BarElement" ||
+            (instance.base !== undefined && instance.horizontal !== undefined)),
+      ),
+  });
+}
 function CTQMonitoring() {
   const [selectedFilters, setSelectedFilters] = useState<{ [key: string]: string }>({});
   const [fromDate, setFromDate] = useState("");
@@ -156,8 +169,8 @@ function CTQMonitoring() {
       {
         label: "Daily Absenteeism",
         data: [15, 18, 12, 20, 16, 8, 14, 22, 17, 10],
-        backgroundColor: "#E91E63",
-        hoverBackgroundColor: "#d81b60",
+        backgroundColor: "#1d4ed8",
+        hoverBackgroundColor: "#1e40af",
         borderRadius: 6,
         barThickness: 22,
       },
@@ -307,7 +320,7 @@ function CTQMonitoring() {
       {
         label: "Planned",
         data: [72, 64, 58, 68, 62, 28, 36, 58, 48, 29],
-        backgroundColor: "#e22b6e",
+        backgroundColor: "#1d4ed8",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
@@ -315,7 +328,7 @@ function CTQMonitoring() {
       {
         label: "Deployed",
         data: [60, 52, 46, 62, 56, 68, 58, 88, 65, 60],
-        backgroundColor: "#3e6db5",
+        backgroundColor: "#1d4ed8",
         borderRadius: 5,
         barThickness: 25,
         inflateAmount: -2,
@@ -390,7 +403,7 @@ function CTQMonitoring() {
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#e22b6e"
+                  stroke="#1d4ed8"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -503,7 +516,7 @@ function CTQMonitoring() {
             <div className="row g-0 p-3 border shadow  rounded-4">
               <div className="col center-elements">
                 <img
-                  className="h-60px my-fade-pink rounded-pill p-1"
+                  className="h-60px my-fade-blue rounded-pill p-1"
                   src={profileSvg2}
                   alt=""
                 />
@@ -551,7 +564,7 @@ function CTQMonitoring() {
           <div className="d-flex align-items-center justify-content-between p-4 pb-2">
             <div className="d-flex align-items-center w-auto flex-shrink-0 p-1">
               <svg
-                className="me-3 my-fade-pink rounded-circle p-2"
+                className="me-3 my-fade-blue rounded-circle p-2"
                 width="45px"
                 height="45px"
                 viewBox="0 0 24 24"
@@ -560,7 +573,7 @@ function CTQMonitoring() {
               >
                 <path
                   d="M18 19V18C18 15.7909 16.2091 14 14 14H10C7.79086 14 6 15.7909 6 18V19M23 19V18C23 15.7909 21.2091 14 19 14H18.5M1 19V18C1 15.7909 2.79086 14 5 14H5.5M17 11C18.6569 11 20 9.65685 20 8C20 6.34315 18.6569 5 17 5M7 11C5.34315 11 4 9.65685 4 8C4 6.34315 5.34315 5 7 5M15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z"
-                  stroke="#e22b6e"
+                  stroke="#1d4ed8"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -645,12 +658,12 @@ function CTQMonitoring() {
               {/* HEADINGSS----------------- */}
               <div className="d-flex align-items-center mb-1">
                 <svg
-                  className="me-2 my-fade-pink rounded-circle p-2 flex-shrink-0"
+                  className="me-2 my-fade-blue rounded-circle p-2 flex-shrink-0"
                   width="38px"
                   height="38px"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#E91E63"
+                  stroke="#1d4ed8"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"

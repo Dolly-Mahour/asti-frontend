@@ -1,4 +1,5 @@
 import axios from "axios";
+const API_BASE_URL = import.meta.env.API_BASE_URL;
 
 const getHeaders = () => {
     const token = sessionStorage.getItem("token");
@@ -11,7 +12,7 @@ const getHeaders = () => {
 
 export async function getSubDepartments(sortOrder: 'asc' | 'desc' = 'asc', sortBy: string = 'id') {
     const res = await axios.get(
-        `http://localhost:3001/api/v1/sub-departments?sortOrder=${sortOrder}&sortBy=${sortBy}`,
+        `${API_BASE_URL}/v1/sub-departments?sortOrder=${sortOrder}&sortBy=${sortBy}`,
         getHeaders()
     );
     return res;
@@ -19,7 +20,7 @@ export async function getSubDepartments(sortOrder: 'asc' | 'desc' = 'asc', sortB
 
 export async function createSubDepartment(name: string, departmentId: number | string) {
     const res = await axios.post(
-        'http://localhost:3001/api/v1/sub-departments',
+        `${API_BASE_URL}/v1/sub-departments`,
         { name, departmentId: Number(departmentId) },
         getHeaders()
     );
@@ -28,7 +29,7 @@ export async function createSubDepartment(name: string, departmentId: number | s
 
 export async function updateSubDepartment(id: string | number, name: string) {
     const res = await axios.patch(
-        `http://localhost:3001/api/v1/sub-departments/${id}`,
+        `${API_BASE_URL}/v1/sub-departments/${id}`,
         { name },
         getHeaders()
     );
@@ -37,7 +38,7 @@ export async function updateSubDepartment(id: string | number, name: string) {
 
 export async function deleteSubDepartment(id: string | number) {
     const res = await axios.delete(
-        `http://localhost:3001/api/v1/sub-departments/${id}`,
+        `${API_BASE_URL}/v1/sub-departments/${id}`,
         getHeaders()
     );
     return res;

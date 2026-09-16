@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent } from 'react';
+﻿import { useEffect, useState, type ChangeEvent } from 'react';
 import type {
   Instructor,
   InstructorFormData,
@@ -128,8 +128,8 @@ function InstructorManagement() {
       },
 
       INACTIVE: {
-        bg: '#fce4ec',
-        color: '#c62828',
+        bg: '#fef2f2',
+        color: '#b91c1c',
       },
     };
 
@@ -364,7 +364,7 @@ function InstructorManagement() {
           className="btn text-white px-4 py-2 fw-semibold rounded-pill"
           style={{
             background:
-              'linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)',
+              '#1d4ed8',
             border: 'none',
             fontSize: '0.88rem',
           }}
@@ -385,12 +385,12 @@ function InstructorManagement() {
           {
             label: 'Active Instructors',
             value: `${activeCount} Active`,
-            color: '#3e6db5',
+            color: '#1d4ed8',
           },
           {
             label: 'Courses Assigned',
             value: `${totalCourses} Courses`,
-            color: '#e22b6e',
+            color: '#1d4ed8',
           },
         ].map((stat, index) => (
           <div key={index} className="col-md-4">
@@ -434,7 +434,7 @@ function InstructorManagement() {
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#e22b6e"
+              stroke="#1d4ed8"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -586,7 +586,7 @@ function InstructorManagement() {
                   <td>
                     <span
                       className="fw-semibold"
-                      style={{ color: '#3e6db5' }}
+                      style={{ color: '#1d4ed8' }}
                     >
                       {instructor.courses}
                     </span>
@@ -645,7 +645,7 @@ function InstructorManagement() {
                         height="16"
                         viewBox="0 0 24 24"
                         fill="none"
-                        stroke="#e22b6e"
+                        stroke="#1d4ed8"
                         strokeWidth="2"
                       >
                         <polyline points="3 6 5 6 21 6" />
@@ -854,7 +854,7 @@ function InstructorManagement() {
                     onClick={handleSubmit}
                     style={{
                       background:
-                        'linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)',
+                        '#1d4ed8',
                       border: 'none',
                     }}
                   >

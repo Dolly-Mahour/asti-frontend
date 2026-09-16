@@ -155,7 +155,7 @@ export default function Departments() {
             value: totalDepts,
             colorClass: "stat-card-value-primary",
             bgClass: "my-fade-blue",
-            stroke: "#3e6db5",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
@@ -166,9 +166,9 @@ export default function Departments() {
           {
             label: "Total Sub-Departments",
             value: `${totalSubDepts} Sub-Depts`,
-            colorClass: "stat-card-value-pink",
-            bgClass: "my-fade-pink",
-            stroke: "#e22b6e",
+            colorClass: "stat-card-value-primary",
+            bgClass: "my-fade-blue",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
@@ -180,7 +180,7 @@ export default function Departments() {
             value: displayedSections,
             colorClass: "stat-card-value-purple",
             bgClass: "my-fade-purple",
-            stroke: "#6740d5",
+            stroke: "#4338ca",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polygon points="12 2 2 7 12 12 22 7 12 2" />
@@ -231,7 +231,7 @@ export default function Departments() {
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#e22b6e"
+              stroke="#1d4ed8"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"

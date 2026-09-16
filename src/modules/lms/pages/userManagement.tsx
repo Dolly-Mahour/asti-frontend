@@ -65,10 +65,10 @@ function UserManagement() {
   const roleBadgeStyle = (role: string) => {
     const normalized = (role || "").toUpperCase();
     const map: Record<string, { bg: string; color: string; border: string }> = {
-      ADMIN: { bg: "#fee8f1", color: "#e22b6e", border: "1px solid #fca5c0" },
-      "SUPER ADMIN": { bg: "#fdf2f8", color: "#db2777", border: "1px solid #fbcfe8" },
-      INSTRUCTOR: { bg: "#f0edfc", color: "#6740d5", border: "1px solid #ddd6fe" },
-      OPERATOR: { bg: "#e7f3fd", color: "#3e6db5", border: "1px solid #bfdbfe" },
+      ADMIN: { bg: "#eff6ff", color: "#1d4ed8", border: "1px solid #bfdbfe" },
+      "SUPER ADMIN": { bg: "#eff6ff", color: "#1e40af", border: "1px solid #93c5fd" },
+      INSTRUCTOR: { bg: "#eef2ff", color: "#4338ca", border: "1px solid #ddd6fe" },
+      OPERATOR: { bg: "#eff6ff", color: "#1d4ed8", border: "1px solid #bfdbfe" },
       MANAGER: { bg: "#fef3c7", color: "#d97706", border: "1px solid #fde68a" },
     };
 
@@ -277,9 +277,9 @@ function UserManagement() {
           {
             label: "Total Profiles",
             value: totalProfiles,
-            color: "#3e6db5",
+            color: "#1d4ed8",
             bgClass: "my-fade-blue",
-            stroke: "#3e6db5",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -294,9 +294,9 @@ function UserManagement() {
             value: `${instructorCount} Instructor${
               instructorCount !== 1 ? "s" : ""
             }`,
-            color: "#6740d5",
+            color: "#4338ca",
             bgClass: "my-fade-purple",
-            stroke: "#6740d5",
+            stroke: "#4338ca",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
@@ -307,9 +307,9 @@ function UserManagement() {
           {
             label: "Admin Roles",
             value: `${adminCount} Admin${adminCount !== 1 ? "s" : ""}`,
-            color: "#e22b6e",
-            bgClass: "my-fade-pink",
-            stroke: "#e22b6e",
+            color: "#1d4ed8",
+            bgClass: "my-fade-blue",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -346,7 +346,7 @@ function UserManagement() {
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#e22b6e"
+              stroke="#1d4ed8"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -465,9 +465,7 @@ function UserManagement() {
                     <td className="px-3">
                       <span className="badge-dept-code">#{user.id}</span>
                     </td>
-
                     <td className="px-3 fw-semibold text-dark">{user.name}</td>
-
                     <td
                       className="px-3"
                       style={{

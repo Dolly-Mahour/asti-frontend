@@ -186,7 +186,7 @@ export default function Machines() {
             value: lineName,
             colorClass: "stat-card-value-primary",
             bgClass: "my-fade-blue",
-            stroke: "#3e6db5",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="20" x2="18" y2="10" />
@@ -198,9 +198,9 @@ export default function Machines() {
           {
             label: "Machines Count",
             value: `${machines.length} Machines`,
-            colorClass: "stat-card-value-pink",
-            bgClass: "my-fade-pink",
-            stroke: "#e22b6e",
+            colorClass: "stat-card-value-primary",
+            bgClass: "my-fade-blue",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
@@ -237,7 +237,7 @@ export default function Machines() {
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#e22b6e"
+              stroke="#1d4ed8"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"

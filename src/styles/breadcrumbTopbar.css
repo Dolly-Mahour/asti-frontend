@@ -24,20 +24,20 @@
   font-weight: 600;
   text-decoration: none;
   color: #fff;
-  background: linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%);
+  background: #1d4ed8;
   border: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(226, 43, 110, 0.25);
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 6px rgba(29, 78, 216, 0.2);
   letter-spacing: 0.02em;
 }
 
 .portal-menu-btn:hover {
-  opacity: 0.88;
+  opacity: 0.92;
   transform: translateY(-1px);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(226, 43, 110, 0.35);
+  box-shadow: 0 4px 14px rgba(30, 64, 175, 0.35);
 }
 
 /* ─── Main separator (after portals btn) ─────────────────────── */
@@ -75,7 +75,7 @@
 
 .breadcrumb-item-link:hover {
   background: #f0f2f8;
-  color: #e22b6e;
+  color: #1d4ed8;
 }
 
 .breadcrumb-item-active {

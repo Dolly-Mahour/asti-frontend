@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import type {
   Employee,
   EmployeeFormData,
@@ -134,9 +134,9 @@ function EmployeeManagement() {
       },
 
       INACTIVE: {
-        bg: '#fee8f1',
-        color: '#e22b6e',
-        border: '1px solid #fca5c0',
+        bg: '#eff6ff',
+        color: '#1d4ed8',
+        border: '1px solid #bfdbfe',
       },
     };
 
@@ -379,10 +379,10 @@ function EmployeeManagement() {
         {[
           {
             label: "Total Employees",
-            value: employees.length,
-            color: "#3e6db5",
+            value: employees.length,n
+            color: "#1d4ed8",
             bgClass: "my-fade-blue",
-            stroke: "#3e6db5",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -395,9 +395,9 @@ function EmployeeManagement() {
           {
             label: "Active Employees",
             value: `${activeCount} Active`,
-            color: "#e22b6e",
-            bgClass: "my-fade-pink",
-            stroke: "#e22b6e",
+            color: "#1d4ed8",
+            bgClass: "my-fade-blue",
+            stroke: "#1d4ed8",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -408,9 +408,9 @@ function EmployeeManagement() {
           {
             label: "Departments",
             value: `${deptCount} Depts`,
-            color: "#6740d5",
+            color: "#4338ca",
             bgClass: "my-fade-purple",
-            stroke: "#6740d5",
+            stroke: "#4338ca",
             icon: (
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
@@ -449,7 +449,7 @@ function EmployeeManagement() {
               height="16"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#e22b6e"
+              stroke="#1d4ed8"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -884,7 +884,7 @@ function EmployeeManagement() {
                     onClick={handleSubmit}
                     style={{
                       background:
-                        'linear-gradient(130deg, #e22b6e 0%, #3e6db5 100%)',
+                        '#1d4ed8',
                       border: 'none',
                     }}
                   >
