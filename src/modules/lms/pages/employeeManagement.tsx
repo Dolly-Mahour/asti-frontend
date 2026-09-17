@@ -204,13 +204,13 @@ function EmployeeManagement() {
     const lastEmpNumber: number =
       employees.length > 0
         ? employees.reduce((max, employee) => {
-            const parts = employee.empId.split('-');
-            const number = Number(parts[1]);
+          const parts = employee.empId.split('-');
+          const number = Number(parts[1]);
 
-            return Number.isNaN(number)
-              ? max
-              : Math.max(max, number);
-          }, 1020)
+          return Number.isNaN(number)
+            ? max
+            : Math.max(max, number);
+        }, 1020)
         : 1020;
 
     return `EMP-${lastEmpNumber + 1}`;
@@ -298,7 +298,7 @@ function EmployeeManagement() {
     const isDuplicate = employees.some(
       (employee) =>
         employee.empId.toLowerCase() ===
-          formData.empId.toLowerCase() &&
+        formData.empId.toLowerCase() &&
         (isEditing
           ? employee.id !== formData.id
           : true)
@@ -317,16 +317,16 @@ function EmployeeManagement() {
         employees.map((employee) =>
           employee.id === formData.id
             ? {
-                id: formData.id,
-                name: formData.name.trim(),
-                empId: formData.empId.trim(),
-                email: formData.email.trim() || null,
-                designation:
-                  formData.designation.trim(),
-                department:
-                  formData.department as Department,
-                status: formData.status,
-              }
+              id: formData.id,
+              name: formData.name.trim(),
+              empId: formData.empId.trim(),
+              email: formData.email.trim() || null,
+              designation:
+                formData.designation.trim(),
+              department:
+                formData.department as Department,
+              status: formData.status,
+            }
             : employee
         );
 
@@ -356,30 +356,12 @@ function EmployeeManagement() {
   return (
     <div className="h-auto bg-white shadow-sm rounded border p-4">
 
-      {/* Header */}
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h4 className="fw-bold mb-1">Employee Management</h4>
-          <p className="text-muted mb-0" style={{ fontSize: "0.85rem" }}>
-            Manage employee directories, roles, and department assignments
-          </p>
-        </div>
-
-        <button
-          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
-          onClick={handleAddEmployee}
-        >
-          + Add Employee
-        </button>
-      </div>
-
       {/* Stats */}
       <div className="row g-3 mb-4">
         {[
           {
             label: "Total Employees",
-            value: employees.length,n
+            value: employees.length,
             color: "#1d4ed8",
             bgClass: "my-fade-blue",
             stroke: "#1d4ed8",
@@ -529,9 +511,13 @@ function EmployeeManagement() {
           )}
         </div>
 
-        <div className="ctq-filter-count-info ms-auto">
-          Showing <strong>{filtered.length}</strong> of {employees.length} employees
-        </div>
+
+        <button
+          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
+          onClick={handleAddEmployee}
+        >
+          + Add Employee
+        </button>
       </div>
 
       {/* Table */}

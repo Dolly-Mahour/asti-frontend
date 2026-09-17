@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getSections } from "../services/sectionService";
 import { getLines } from "../services/lineService";
+import { getSubDepartments } from "../services/subDepartmentService";
 import { useNavigate } from "react-router-dom";
-import type { Department, Section, Line } from "../models/departments";
+import type { Department, Section, Line, SubDepartment } from "../models/departments";
 import "../../../styles/departments.css";
 import { createDepartment, getDepartment, updateDepartment, deleteDepartment } from "../services/departmentService";
 
 export default function Departments() {
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [subDepartments, setSubDepartments] = useState<SubDepartment[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
   const [lines, setLines] = useState<Line[]>([]);
   const [search, setSearch] = useState<string>("");
@@ -38,8 +40,18 @@ export default function Departments() {
     }
   };
 
+  const fetchSubDepartments = async () => {
+    try {
+      const res = await getSubDepartments();
+      setSubDepartments(res?.data?.data || []);
+    } catch (err) {
+      console.error("Failed to fetch sub-departments:", err);
+    }
+  };
+
   useEffect(() => {
     fetchDepartments();
+    fetchSubDepartments();
     fetchSections();
     fetchLines();
   }, []);
@@ -61,13 +73,26 @@ export default function Departments() {
       console.error("Failed to fetch lines:", err);
     }
   };
+
   const totalDepts = departments.length;
-  const totalSubDepts = departments.reduce((sum, d) => sum + (d.subDepartments?.length || 0), 0);
+  const totalSubDepts = subDepartments.length > 0
+    ? subDepartments.length
+    : departments.reduce((sum, d: any) => sum + (d.subDepartments?.length || d.SubDepartment?.length || 0), 0);
   const totalSections = sections.length;
   const totalLines = lines.length;
   const DEFAULT_KPI = { sections: 36, lines: 72 };
   const displayedSections = totalSections || DEFAULT_KPI.sections;
   const displayedLines = totalLines || DEFAULT_KPI.lines;
+
+  const getDeptSubCount = (dept: Department) => {
+    if (dept.subDepartments && dept.subDepartments.length > 0) {
+      return dept.subDepartments.length;
+    }
+    if ((dept as any).SubDepartment && (dept as any).SubDepartment.length > 0) {
+      return (dept as any).SubDepartment.length;
+    }
+    return subDepartments.filter((s) => String(s.departmentId) === String(dept.id)).length;
+  };
 
   const filteredDepartments = departments.filter((dept) =>
     (dept.name || "").toLowerCase().includes(search.toLowerCase()) ||
@@ -85,6 +110,7 @@ export default function Departments() {
       setShowAddModal(false);
       setNameInput("");
       fetchDepartments();
+      fetchSubDepartments();
     } catch (error) {
       console.error("Failed to add department:", error);
     }
@@ -107,6 +133,7 @@ export default function Departments() {
       setSelectedDept(null);
       setEditNameInput("");
       fetchDepartments();
+      fetchSubDepartments();
     } catch (error) {
       console.error("Failed to update department:", error);
     }
@@ -126,6 +153,7 @@ export default function Departments() {
       setShowDeleteModal(false);
       setDeptToDelete(null);
       fetchDepartments();
+      fetchSubDepartments();
     } catch (error) {
       console.error("Failed to delete department:", error);
     }
@@ -133,23 +161,10 @@ export default function Departments() {
 
   return (
     <div className="h-auto bg-white shadow-sm rounded border p-4">
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4 className="fw-bold mb-0">Department Management</h4>
-        <button
-          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
-          onClick={() => {
-            setNameInput("");
-            setShowAddModal(true);
-          }}
-        >
-          + Add Department
-        </button>
-      </div>
 
       {/* Stats */}
       <div className="row g-3 mb-4">
-        {[ 
+        {[
           {
             label: "Total Departments",
             value: totalDepts,
@@ -165,7 +180,7 @@ export default function Departments() {
           },
           {
             label: "Total Sub-Departments",
-            value: `${totalSubDepts} Sub-Depts`,
+            value: totalSubDepts,
             colorClass: "stat-card-value-primary",
             bgClass: "my-fade-blue",
             stroke: "#1d4ed8",
@@ -276,9 +291,15 @@ export default function Departments() {
           )}
         </div>
 
-        <div className="ctq-filter-count-info ms-auto">
-          Showing <strong>{filteredDepartments.length}</strong> of {totalDepts}
-        </div>
+        <button
+          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
+          onClick={() => {
+            setNameInput("");
+            setShowAddModal(true);
+          }}
+        >
+          + Add Department
+        </button>
       </div>
 
       {/* Table */}
@@ -301,7 +322,7 @@ export default function Departments() {
               </tr>
             ) : (
               filteredDepartments.map((dept) => {
-                const subCount = dept.subDepartments?.length || 0;
+                const subCount = getDeptSubCount(dept);
                 return (
                   <tr key={dept.id}>
                     <td className="px-3">

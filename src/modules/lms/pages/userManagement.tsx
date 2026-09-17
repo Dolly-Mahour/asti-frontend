@@ -169,7 +169,7 @@ function UserManagement() {
         console.error("Failed to delete user:", error);
         alert(
           error?.response?.data?.message ||
-            "Failed to delete user. Please try again."
+          "Failed to delete user. Please try again."
         );
       }
     }
@@ -258,18 +258,6 @@ function UserManagement() {
   // --------------------------------------------------
   return (
     <div className="h-auto bg-white shadow-sm rounded border p-4">
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h4 className="fw-bold mb-0">User Management</h4>
-
-        <button
-          type="button"
-          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
-          onClick={handleAddUser}
-        >
-          + Create User
-        </button>
-      </div>
 
       {/* Stats Cards */}
       <div className="row g-3 mb-4">
@@ -291,9 +279,8 @@ function UserManagement() {
           },
           {
             label: "Instructor Roles",
-            value: `${instructorCount} Instructor${
-              instructorCount !== 1 ? "s" : ""
-            }`,
+            value: `${instructorCount} Instructor${instructorCount !== 1 ? "s" : ""
+              }`,
             color: "#4338ca",
             bgClass: "my-fade-purple",
             stroke: "#4338ca",
@@ -414,9 +401,13 @@ function UserManagement() {
           )}
         </div>
 
-        <div className="ctq-filter-count-info ms-auto">
-          Showing <strong>{filtered.length}</strong> of {users.length} users
-        </div>
+        <button
+          type="button"
+          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill"
+          onClick={handleAddUser}
+        >
+          + Create User
+        </button>
       </div>
 
       {/* Table */}
@@ -672,8 +663,8 @@ function UserManagement() {
                     {submitting
                       ? "Saving..."
                       : isEditing
-                      ? "Update User"
-                      : "Create User"}
+                        ? "Update User"
+                        : "Create User"}
                   </button>
                 </div>
               </div>

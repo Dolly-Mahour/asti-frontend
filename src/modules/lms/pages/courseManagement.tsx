@@ -123,26 +123,6 @@ export function CourseManagement() {
         </div>
       )}
 
-      {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <div>
-          <h4 className="fw-bold mb-1 text-dark">Question Paper Management</h4>
-          <p className="text-muted mb-0" style={{ fontSize: '0.86rem' }}>
-            Design, configure, and manage technical evaluation &amp; skill test papers
-          </p>
-        </div>
-
-        <button
-          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill d-inline-flex align-items-center gap-2"
-          onClick={handleCreatePaper}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          Create Question Paper
-        </button>
-      </div>
 
       {/* Stats Cards */}
       <div className="row g-3 mb-4">
@@ -312,9 +292,16 @@ export function CourseManagement() {
           )}
         </div>
 
-        <div className="ctq-filter-count-info ms-auto">
-          Showing <strong>{filtered.length}</strong> of {papers.length} question papers
-        </div>
+        <button
+          className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill d-inline-flex align-items-center gap-2"
+          onClick={handleCreatePaper}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Create Question Paper
+        </button>
       </div>
 
       {/* Table */}
@@ -680,11 +667,11 @@ export function CourseManagement() {
                               {(q.options && q.options.length > 0
                                 ? q.options
                                 : [
-                                    { id: `${q.id}-a`, label: 'A', text: 'Option A' },
-                                    { id: `${q.id}-b`, label: 'B', text: 'Option B' },
-                                    { id: `${q.id}-c`, label: 'C', text: 'Option C' },
-                                    { id: `${q.id}-d`, label: 'D', text: 'Option D' },
-                                  ]
+                                  { id: `${q.id}-a`, label: 'A', text: 'Option A' },
+                                  { id: `${q.id}-b`, label: 'B', text: 'Option B' },
+                                  { id: `${q.id}-c`, label: 'C', text: 'Option C' },
+                                  { id: `${q.id}-d`, label: 'D', text: 'Option D' },
+                                ]
                               ).map((opt) => (
                                 <div key={opt.id} className="qp-exam-option">
                                   <span className="qp-exam-option-letter">({opt.label})</span>
