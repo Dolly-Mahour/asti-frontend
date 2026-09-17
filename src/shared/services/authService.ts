@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_BASE_URL = import.meta.env.API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function loginAdmin(email: string, password: string) {
     const res = await axios.post(`${API_BASE_URL}/v1/auth/login`, { email, password });
