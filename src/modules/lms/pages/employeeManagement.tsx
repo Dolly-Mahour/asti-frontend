@@ -379,7 +379,7 @@ function EmployeeManagement() {
         {[
           {
             label: "Total Employees",
-            value: employees.length,
+            value: employees.length,n
             color: "#1d4ed8",
             bgClass: "my-fade-blue",
             stroke: "#1d4ed8",

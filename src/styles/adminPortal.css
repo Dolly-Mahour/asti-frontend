@@ -34,9 +34,7 @@ body,
     width: 100%;
     position: relative;
     overflow: hidden;
-
     background: #f8fafc;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -111,9 +109,7 @@ body,
 .portal-title-line i {
     width: 8px;
     height: 8px;
-
     border-radius: 50%;
-
     background: #1d4ed8;
 }
 
@@ -196,7 +192,7 @@ body,
 
 .portal-card.pink {
     box-shadow:
-        0 20px 50px rgba(30, 64, 175, 0.08),
+        0 20px 50px rgba(30, 64, 175, 0.08),n
         inset 0 1px 1px rgba(255, 255, 255, 0.95);
 }
 
@@ -271,11 +267,11 @@ body,
 /* Pink icon */
 
 .portal-card.pink .portal-icon {
-    background: #1d4ed8;
+    background: #1d4ed8; 
+    near-gradient(135deg, b, 5);
 }
 
 /* Purple icon */
-
 .portal-card.purple .portal-icon {
     background: #1e40af;
 }
@@ -485,14 +481,12 @@ body,
 .portal-glow-pink {
     left: -250px;
     bottom: -180px;
-
     background: rgba(30, 64, 175, 0.08);
 }
 
 .portal-glow-blue {
     right: -250px;
     bottom: -180px;
-
     background: rgba(37, 99, 235, 0.08);
 }
 
@@ -730,4 +724,4 @@ body,
     border-color: #b91c1c;
     box-shadow: 0 4px 14px rgba(185, 28, 28, 0.3);
     transform: translateY(-1px);
-}
+}

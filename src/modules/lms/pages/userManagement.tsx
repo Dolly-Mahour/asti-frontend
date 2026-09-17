@@ -465,9 +465,7 @@ function UserManagement() {
                     <td className="px-3">
                       <span className="badge-dept-code">#{user.id}</span>
                     </td>
-
                     <td className="px-3 fw-semibold text-dark">{user.name}</td>
-
                     <td
                       className="px-3"
                       style={{

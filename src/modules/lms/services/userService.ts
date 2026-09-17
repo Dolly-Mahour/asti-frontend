@@ -31,7 +31,7 @@ export async function getUser(
   sortBy: "id" | "name" | "createdAt" = "id"
 ) {
   const res = await axios.get(
-    `${API_BASE_URL}/v1/users?sortBy=${sortBy}&sortOrder=${sortOrder}`,
+    `${API_BASE_URL}/v1/users?sortBy=${sortBy}&sortOrder=${sortOrder}`,n
     getHeaders()
   );
   return res;
