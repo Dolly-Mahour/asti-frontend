@@ -918,111 +918,73 @@ function Attendance() {
   return (
     <>
       <div className="container-fluid g-0 p-3">
-        {/* ATTENDANCE FILTERS & HEADER -------------------------- */}
-        <div className="border shadow rounded-4 p-4 mb-4 bg-white">
-          <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 my-2">
-            <div className="d-flex align-items-center">
-              <h4 className="fw-bold mb-0" style={{ color: "#222" }}>
-                Attendance
-              </h4>
-              <button
-                className="gradient-bg text-white px-3 py-1 rounded-pill btn mx-3 shadow-sm border-0"
-                style={{ fontSize: "0.85rem", fontWeight: 600 }}
-              >
-                {totalRecords} Records
-              </button>
-            </div>
-            <button
-              className="gradient-bg text-white px-3 py-2 rounded-pill btn shadow-sm border-0 scale-transition"
-              style={{ fontSize: "0.85rem", fontWeight: 600 }}
-            >
-              Upload Excel
-            </button>
-          </div>
 
-          {/* FILTERS DIV--------------------------------------------- */}
-          <div
-            className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3"
-            style={{ background: "#fafbff" }}
-          >
-            <div className="d-flex align-items-center flex-wrap gap-2 px-4">
-              <div className="w-100 d-flex justify-content-between align-items-center">
-                {/* Filter label */}
-                <div className="d-flex align-items-center me-1">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#1d4ed8"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                  </svg>
-                  <span
-                    className="ms-1 fw-semibold"
-                    style={{ fontSize: "0.82rem", color: "#3d3d3d" }}
-                  >
-                    Filters
-                  </span>
-                </div>
+        {/* FILTERS DIV--------------------------------------------- */}
+        <div
+          className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3 mb-4"
+          style={{ background: "#fafbff" }}
+        >
+          <div className="d-flex align-items-center justify-content-between">
+            <div className="row w-100 g-0 mt-3 d-flex justify-content-between align-items-center">
+              {/* Filter label */}
+              <div className="col-1 d-flex align-items-center mb-3">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#1d4ed8"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                </svg>
+                <span
+                  className="ms-1 fw-semibold"
+                  style={{ fontSize: "0.82rem", color: "#3d3d3d" }}
+                >
+                  Filters
+                </span>
+              </div>
 
+              <div className="col-11 flex-wrap d-flex justify-content-start">
                 {/* Select filters */}
-                {[
-                  "Units",
-                  "Departments",
-                  "Sub Departments",
-                  "Sections",
-                  "Lines",
-                  "Shifts",
-                ].map((label) => (
-                  <select
-                    key={label}
-                    className="ctq-filter-select me-1"
-                    value={selectedFilters[label] || ""}
-                    onChange={(e) =>
-                      setSelectedFilters((prev) => ({
-                        ...prev,
-                        [label]: e.target.value,
-                      }))
-                    }
-                  >
-                    <option value="">{label}</option>
-                    <option value="Option 1">Option 1</option>
-                    <option value="Option 2">Option 2</option>
-                    <option value="Option 3">Option 3</option>
-                  </select>
-                ))}
-        
+                {["Units", "Departments", "Sub Departments", "Sections", "Lines", "Shifts"].map(
+                  (label) => (
+                    <select
+                      key={label}
+                      className="ctq-filter-select me-1 mb-3"
+                      value={selectedFilters[label] || ""}
+                      onChange={(e) =>
+                        setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
+                      }
+                    >
+                      <option value="">{label}</option>
+                      <option value="Option 1">Option 1</option>
+                      <option value="Option 2">Option 2</option>
+                      <option value="Option 3">Option 3</option>
+                    </select>
+                  ),
+                )}
+
                 {/* Clear button */}
                 <button
                   type="button"
-                  className="ctq-filter-clear-btn ms-1"
+                  className="ctq-filter-clear-btn mb-3"
                   onClick={handleClearFilters}
                   title="Clear all filters"
                 >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18" />
                     <line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
                   Clear
                 </button>
-              </div>
 
-              {/* Date range filters */}
-              <div className="d-flex align-items-center gap-2 ps-5 ms-4">
-                <div className="d-flex align-items-center gap-2">
+                {/* Date range filters */}
+
+                <div className="d-flex align-items-center gap-2 mb-3 ms-2">
                   <label
                     style={{
                       fontSize: "0.72rem",
@@ -1040,7 +1002,7 @@ function Attendance() {
                     onChange={(e) => setFromDate(e.target.value)}
                   />
                 </div>
-                <div className="d-flex align-items-center gap-">
+                <div className="d-flex align-items-center gap-2 mb-3 ms-2">
                   <label
                     style={{
                       fontSize: "0.72rem",
@@ -1059,6 +1021,8 @@ function Attendance() {
                   />
                 </div>
               </div>
+
+
             </div>
           </div>
         </div>

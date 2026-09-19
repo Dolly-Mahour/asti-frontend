@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/asti-india-logo.png";
 import "../../styles/adminPortal.css";
-import LogoutModal from "../components/logoutModal";
 
 type PortalName = "dashboard" | "lms" | "cms";
 type PortalColor = "pink" | "purple" | "blue";
@@ -16,7 +15,6 @@ interface Portal {
 }
 
 function AdminPortal() {
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const portals: Portal[] = [
     {
       title: "Dashboard",
@@ -97,31 +95,6 @@ function AdminPortal() {
 
   return (
     <div className="portal-page-container">
-      {/* Top Bar with Logout Button */}
-      <div className="portal-top-bar">
-        <button
-          type="button"
-          onClick={() => setShowLogoutModal(true)}
-          className="portal-logout-btn"
-          title="Log out"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <polyline points="16 17 21 12 16 7" />
-            <line x1="21" y1="12" x2="9" y2="12" />
-          </svg>
-          <span>Logout</span>
-        </button>
-      </div>
 
       <div className="portal-glow portal-glow-pink"></div>
       <div className="portal-glow portal-glow-blue"></div>
@@ -129,8 +102,8 @@ function AdminPortal() {
       <div className="portal-wave portal-wave-left"></div>
       <div className="portal-wave portal-wave-right"></div>
 
-      <div className="portal-content">
-        <div className="portal-header">
+      <div className="portal-content d-flex flex-column justify-content-center align-items-center">
+        <div className="portal-header ">
           <img className="portal-logo" src={logo} alt="ASTI India" />
 
           <h2>Smart Solutions. Stronger Tomorrow.</h2>
@@ -141,7 +114,7 @@ function AdminPortal() {
           </div>
         </div>
 
-        <div className="portal-cards-wrapper">
+        <div className="portal-cards-wrapper ">
           {portals.map((portal) => {
             const CardContent = (
               <div className={`portal-card ${portal.color}`}>
@@ -151,25 +124,27 @@ function AdminPortal() {
                   </div>
                 </div>
 
-                <div className="portal-card-content">
-                  <h1 className="text-start">{portal.title}</h1>
+                <div className="portal-card-content align-items-center py-4 d-flex">
+                  <div className="d-flex flex-grow-1 flex-column">
+                    <h1 className="text-start">{portal.title}</h1>
+                    <div className="portal-small-line"></div>
+                  </div>
+                  <div className="portal-arrow">
+                    <svg
+                      width="25"
+                      height="25"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </div>
 
-                  <div className="portal-small-line"></div>
                 </div>
 
-                <div className="portal-arrow">
-                  <svg
-                    width="25"
-                    height="25"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </div>
 
                 <div className="card-curve"></div>
               </div>
@@ -192,10 +167,7 @@ function AdminPortal() {
         </div>
       </div>
 
-      <LogoutModal
-        isOpen={showLogoutModal}
-        onClose={() => setShowLogoutModal(false)}
-      />
+
     </div>
   );
 }

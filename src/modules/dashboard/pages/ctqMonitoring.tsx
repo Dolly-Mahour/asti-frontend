@@ -42,8 +42,8 @@ if (BarElement && !Object.prototype.hasOwnProperty.call(BarElement, Symbol.hasIn
     value: (instance: any) =>
       Boolean(
         instance &&
-          (instance.constructor?.name === "BarElement" ||
-            (instance.base !== undefined && instance.horizontal !== undefined)),
+        (instance.constructor?.name === "BarElement" ||
+          (instance.base !== undefined && instance.horizontal !== undefined)),
       ),
   });
 }
@@ -394,10 +394,10 @@ function CTQMonitoring() {
           className="ctq-filter-bar border rounded-4 shadow-sm p-3 mt-3"
           style={{ background: "#fafbff" }}
         >
-          <div className="d-flex align-items-center flex-wrap gap-2 px-4">
-            <div className="w-100 d-flex justify-content-between align-items-center">
+          <div className="d-flex align-items-center justify-content-between">
+            <div className="row w-100 g-0 mt-3 d-flex justify-content-between align-items-center">
               {/* Filter label */}
-              <div className="d-flex align-items-center me-1">
+              <div className="col-1 d-flex align-items-center mb-3">
                 <svg
                   width="16"
                   height="16"
@@ -418,78 +418,80 @@ function CTQMonitoring() {
                 </span>
               </div>
 
-              {/* Select filters */}
-              {["Units", "Departments", "Sub Departments", "Sections", "Lines", "Shifts"].map(
-                (label) => (
-                  <select
-                    key={label}
-                    className="ctq-filter-select me-1"
-                    value={selectedFilters[label] || ""}
-                    onChange={(e) =>
-                      setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
-                    }
+              <div className="col-11 flex-wrap d-flex justify-content-start">
+                {/* Select filters */}
+                {["Units", "Departments", "Sub Departments", "Sections", "Lines", "Shifts"].map(
+                  (label) => (
+                    <select
+                      key={label}
+                      className="ctq-filter-select me-1 mb-3"
+                      value={selectedFilters[label] || ""}
+                      onChange={(e) =>
+                        setSelectedFilters((prev) => ({ ...prev, [label]: e.target.value }))
+                      }
+                    >
+                      <option value="">{label}</option>
+                      <option value="Option 1">Option 1</option>
+                      <option value="Option 2">Option 2</option>
+                      <option value="Option 3">Option 3</option>
+                    </select>
+                  ),
+                )}
+
+                {/* Clear button */}
+                <button
+                  type="button"
+                  className="ctq-filter-clear-btn mb-3"
+                  onClick={handleClearFilters}
+                  title="Clear all filters"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                  Clear
+                </button>
+
+                {/* Date range filters */}
+
+                <div className="d-flex align-items-center gap-2 mb-3 ms-2">
+                  <label
+                    style={{
+                      fontSize: "0.72rem",
+                      color: "#888",
+                      fontWeight: 600,
+                      letterSpacing: "0.03em",
+                    }}
                   >
-                    <option value="">{label}</option>
-                    <option value="Option 1">Option 1</option>
-                    <option value="Option 2">Option 2</option>
-                    <option value="Option 3">Option 3</option>
-                  </select>
-                ),
-              )}
-
-              {/* Clear button */}
-              <button
-                type="button"
-                className="ctq-filter-clear-btn ms-1"
-                onClick={handleClearFilters}
-                title="Clear all filters"
-              >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-                Clear
-              </button>
-            </div>
-
-            {/* Date range filters */}
-            <div className="d-flex align-items-center gap-2 ps-5 ms-4">
-              <div className="d-flex align-items-center gap-2">
-                <label
-                  style={{
-                    fontSize: "0.72rem",
-                    color: "#888",
-                    fontWeight: 600,
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  FROM
-                </label>
-                <input
-                  type="date"
-                  className="ctq-filter-date-input"
-                  value={fromDate}
-                  onChange={(e) => setFromDate(e.target.value)}
-                />
+                    FROM
+                  </label>
+                  <input
+                    type="date"
+                    className="ctq-filter-date-input"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                  />
+                </div>
+                <div className="d-flex align-items-center gap-2 mb-3 ms-2">
+                  <label
+                    style={{
+                      fontSize: "0.72rem",
+                      color: "#888",
+                      fontWeight: 600,
+                      letterSpacing: "0.03em",
+                    }}
+                  >
+                    TO
+                  </label>
+                  <input
+                    type="date"
+                    className="ctq-filter-date-input"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="d-flex align-items-center gap-">
-                <label
-                  style={{
-                    fontSize: "0.72rem",
-                    color: "#888",
-                    fontWeight: 600,
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  TO
-                </label>
-                <input
-                  type="date"
-                  className="ctq-filter-date-input"
-                  value={toDate}
-                  onChange={(e) => setToDate(e.target.value)}
-                />
-              </div>
+
 
             </div>
           </div>
@@ -498,62 +500,74 @@ function CTQMonitoring() {
         {/* FOUR KPI CARDS ----------------------  */}
         <div className="row g-0 g-0 my-4">
           <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3  border shadow  rounded-4">
-              <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-purple rounded-pill p-1"
-                  src={profileSvg1}
-                  alt=""
-                />
+            <div className="row g-0 p-3 border shadow rounded-4">
+              <div className="col center-elements" >
+                <svg width="43px" height="43px" viewBox="0 0 24 24" fill="#1e40af" xmlns="http://www.w3.org/2000/svg">
+
+                  <rect x="0" fill="none" width="24" height="24"></rect>
+
+                  <g>
+
+                    <path d="M24 14.6c0 .6-1.2 1-2.6 1.2-.9-1.7-2.7-3-4.8-3.9.2-.3.4-.5.6-.8h.8c3.1-.1 6 1.8 6 3.5zM6.8 11H6c-3.1 0-6 1.9-6 3.6 0 .6 1.2 1 2.6 1.2.9-1.7 2.7-3 4.8-3.9l-.6-.9zm5.2 1c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4zm0 1c-4.1 0-8 2.6-8 5 0 2 8 2 8 2s8 0 8-2c0-2.4-3.9-5-8-5zm5.7-3h.3c1.7 0 3-1.3 3-3s-1.3-3-3-3c-.5 0-.9.1-1.3.3.8 1 1.3 2.3 1.3 3.7 0 .7-.1 1.4-.3 2zM6 10h.3C6.1 9.4 6 8.7 6 8c0-1.4.5-2.7 1.3-3.7C6.9 4.1 6.5 4 6 4 4.3 4 3 5.3 3 7s1.3 3 3 3z"></path>
+
+                  </g>
+
+                </svg>
               </div>
               <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{ fontSize: '0.85rem' }}>Total Manpower</p>
-                <p className="fw-semibold fs-5">1,250</p>
+                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                  Total Manpower
+                </p>
+                <p className="fw-semibold fs-5" style={{ color: "#1e40af" }}>
+                  1,250
+                </p>
               </div>
             </div>
           </div>
           <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow  rounded-4">
+            <div className="row g-0 p-3 border shadow rounded-4">
               <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-blue rounded-pill p-1"
-                  src={profileSvg2}
-                  alt=""
-                />
+                <svg width="55px" height="55px" viewBox="0 0 24 24">
+                  <path fill-rule="fill" clip-rule="evenodd" d="M6.83333 11.8333C8.44167 11.8333 9.75 10.525 9.75 8.91667C9.75 7.30833 8.44167 6 6.83333 6C5.225 6 3.91667 7.30833 3.91667 8.91667C3.91667 10.525 5.225 11.8333 6.83333 11.8333ZM21 15.3333V12.8333H23.5V11.1667H21V8.66666H19.3333V11.1667H16.8333V12.8333H19.3333V15.3333H21ZM6.83333 13.2917C4.88333 13.2917 1 14.2667 1 16.2083V17.6667H12.6667V16.2083C12.6667 14.2667 8.78333 13.2917 6.83333 13.2917ZM6.83333 14.9583C5.34166 14.9583 3.65 15.5167 2.95 16H10.7167C10.0167 15.5167 8.325 14.9583 6.83333 14.9583ZM8.08333 8.91667C8.08333 8.225 7.525 7.66667 6.83333 7.66667C6.14167 7.66667 5.58333 8.225 5.58333 8.91667C5.58333 9.60833 6.14167 10.1667 6.83333 10.1667C7.525 10.1667 8.08333 9.60833 8.08333 8.91667ZM11 11.8333C12.6083 11.8333 13.9167 10.525 13.9167 8.91667C13.9167 7.30833 12.6083 6 11 6C10.8 6 10.6 6.01667 10.4083 6.05833C11.0417 6.84167 11.4167 7.83333 11.4167 8.91667C11.4167 10 11.025 10.9833 10.3917 11.7667C10.5917 11.8083 10.7917 11.8333 11 11.8333ZM14.3333 16.2083C14.3333 15.075 13.7667 14.1917 12.9333 13.5167C14.8 13.9083 16.8333 14.8 16.8333 16.2083V17.6667H14.3333V16.2083Z" fill="#1e40af"></path>
+                </svg>
               </div>
               <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{ fontSize: '0.85rem' }}>Total Present</p>
-                <p className="fw-semibold fs-5" style={{ color: '#2e7d32' }}>1,148</p>
+                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                  Total Present
+                </p>
+                <p className="fw-semibold fs-5" style={{ color: "#1e40af" }}>
+                  1,148
+                </p>
               </div>
             </div>
           </div>
           <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow  rounded-4">
+            <div className="row g-0 p-3 border shadow rounded-4">
               <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-blue rounded-circle p-1"
-                  src={profileSvg3}
-                  alt=""
-                />
+                <svg aria-hidden="true" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" fill="#1e40af"><rect fill="none" height="24" width="24"></rect><path d="M18,10c0-0.55,0.45-1,1-1h4c0.55,0,1,0.45,1,1s-0.45,1-1,1h-4C18.45,11,18,10.55,18,10z M8,4C5.79,4,4,5.79,4,8s1.79,4,4,4 s4-1.79,4-4S10.21,4,8,4z M8,13c-2.67,0-8,1.34-8,4v3h16v-3C16,14.34,10.67,13,8,13z M12.51,4.05C13.43,5.11,14,6.49,14,8 s-0.57,2.89-1.49,3.95C14.47,11.7,16,10.04,16,8S14.47,4.3,12.51,4.05z M16.53,13.83C17.42,14.66,18,15.7,18,17v3h2v-3 C20,15.55,18.41,14.49,16.53,13.83z"></path></svg>
               </div>
               <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{ fontSize: '0.85rem' }}>Total Absent</p>
-                <p className="fw-semibold fs-5" style={{ color: '#c62828' }}>102</p>
+                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                  Total Absent
+                </p>
+                <p className="fw-semibold fs-5" style={{ color: "#1e40af" }}>
+                  102
+                </p>
               </div>
             </div>
           </div>
           <div className="col-lg-3 col-md-6 col-sm-12 p-2">
-            <div className="row g-0 p-3 border shadow  rounded-4">
+            <div className="row g-0 p-3 border shadow rounded-4">
               <div className="col center-elements">
-                <img
-                  className="h-60px my-fade-yellow rounded-circle p-1"
-                  src={profileSvg4}
-                  alt=""
-                />
+                <svg fill="#1e40af" width="40px" height="40px" viewBox="-3 0 19 19" xmlns="http://www.w3.org/2000/svg"><path d="M12.517 12.834v1.9a1.27 1.27 0 0 1-1.267 1.267h-9.5a1.27 1.27 0 0 1-1.267-1.267v-1.9A3.176 3.176 0 0 1 3.65 9.667h5.7a3.176 3.176 0 0 1 3.167 3.167zM3.264 5.48A3.236 3.236 0 1 1 6.5 8.717a3.236 3.236 0 0 1-3.236-3.236z"></path></svg>
               </div>
               <div className="col d-flex flex-column justify-content-center align-items-start">
-                <p className="text-secondary" style={{ fontSize: '0.85rem' }}>Attendance %</p>
-                <p className="fw-semibold fs-5" style={{ color: '#e65100' }}>91.8%</p>
+                <p className="text-secondary" style={{ fontSize: "0.85rem" }}>
+                  Attendance %
+                </p>
+                <p className="fw-semibold fs-5" style={{ color: "#1e40af" }}>
+                  91.8%
+                </p>
               </div>
             </div>
           </div>
@@ -628,7 +642,7 @@ function CTQMonitoring() {
                   display: "inline-block",
                   marginRight: 8,
                 }}
-              ></span> 
+              ></span>
               <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "#1E293B" }}>
                 Allocation
               </span>
