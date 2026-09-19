@@ -123,7 +123,6 @@ export function CourseManagement() {
         </div>
       )}
 
-
       {/* Stats Cards */}
       <div className="row g-3 mb-4">
         {[
@@ -291,7 +290,6 @@ export function CourseManagement() {
             </button>
           )}
         </div>
-
         <button
           className="btn btn-asti-gradient px-4 py-2 fw-semibold rounded-pill d-inline-flex align-items-center gap-2"
           onClick={handleCreatePaper}
@@ -389,7 +387,6 @@ export function CourseManagement() {
                       {qCount} Qs ({(paper.sections || []).length} Secs)
                     </span>
                   </td>
-
                   {/* Status */}
                   <td className="px-3">
                     <span
